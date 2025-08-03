@@ -1,0 +1,49 @@
+{
+  "publisher": "my-publisher",
+  "name": "flutter-accessibility-checker",
+  "displayName": "Flutter Accessibility Checker",
+  "description": "A VS Code extension that provides accessibility feedback and suggestions for Flutter web applications.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onUri"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "flutter-accessibility-checker.openPanel",
+        "title": "Open Flutter Accessibility Checker",
+        "category": "Flutter Accessibility"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "flutter-accessibility-checker.openPanel",
+          "when": "true"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -w -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "@types/node": "^20.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vscode-test": "^1.8.0"
+  }
+}
