@@ -1,62 +1,308 @@
+// src/extension.ts
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as http from 'http';
+import {
+  exec as _exec,
+  spawn,
+  ExecOptions,
+  ExecOptionsWithStringEncoding,
+  ChildProcessWithoutNullStreams,
+} from 'child_process';
+import { SemanticsService } from './semantics-service';
 
 const PREVIEW_SCHEME = 'flutter-accessibility-preview';
 
-// 지정된 URL이 200 OK를 반환할 때까지 0.5초 폴링
-async function waitForServer(url: string, timeout = 30000): Promise<boolean> {
+// ─────────────────────────────────────────────
+// tiny helpers
+// ─────────────────────────────────────────────
+let out: vscode.OutputChannel | null = null;
+let semantics: SemanticsService | null = null;
+let flutterProc: ChildProcessWithoutNullStreams | null = null;
+
+function log(msg: string) {
+  if (!out) out = vscode.window.createOutputChannel('Flutter Accessibility Checker');
+  out.appendLine(msg);
+  out.show(true);
+}
+
+const exec = (cmd: string, opt: ExecOptions = {}) =>
+  new Promise<{ stdout: string; stderr: string }>((resolve, reject) => {
+    const options = {
+      ...(opt as ExecOptions),
+      encoding: 'utf8' as BufferEncoding,
+      maxBuffer: 1024 * 1024,
+      shell: process.platform === 'win32' ? 'cmd.exe' : '/bin/bash',
+    } as ExecOptionsWithStringEncoding;
+
+    _exec(cmd, options, (e, stdout, stderr) => {
+      if (e) return reject(e);
+      resolve({ stdout, stderr });
+    });
+  });
+
+async function waitForServer(url: string, timeoutMs = 120000): Promise<boolean> {
   const start = Date.now();
-  return new Promise<boolean>(resolve => {
+  return new Promise<boolean>((resolve) => {
     const check = () => {
-      http
-        .get(url, res => {
-          if (res.statusCode === 200) return resolve(true);
-          retry();
-        })
-        .on('error', retry);
+      const req = http.get(url, (res) => {
+        if (res.statusCode === 200) return resolve(true);
+        retry();
+      });
+      req.on('error', retry);
     };
     const retry = () => {
-      if (Date.now() - start > timeout) return resolve(false);
+      if (Date.now() - start > timeoutMs) return resolve(false);
       setTimeout(check, 500);
     };
     check();
   });
 }
 
-export function activate(context: vscode.ExtensionContext) {
-  // ────────────────────────────────────────────────────────────
-  // ① preview 전용 ContentProvider 등록
-  // ────────────────────────────────────────────────────────────
-  const provider: vscode.TextDocumentContentProvider = {
-    async provideTextDocumentContent(uri: vscode.Uri) {
-      const params   = new URLSearchParams(uri.query);
-      const file     = params.get('file')!;
-      const line     = Number(params.get('line')) - 1;
-      const column   = Number(params.get('column')) - 1;
-      const text     = params.get('text')!;
-      const filePath = path.join(vscode.workspace.rootPath || '', file);
-      const doc      = await vscode.workspace.openTextDocument(vscode.Uri.file(filePath));
-      const lines    = doc.getText().split(/\r?\n/);
-      lines[line]    = lines[line].slice(0, column) + text + lines[line].slice(column);
-      return lines.join('\n');
+// ─────────────────────────────────────────────
+// device / emulator discovery
+// ─────────────────────────────────────────────
+type DeviceRow = {
+  id: string;
+  name: string;
+  platform: string;
+  category?: string;
+  emulator?: boolean;
+};
+type EmulatorDef = { id: string; platform: string };
+
+async function fetchRunningEmulators(): Promise<DeviceRow[]> {
+  try {
+    const { stdout } = await exec('flutter devices --machine');
+    const list = JSON.parse(stdout) as DeviceRow[];
+
+    return list.filter((d) => {
+      const plat = String(d.platform || '').toLowerCase();
+      const cat = String(d.category || '').toLowerCase();
+      const isWebOrDesktop =
+        cat === 'web' || cat === 'desktop' ||
+        plat.includes('web') || plat.includes('mac') || plat.includes('windows') || plat.includes('linux');
+      if (isWebOrDesktop) return false;
+
+      const looksLikeEmu =
+        d.emulator === true ||
+        (typeof d.id === 'string' && d.id.startsWith('emulator-')) ||
+        (plat === 'ios' && /simulator/i.test(d.name || ''));
+      return looksLikeEmu;
+    });
+  } catch {
+    const { stdout } = await exec('flutter devices');
+    const lines = stdout.split(/\r?\n/);
+    const rx =
+      /^\s*(.+?)\s+\((mobile|web|desktop)\)\s+•\s+([A-Za-z0-9\-.:_]+)\s+•\s+(ios|android)/i;
+
+    const rows: DeviceRow[] = [];
+    for (const line of lines) {
+      const m = line.match(rx);
+      if (!m) continue;
+      const name = m[1];
+      const category = m[2];
+      const id = m[3];
+      const platform = m[4].toLowerCase();
+      if (category === 'web' || category === 'desktop') continue;
+      rows.push({ id, name, platform, emulator: true });
     }
-  };
-  context.subscriptions.push(
-    vscode.workspace.registerTextDocumentContentProvider(PREVIEW_SCHEME, provider)
+    return rows;
+  }
+}
+
+async function fetchInstalledEmulators(): Promise<EmulatorDef[]> {
+  const { stdout } = await exec('flutter emulators');
+  const lines = stdout.split(/\r?\n/);
+  const rx = /^\s*([A-Za-z0-9._-]+)\s+•\s+.+?\s+•\s+.+?\s+•\s+(android|ios)\s*$/i;
+  return lines
+    .map((l) => l.match(rx))
+    .filter(Boolean)
+    .map((m) => ({ id: m![1], platform: (m![2] || '').toLowerCase() }));
+}
+
+// ── QuickPick flow with marquee notifications ──
+async function pickRunningEmulator(): Promise<string | undefined> {
+  let running: DeviceRow[] = [];
+
+  // 1) 마키 알림으로 검색
+  await vscode.window.withProgress(
+    {
+      location: vscode.ProgressLocation.Notification,
+      title: '연결 가능한 에뮬레이터 목록을 가져오는 중…',
+      cancellable: false,
+    },
+    async () => { running = await fetchRunningEmulators(); }
   );
 
-  // ────────────────────────────────────────────────────────────
-  // ➊ previewSuggestion URI 처리 (diff 모드만 띄우기)
-  // ────────────────────────────────────────────────────────────
+  // 2) 결과 없음 → 설치 목록으로
+  if (running.length === 0) {
+    const btn = await vscode.window.showInformationMessage(
+      '현재 연결 가능한 에뮬레이터가 없습니다.',
+      '실행 가능한 목록 가져오기'
+    );
+    if (btn !== '실행 가능한 목록 가져오기') return;
+
+    const pickedToLaunch = await pickInstalledAndLaunch();
+    if (!pickedToLaunch) return;
+
+    // 부팅 확인도 마키 알림
+    let ok = false;
+    await vscode.window.withProgress(
+      { location: vscode.ProgressLocation.Notification, title: '에뮬레이터 부팅 확인 중…', cancellable: false },
+      async () => { ok = await waitEmulatorAppear(45000, 1200); }
+    );
+    if (!ok) {
+      vscode.window.showWarningMessage('에뮬레이터 부팅 대기 중입니다. 잠시 후 다시 시도해 주세요.');
+      return;
+    }
+    return await pickRunningEmulator();
+  }
+
+  // 3) QuickPick 표시
+  const picked = await vscode.window.showQuickPick(
+    running.map((d) => ({ label: d.id, description: `${d.name} • ${d.platform}` })),
+    {
+      placeHolder: '연결할 에뮬레이터를 선택하세요',
+      matchOnDescription: true,
+      ignoreFocusOut: true,
+    }
+  );
+  return picked?.label;
+}
+
+async function pickInstalledAndLaunch(): Promise<string | undefined> {
+  let emus: EmulatorDef[] = [];
+
+  // 목록 로딩 마키 알림
+  await vscode.window.withProgress(
+    { location: vscode.ProgressLocation.Notification, title: '설치된 에뮬레이터 목록을 가져오는 중…', cancellable: false },
+    async () => { emus = await fetchInstalledEmulators(); }
+  );
+  if (emus.length === 0) {
+    vscode.window.showErrorMessage('설치된 에뮬레이터가 없습니다. Android Studio 또는 Xcode에서 먼저 생성해 주세요.');
+    return;
+  }
+
+  const picked = await vscode.window.showQuickPick(
+    emus.map((e) => ({ label: e.id, description: e.platform })),
+    { placeHolder: '부팅할 에뮬레이터를 선택하세요' }
+  );
+  if (!picked) return;
+
+  // 부팅 자체도 마키 알림
+  await vscode.window.withProgress(
+    { location: vscode.ProgressLocation.Notification, title: `에뮬레이터 실행 중: ${picked.label}`, cancellable: false },
+    async () => { await exec(`flutter emulators --launch ${picked.label}`); }
+  );
+
+  return picked.label;
+}
+
+async function waitEmulatorAppear(timeoutMs = 45000, intervalMs = 1200): Promise<boolean> {
+  const start = Date.now();
+  while (Date.now() - start < timeoutMs) {
+    const list = await fetchRunningEmulators();
+    if (list.length > 0) return true;
+    await new Promise((r) => setTimeout(r, intervalMs));
+  }
+  return false;
+}
+
+// ─────────────────────────────────────────────
+// flutter run + VM Service URL parsing
+// ─────────────────────────────────────────────
+function normalizeVmWs(u: string): string {
+  if (!/\/ws$/.test(u)) return u.endsWith('/') ? u + 'ws' : u + '/ws';
+  return u;
+}
+function tryExtractVmServiceUrl(line: string): string | null {
+  const mWs = line.match(/ws:\/\/[^\s'"<>]+/);
+  if (mWs?.[0]) return normalizeVmWs(mWs[0]);
+
+  const mHttp = line.match(/http:\/\/[^\s'"<>]+/);
+  if (mHttp?.[0]) return normalizeVmWs(mHttp[0].replace(/^http:/, 'ws:'));
+
+  const mUri = line.match(/[?&]uri=([^ \t\r\n]+)/);
+  if (mUri?.[1]) {
+    try {
+      const decoded = decodeURIComponent(mUri[1]);
+      if (decoded.startsWith('ws://') || decoded.startsWith('wss://')) {
+        return normalizeVmWs(decoded);
+      }
+    } catch {}
+  }
+  return null;
+}
+
+async function runFlutterAndGetVmService(emulatorId: string, cwd: string): Promise<string> {
+  if (flutterProc) { try { flutterProc.kill(); } catch {} }
+  if (!out) out = vscode.window.createOutputChannel('Flutter Accessibility Checker');
+
+  out.clear();
+  out.show(true);
+  log(`[Flutter] run -d ${emulatorId}`);
+
+  flutterProc = spawn('flutter', ['run', '-d', emulatorId], { cwd, env: process.env });
+
+  let vmUrl = '';
+  await new Promise<void>((resolve) => {
+    const onLine = (buf: Buffer) => {
+      const text = buf.toString('utf8');
+      out!.append(text);
+      for (const line of text.split(/\r?\n/)) {
+        const url = tryExtractVmServiceUrl(line);
+        if (!vmUrl && url) { vmUrl = url; resolve(); }
+      }
+    };
+    flutterProc!.stdout.on('data', onLine);
+    flutterProc!.stderr.on('data', onLine);
+    flutterProc!.on('close', (code) => {
+      if (!vmUrl) log(`[Flutter] run 종료(code=${code}) – VM Service URI 미획득`);
+    });
+  });
+
+  if (!vmUrl) throw new Error('VM Service URL을 로그에서 찾지 못했습니다.');
+  log(`[Flutter] VM Service: ${vmUrl}`);
+  return vmUrl;
+}
+
+// ─────────────────────────────────────────────
+// diff preview provider
+// ─────────────────────────────────────────────
+const previewProvider: vscode.TextDocumentContentProvider = {
+  async provideTextDocumentContent(uri: vscode.Uri) {
+    const params = new URLSearchParams(uri.query);
+    const file = params.get('file')!;
+    const line = Number(params.get('line')) - 1;
+    const column = Number(params.get('column')) - 1;
+    const text = params.get('text')!;
+    const filePath = path.join(vscode.workspace.rootPath || '', file);
+    const doc = await vscode.workspace.openTextDocument(vscode.Uri.file(filePath));
+    const lines = doc.getText().split(/\r?\n/);
+    lines[line] = lines[line].slice(0, column) + text + lines[line].slice(column);
+    return lines.join('\n');
+  },
+};
+
+// ─────────────────────────────────────────────
+// activate / deactivate
+// ─────────────────────────────────────────────
+export function activate(context: vscode.ExtensionContext) {
+  out = vscode.window.createOutputChannel('Flutter Accessibility Checker');
+
+  context.subscriptions.push(
+    vscode.workspace.registerTextDocumentContentProvider(PREVIEW_SCHEME, previewProvider)
+  );
+
   context.subscriptions.push(
     vscode.window.registerUriHandler({
       async handleUri(uri: vscode.Uri) {
         if (uri.path !== '/previewSuggestion') return;
-        const params     = new URLSearchParams(uri.query);
-        const file       = params.get('file')!;
+        const params = new URLSearchParams(uri.query);
+        const file = params.get('file')!;
         const previewUri = vscode.Uri.parse(`${PREVIEW_SCHEME}://${file}?${uri.query}`);
-        const actualUri  = vscode.Uri.file(path.join(vscode.workspace.rootPath || '', file));
+        const actualUri = vscode.Uri.file(path.join(vscode.workspace.rootPath || '', file));
         await vscode.commands.executeCommand(
           'vscode.diff',
           previewUri,
@@ -64,102 +310,71 @@ export function activate(context: vscode.ExtensionContext) {
           `Preview: ${path.basename(file)}`,
           { preview: true }
         );
-      }
+      },
     })
   );
 
-  // ────────────────────────────────────────────────────────────
-  // ➋ “Open Flutter Accessibility Checker” 커맨드 등록
-  // ────────────────────────────────────────────────────────────
-  const disposable = vscode.commands.registerCommand(
-    'flutter-accessibility-checker.openPanel',
-    async () => {
-      const choice = await vscode.window.showQuickPick(
-        [
-          '📦 VS Code 내에서 열기 (웹뷰)',
-          '🌐 외부 브라우저에서 열기 (Recommended)'
-        ],
-        { placeHolder: 'Flutter 화면을 어디에서 열까요?' }
-      );
+  context.subscriptions.push(
+    vscode.commands.registerCommand('flutter-accessibility-checker.openPanel', async () => {
+      // 1) 에뮬레이터 선택(필요시 부팅)
+      const emulatorId = await pickRunningEmulator();
+      if (!emulatorId) return;
+
       const workspaceRoot = vscode.workspace.rootPath!;
-      const reactAppPath  = path.join(context.extensionPath, 'react-app');
+      const reactAppPath = path.join(context.extensionPath, 'react-app');
 
-      if (!choice) {
-        return;
+      // 2) Flutter run + VM URL 획득 (마키 알림)
+      const vmWsUrl = await vscode.window.withProgress(
+        { location: vscode.ProgressLocation.Notification, title: 'Flutter 실행 중…', cancellable: false },
+        async () => await runFlutterAndGetVmService(emulatorId, workspaceRoot)
+      );
+
+      // 3) SemanticsService 시작(React 브로드캐스트는 3001)
+      try {
+        if (semantics) { try { semantics.dispose(); } catch {} }
+        // ▼ 에뮬레이터 플랫폼 자동 감지
+        const platform = emulatorId.startsWith('emulator-') ? 'android' : 
+                        emulatorId.includes('simulator') ? 'ios' : 'unknown';
+        console.log(`[Extension] Detected platform: ${platform} for device: ${emulatorId}`);
+        
+        semantics = new SemanticsService({ port: 3001, platform, deviceId: emulatorId });
+        await semantics.start(vmWsUrl);
+        vscode.window.showInformationMessage('🔍 실시간 접근성 모니터링이 시작되었습니다.');
+      } catch (e: any) {
+        vscode.window.showWarningMessage(`VM Service 연결 실패: ${e?.message ?? e}`);
       }
 
-      if (choice.startsWith('📦')) {
-        // (기존) 웹뷰 패널 열기
-        const panel = vscode.window.createWebviewPanel(
-          'flutterAccessibilityChecker',
-          'Flutter Accessibility Checker',
-          vscode.ViewColumn.One,
-          { enableScripts: true }
-        );
-        panel.webview.html = getWebviewContent();
+      // 4) React 대시보드 실행 + 준비되면 자동 오픈
+      const t2 = vscode.window.createTerminal({
+        name: 'React Dashboard',
+        cwd: reactAppPath,
+        env: { ...process.env, BROWSER: 'none' },
+      });
+      t2.show();
+      t2.sendText('npm start');
 
-      } else {
-        // concurrently + wait-on을 사용한 순차 실행
-        const terminal = vscode.window.createTerminal({
-          name: 'Flutter + React (순차 실행)',
-          cwd: workspaceRoot,
-          env: process.env
-        });
-
-        // concurrently로 Flutter 서버와 React 서버를 순차 실행 (지연 방식)
-        const cmd = process.platform === 'win32'
-          ? `npx concurrently ` +
-            `"cd /d ${workspaceRoot} && flutter run -d web-server --web-port=60778 --web-hostname=localhost --device-vmservice-port=8181" ` +
-            `"timeout /t 8 && cd /d ${reactAppPath} && set BROWSER=none&& npm start"`
-          : `npx concurrently ` +
-            `"cd ${workspaceRoot} && flutter run -d web-server --web-port=60778 --web-hostname=localhost --device-vmservice-port=8181" ` +
-            `"sleep 8 && cd ${reactAppPath} && BROWSER=none npm start"`;
-
-        terminal.sendText(cmd);
-        terminal.show();
-
-        // React 서버가 준비될 때까지 대기 후 브라우저 오픈
-        vscode.window.withProgress({
-          location: vscode.ProgressLocation.Notification,
-          title: "서버 시작 중...",
-          cancellable: false
-        }, async (progress) => {
-          progress.report({ increment: 0, message: "Flutter 서버 대기 중..." });
-          
-          // Flutter 서버 준비 대기
-          const flutterOk = await waitForServer('http://localhost:60778');
-          if (flutterOk) {
-            progress.report({ increment: 50, message: "React 서버 대기 중..." });
-            
-            // React 서버 준비 대기
-            const reactOk = await waitForServer('http://localhost:3000');
-            if (reactOk) {
-              progress.report({ increment: 100, message: "서버 준비 완료!" });
-              await vscode.env.openExternal(vscode.Uri.parse('http://localhost:3000'));
-            } else {
-              vscode.window.showErrorMessage('❌ React 개발 서버가 응답하지 않습니다.');
-            }
-          } else {
-            vscode.window.showErrorMessage('❌ Flutter 서버가 응답하지 않습니다.');
-          }
-        });
-      }
-    }
+      await vscode.window.withProgress(
+        { location: vscode.ProgressLocation.Notification, title: '대시보드 준비 중…', cancellable: false },
+        async () => {
+          const ok = await waitForServer('http://localhost:3000', 120000);
+          if (ok) await vscode.env.openExternal(vscode.Uri.parse('http://localhost:3000'));
+          else vscode.window.showWarningMessage('React 대시보드가 응답하지 않습니다 (포트 3000).');
+        }
+      );
+    })
   );
-  context.subscriptions.push(disposable);
+
+  context.subscriptions.push({ dispose: deactivate });
 }
 
-function getWebviewContent(): string {
-  return `<!DOCTYPE html>
-<html lang="ko">
-<head><meta charset="UTF-8"/><title>Flutter Accessibility Checker</title></head>
-<body>
-  <iframe
-    src="http://localhost:60778"
-    style="width:100%;height:100%;border:none;"
-  ></iframe>
-</body>
-</html>`;
-}
+export function deactivate() {
+  try { semantics?.dispose(); } catch {}
+  semantics = null;
 
-export function deactivate() {}
+  if (flutterProc) {
+    try { flutterProc.kill(); } catch {}
+    flutterProc = null;
+  }
+  try { out?.dispose(); } catch {}
+  out = null;
+}
