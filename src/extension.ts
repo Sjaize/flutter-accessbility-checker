@@ -41,6 +41,37 @@ const exec = (cmd: string, opt: ExecOptions = {}) =>
     });
   });
 
+// Flutter 실행 파일 경로 결정 (설정 → ENV → PATH 순)
+function getFlutterExePath(): string {
+  const cfg = vscode.workspace.getConfiguration('dart');
+  const sdkPath = cfg.get<string>('flutterSdkPath');
+  const envBin = process.env.FLUTTER_BIN;
+  if (envBin && envBin.trim()) return envBin;
+
+  if (sdkPath && sdkPath.trim()) {
+    const exe = process.platform === 'win32' ? 'flutter.bat' : 'flutter';
+    return path.join(sdkPath, 'bin', exe);
+  }
+  return process.platform === 'win32' ? 'flutter.bat' : 'flutter';
+}
+
+function q(p: string) {
+  return /["\s]/.test(p) ? `"${p}"` : p;
+}
+
+// Windows에서 UTF-8 강제(chcp 65001) 뒤 실행하여 한글 깨짐 방지
+async function runFlutter(args: string): Promise<string> {
+  const flutter = getFlutterExePath();
+  const base = `${q(flutter)} ${args}`.trim();
+  const cmd =
+    process.platform === 'win32'
+      ? `cmd.exe /d /s /c chcp 65001>nul && ${base}`
+      : base;
+
+  const { stdout } = await exec(cmd, { windowsHide: true });
+  return stdout;
+}
+
 async function waitForServer(url: string, timeoutMs = 120000): Promise<boolean> {
   const start = Date.now();
   return new Promise<boolean>((resolve) => {
@@ -73,23 +104,30 @@ type EmulatorDef = { id: string; platform: string };
 
 async function fetchRunningEmulators(): Promise<DeviceRow[]> {
   try {
-    const { stdout } = await exec('flutter devices --machine');
-    const list = JSON.parse(stdout) as DeviceRow[];
+    const stdout = await runFlutter('devices --machine');
+    const raw = JSON.parse(stdout) as Array<{
+      id: string;
+      name: string;
+      category?: string;
+      platformType?: string;
+      emulator?: boolean;
+    }>;
 
-    return list.filter((d) => {
-      const plat = String(d.platform || '').toLowerCase();
-      const cat = String(d.category || '').toLowerCase();
-      const isWebOrDesktop =
-        cat === 'web' || cat === 'desktop' ||
-        plat.includes('web') || plat.includes('mac') || plat.includes('windows') || plat.includes('linux');
-      if (isWebOrDesktop) return false;
+    const rows: DeviceRow[] = raw
+      .filter((d) => {
+        const cat = String(d.category || '').toLowerCase();
+        return cat !== 'web' && cat !== 'desktop';
+      })
+      .map((d) => {
+        const platform = String(d.platformType || '').toLowerCase();
+        const emu =
+          d.emulator === true ||
+          (typeof d.id === 'string' && d.id.startsWith('emulator-')) ||
+          (platform === 'ios' && /simulator/i.test(d.name || ''));
+        return { id: d.id, name: d.name, platform, category: d.category, emulator: emu };
+      });
 
-      const looksLikeEmu =
-        d.emulator === true ||
-        (typeof d.id === 'string' && d.id.startsWith('emulator-')) ||
-        (plat === 'ios' && /simulator/i.test(d.name || ''));
-      return looksLikeEmu;
-    });
+    return rows;
   } catch {
     const { stdout } = await exec('flutter devices');
     const lines = stdout.split(/\r?\n/);
@@ -243,7 +281,24 @@ async function runFlutterAndGetVmService(emulatorId: string, cwd: string): Promi
   out.show(true);
   log(`[Flutter] run -d ${emulatorId}`);
 
-  flutterProc = spawn('flutter', ['run', '-d', emulatorId], { cwd, env: process.env });
+  const flutterExe = getFlutterExePath();
+
+  // 핵심 변경: Windows에서 .bat는 shell:true로 실행 (spawn EINVAL 회피)
+  const isWin = process.platform === 'win32';
+  const cmd = isWin
+    ? `chcp 65001>nul && ${q(flutterExe)} run -d ${q(emulatorId)}`
+    : `${q(flutterExe)} run -d ${q(emulatorId)}`;
+
+  flutterProc = spawn(cmd, {
+    cwd,
+    env: process.env,
+    windowsHide: true,
+    shell: true, // ← 여기
+  });
+
+  flutterProc.on('error', (err) => {
+    log(`[Flutter] spawn error: ${String(err)}`);
+  });
 
   let vmUrl = '';
   await new Promise<void>((resolve) => {
