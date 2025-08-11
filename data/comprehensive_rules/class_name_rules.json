@@ -1,0 +1,205 @@
+{
+  "ImageView": [
+    "go back",
+    "go to previous",
+    "open menu"
+  ],
+  "AppCompatImageButton": [
+    "go back",
+    "go to previous",
+    "share the article"
+  ],
+  "ImageButton": [
+    "go back",
+    "go to previous",
+    "open menu"
+  ],
+  "AppCompatImageView": [
+    "go back",
+    "more options",
+    "share the article"
+  ],
+  "CheckableImageButton": [
+    "eye button",
+    "see password",
+    "toggle password visibility"
+  ],
+  "RotatableImageButton": [
+    "add a moustache",
+    "add mustache",
+    "apply mustache on face"
+  ],
+  "BaseImageView": [
+    "go do colused",
+    "to close the settings option",
+    "enter search option"
+  ],
+  "ProgressRingImageView": [
+    "show images",
+    "toggle public view",
+    "turn off visibility"
+  ],
+  "ThemeImageView": [
+    "go back",
+    "refresh",
+    "turn back"
+  ],
+  "QuickShareGrantImageView": [
+    "flash option",
+    "go to battery",
+    "toggle flash"
+  ],
+  "NetworkImageView": [
+    "play video",
+    "click on video",
+    "next video in the lineup"
+  ],
+  "VCImageView": [
+    "go to profile",
+    "clip this page",
+    "zoom in on profile picture"
+  ],
+  "DigiAvatarImageView": [
+    "profile picture",
+    "go to user page",
+    "john smith 's avatar"
+  ],
+  "EffectImageButton": [
+    "go back",
+    "move forward"
+  ],
+  "ToggleImageView": [
+    "add to favorites",
+    "favorite item",
+    "mark as favorite"
+  ],
+  "SquareImageView": [
+    "select album",
+    "choose album art",
+    "select album art"
+  ],
+  "RecyclingImageView": [
+    "select style",
+    "select wallpaper",
+    "wallpaper"
+  ],
+  "LImageButton": [
+    "go back",
+    "go to back",
+    "salud para tu bateria"
+  ],
+  "StingrayImageButton": [
+    "it will tell more about that channel",
+    "show details",
+    "view link"
+  ],
+  "AlphaStateImageView": [
+    "submit comment",
+    "send the message"
+  ],
+  "HighlightableImageButton": [
+    "dislike comment",
+    "like button",
+    "thumbs-up comment"
+  ],
+  "IconicsImageView": [
+    "download this item",
+    "download",
+    "go to download"
+  ],
+  "ColorFilterImageView": [
+    "menu option",
+    "options menu",
+    "repeat song"
+  ],
+  "StingrayImageView": [
+    "more options",
+    "show more options",
+    "open menu options"
+  ],
+  "TintableImageView": [
+    "confirm actions",
+    "save the page",
+    "select icon"
+  ],
+  "SquareImageViewByHeight": [
+    "open menu",
+    "go back",
+    "see more"
+  ],
+  "RoundedImageView": [
+    "select to see photos",
+    "tapping this will show me 10 photos of the restaurant",
+    "view more photos"
+  ],
+  "CircleImageView": [
+    "change profile",
+    "profile picture",
+    "set avatar"
+  ],
+  "CircleCroppedImageView": [
+    "accept chat",
+    "go to their profile",
+    "toggle profile"
+  ],
+  "CircularImageView": [
+    "change profile picture",
+    "update your picture"
+  ],
+  "ResizableImageView": [
+    "select the image for the song",
+    "switch to item",
+    "open this image"
+  ],
+  "LoadingImageView": [
+    "add photo",
+    "adding the term",
+    "create"
+  ],
+  "ProfileImageView": [
+    "add a photo",
+    "to take a picture",
+    "to take photo"
+  ],
+  "FavoriteImageView": [
+    "like button",
+    "like icon",
+    "like post"
+  ],
+  "HiliteImageButton": [
+    "begin or pause recording",
+    "play recoding pause recording stop recording",
+    "play/pause button"
+  ],
+  "CustomClickableImageView": [
+    "delete entry"
+  ],
+  "RippleImageView": [
+    "close the code",
+    "healthy sleep"
+  ],
+  "FancyImageView": [
+    "add a profile photo",
+    "select profile icon",
+    "upload profile picture"
+  ],
+  "ColorBitmapImageButton": [
+    "go back",
+    "last song",
+    "play previous audio"
+  ],
+  "RoundedAvatarImageView": [
+    "go to the profile of poster",
+    "look at user profile",
+    "open profile"
+  ],
+  "NetworkCircleImageView": [
+    "account profile picture",
+    "show profile picture"
+  ],
+  "BadgeImageView": [
+    "go to day 7",
+    "pick 6 hours smoke free",
+    "select time option"
+  ]
+}

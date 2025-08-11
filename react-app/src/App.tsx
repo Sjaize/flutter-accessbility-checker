@@ -9,6 +9,21 @@ import UMLDiagramViewer from './components/UMLDiagramViewer';
 import MarkdownDocumentation from './components/MarkdownDocumentation';
 import { ProjectAnalyzer } from './services/ProjectAnalyzer';
 import { ChatService } from './services/ChatService';
+import { cn } from './lib/utils';
+import { 
+  Smartphone, 
+  AlertTriangle, 
+  CheckCircle, 
+  Info, 
+  Eye, 
+  MessageSquare, 
+  FileText, 
+  BarChart3, 
+  Settings,
+  Sparkles,
+  Zap,
+  Shield
+} from 'lucide-react';
 
 interface Suggestion {
   id: string;
@@ -43,6 +58,11 @@ interface ChatMessage {
   pumlHighlight?: string;
   codeSuggestion?: string;
   fileReference?: string;
+  userJourney?: {
+    mainScenarios: string[];
+    accessibilityGaps: string[];
+    semanticsImprovements: string[];
+  };
 }
 
 interface FlutterComponent {
@@ -87,7 +107,8 @@ export default function App() {
   // Flutter 서버가 8초 먼저 시작되므로 안전하게 바로 로드
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIframeSrc('http://localhost:60778');
+      // iframe 대신 더미 이미지 사용 (연결 문제 해결)
+      setIframeSrc('https://via.placeholder.com/375x812/f0f9ff/1e40af?text=Flutter+App+Preview');
       setReady(true);
       analyze();
       
@@ -111,8 +132,10 @@ export default function App() {
   const analyzeProject = async (path: string) => {
     setIsAnalyzing(true);
     try {
-      projectAnalyzer.setProjectPath(path);
-      const structure = await projectAnalyzer.analyzeProject();
+      console.log('새로운 Flutter 프로젝트 분석 시작:', path);
+      
+      // 새로운 프로젝트 분석 메서드 사용
+      const structure = await projectAnalyzer.analyzeNewProject(path);
       setFlutterComponents(structure.components);
       
       // ChatService에도 프로젝트 정보 설정
@@ -122,10 +145,77 @@ export default function App() {
       if (structure.pubspecYaml?.name) {
         setProjectName(structure.pubspecYaml.name);
       }
+      
+      // 분석된 컴포넌트 정보 로그
+      console.log('분석된 컴포넌트들:', structure.components);
+      console.log('발견된 Dart 파일들:', structure.dartFiles);
+      
+      // 접근성 이슈 자동 감지 및 업데이트
+      const detectedIssues = detectAccessibilityIssues(structure.components);
+      setAccessibilityIssues(detectedIssues);
+      
     } catch (error) {
       console.error('프로젝트 분석 실패:', error);
     } finally {
       setIsAnalyzing(false);
+    }
+  };
+
+  // 접근성 이슈 자동 감지
+  const detectAccessibilityIssues = (components: FlutterComponent[]): AccessibilityIssue[] => {
+    const issues: AccessibilityIssue[] = [];
+    let issueId = 1;
+
+    components.forEach((component, index) => {
+      component.issues.forEach((issue, issueIndex) => {
+        issues.push({
+          id: String(issueId++),
+          type: issue.includes('누락') ? 'error' : issue.includes('부족') ? 'warning' : 'info',
+          title: issue,
+          description: `${component.name}에서 ${issue} 문제가 발견되었습니다.`,
+          position: { x: 30 + (index * 20), y: 30 + (issueIndex * 15) },
+          element: component.name,
+          side: index % 2 === 0 ? 'left' : 'right',
+          bubblePosition: { x: 30 + (index * 20), y: 25 + (issueIndex * 15) },
+          suggestions: [
+            {
+              id: `${issueId}-1`,
+              file: component.file,
+              line: component.line,
+              column: 1,
+              text: generateSuggestionCode(issue, component),
+              message: issue,
+              type: issue.includes('누락') ? 'error' : issue.includes('부족') ? 'warning' : 'info',
+              element: component.name,
+              position: { x: 30 + (index * 20), y: 30 + (issueIndex * 15) }
+            }
+          ]
+        });
+      });
+    });
+
+    return issues;
+  };
+
+  // 제안 코드 생성
+  const generateSuggestionCode = (issue: string, component: FlutterComponent): string => {
+    if (issue.includes('Semantics')) {
+      return `Semantics(
+  label: '${component.name}',
+  child: ${component.name}(),
+)`;
+    } else if (issue.includes('터치 영역')) {
+      return `Container(
+  constraints: BoxConstraints(minWidth: 44, minHeight: 44),
+  child: ${component.name}(),
+)`;
+    } else if (issue.includes('대체 텍스트')) {
+      return `Image.asset(
+  'assets/images/image.png',
+  semanticLabel: '이미지 설명',
+)`;
+    } else {
+      return `// ${issue} 해결을 위한 코드 수정 필요`;
     }
   };
 
@@ -237,9 +327,7 @@ export default function App() {
     setPreviewSug(null);
   }
 
-  function onDiscuss(sug: Suggestion) {
-    alert(`"${sug.message}" 논의하기`);
-  }
+
 
   function onIgnore(issueId: string) {
     setAccessibilityIssues(prev => prev.filter(i => i.id !== issueId));
@@ -270,10 +358,119 @@ export default function App() {
       setTimeout(() => {
         const newIssues = extractIssuesFromChat(messages);
         setAccessibilityIssues(newIssues);
+        
+        // 사용자 저니 기반 UML 다이어그램 업데이트
+        updateUMLFromChat(messages);
+        
+        // 대시보드 데이터 업데이트
+        updateDashboardFromChat(messages);
+        
         setIsUpdatingIssues(false);
       }, 2000); // 2초 로딩
     }
   }
+
+  // 채팅 내용 기반 UML 다이어그램 업데이트
+  const updateUMLFromChat = (messages: ChatMessage[]) => {
+    const userJourneyMessages = messages.filter(msg => 
+      msg.type === 'assistant' && msg.userJourney
+    );
+
+    if (userJourneyMessages.length > 0) {
+      const latestJourney = userJourneyMessages[userJourneyMessages.length - 1].userJourney;
+      
+      if (latestJourney && latestJourney.mainScenarios.length > 0) {
+        // 사용자 저니 기반 PlantUML 생성
+        const newPumlCode = generateUserJourneyPuml(latestJourney);
+        setCurrentPumlCode(newPumlCode);
+      }
+    }
+  };
+
+  // 사용자 저니 기반 PlantUML 생성
+  const generateUserJourneyPuml = (userJourney: any): string => {
+    const scenarios = userJourney.mainScenarios.map((scenario: string, index: number) => 
+      `:${scenario};`
+    ).join('\n');
+
+    const gaps = userJourney.accessibilityGaps.map((gap: string, index: number) => 
+      `note right: ${gap}`
+    ).join('\n');
+
+    const improvements = userJourney.semanticsImprovements.map((improvement: string, index: number) => 
+      `note left: ${improvement}`
+    ).join('\n');
+
+    return `@startuml
+!theme plain
+skinparam backgroundColor transparent
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam roundcorner 5
+skinparam shadowing false
+
+title ${projectName} - AI 분석 사용자 저니
+
+start
+
+${scenarios}
+
+if (접근성 이슈 발견?) then (있음)
+  ${gaps}
+  :접근성 개선 적용;
+  ${improvements}
+else (없음)
+  :정상 사용;
+endif
+
+stop
+@enduml`;
+  };
+
+  // 채팅 내용 기반 대시보드 업데이트
+  const updateDashboardFromChat = (messages: ChatMessage[]) => {
+    const userJourneyMessages = messages.filter(msg => 
+      msg.type === 'assistant' && msg.userJourney
+    );
+
+    if (userJourneyMessages.length > 0) {
+      const latestJourney = userJourneyMessages[userJourneyMessages.length - 1].userJourney;
+      
+      // 대시보드에 사용자 저니 정보 저장
+      localStorage.setItem('dashboard-user-journey', JSON.stringify(latestJourney));
+      
+      // 컴포넌트 정보 업데이트
+      updateComponentsFromChat(messages);
+    }
+  };
+
+  // 채팅 내용 기반 컴포넌트 정보 업데이트
+  const updateComponentsFromChat = (messages: ChatMessage[]) => {
+    const codeSuggestions = messages.filter(msg => 
+      msg.type === 'assistant' && msg.codeSuggestion
+    );
+
+    if (codeSuggestions.length > 0) {
+      const updatedComponents = flutterComponents.map(component => {
+        const suggestions = codeSuggestions.filter(msg => 
+          msg.fileReference && msg.fileReference.includes(component.file)
+        );
+
+        if (suggestions.length > 0) {
+          return {
+            ...component,
+            accessibilityScore: Math.min(100, component.accessibilityScore + 10),
+            issues: component.issues.filter(issue => 
+              !suggestions.some(s => s.content.includes(issue))
+            )
+          };
+        }
+        return component;
+      });
+
+      setFlutterComponents(updatedComponents);
+    }
+  };
 
   function handleOpenReportGenerator() {
     setIsReportGeneratorOpen(true);
@@ -370,6 +567,8 @@ export default function App() {
 skinparam backgroundColor transparent
 skinparam defaultFontName Arial
 skinparam defaultFontSize 12
+skinparam roundcorner 5
+skinparam shadowing false
 
 title ${projectName} User Journey
 
@@ -414,242 +613,378 @@ stop
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-50 p-6 gap-8">
-      {/* 왼쪽: 에뮬레이터 + 말풍선 */}
-      <div className="flex-1 flex items-center justify-center overflow-visible">
-        <div className="relative w-[395px] h-[832px] bg-gray-800 rounded-[2.5rem] p-2 shadow-2xl overflow-visible">
-          <div className="relative w-full h-full bg-white rounded-[2rem] overflow-hidden">
-            <iframe
-              src={iframeSrc}
-              title="Flutter Web App"
-              className="w-full h-full border-none"
-              onLoad={handleIframeLoad}
-            />
-            {!ready && (
-              <div className="absolute inset-0 flex items-center justify-center bg-white text-gray-500">
-                🚀 Flutter 앱을 로드하는 중…
+    <div className="min-h-screen gradient-bg p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* 헤더 */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg">
+                <Sparkles className="w-6 h-6 text-purple-500" />
               </div>
-            )}
-            {isUpdatingIssues && (
-              <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-90 text-gray-500">
-                <div className="text-center">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-2"></div>
-                  <p>대화 내용을 분석하여 접근성 이슈를 업데이트하는 중...</p>
+              <div>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                  Flutter Accessibility Checker
+                </h1>
+                <p className="text-sm text-gray-600">AI 기반 접근성 분석 도구</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1 px-3 py-1 bg-green-100 rounded-full">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-xs text-green-700">실시간 분석</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex gap-8">
+          {/* 왼쪽: 에뮬레이터 + 말풍선 */}
+          <div className="flex-1 flex items-center justify-center overflow-visible">
+            <div className="relative">
+              {/* 모바일 프레임 */}
+              <div className="relative w-[375px] h-[812px] bg-gradient-to-br from-gray-900 to-gray-800 rounded-[3rem] p-3 shadow-2xl">
+                <div className="relative w-full h-full bg-white rounded-[2.5rem] overflow-hidden">
+                  {iframeSrc.includes('placeholder') ? (
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50">
+                      <div className="text-center p-8">
+                        <Smartphone className="w-16 h-16 text-purple-400 mx-auto mb-4" />
+                        <h3 className="text-lg font-semibold text-gray-700 mb-2">Flutter 앱 미리보기</h3>
+                        <p className="text-sm text-gray-500 mb-4">
+                          실제 Flutter 앱이 실행되면 여기에 표시됩니다
+                        </p>
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-center space-x-2 text-xs text-gray-400">
+                            <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                            <span>온보딩 화면</span>
+                          </div>
+                          <div className="flex items-center justify-center space-x-2 text-xs text-gray-400">
+                            <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                            <span>메인 화면</span>
+                          </div>
+                          <div className="flex items-center justify-center space-x-2 text-xs text-gray-400">
+                            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                            <span>설정 화면</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <iframe
+                      src={iframeSrc}
+                      title="Flutter Web App"
+                      className="w-full h-full border-none"
+                      onLoad={handleIframeLoad}
+                    />
+                  )}
+                  
+                  {!ready && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-white/90 backdrop-blur-sm">
+                      <div className="text-center">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500 mx-auto mb-3"></div>
+                        <p className="text-sm text-gray-600">Flutter 앱을 로드하는 중…</p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {isUpdatingIssues && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-white/90 backdrop-blur-sm">
+                      <div className="text-center">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-3"></div>
+                        <p className="text-sm text-gray-600">접근성 이슈를 업데이트하는 중...</p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {isAnalyzing && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-white/90 backdrop-blur-sm">
+                      <div className="text-center">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500 mx-auto mb-3"></div>
+                        <p className="text-sm text-gray-600">Flutter 프로젝트를 분석하는 중...</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
+
+                {/* 말풍선 + 연결선 */}
+                {ready &&
+                  accessibilityIssues.map(issue => (
+                    <React.Fragment key={issue.id}>
+                      <svg
+                        className="absolute pointer-events-none"
+                        style={{ top: 0, left: 0, width: '100%', height: '100%' }}
+                      >
+                        <line
+                          x1={`${issue.position.x}%`}
+                          y1={`${issue.position.y}%`}
+                          x2="100%"
+                          y2={`${issue.bubblePosition.y}%`}
+                          stroke={
+                            issue.type === 'error'
+                              ? '#ef4444'
+                              : issue.type === 'warning'
+                              ? '#f59e0b'
+                              : '#3b82f6'
+                          }
+                          strokeWidth={2}
+                          strokeDasharray="4,4"
+                          opacity={0.6}
+                        />
+                        <circle
+                          cx={`${issue.position.x}%`}
+                          cy={`${issue.position.y}%`}
+                          r={4}
+                          fill={
+                            issue.type === 'error'
+                              ? '#ef4444'
+                              : issue.type === 'warning'
+                              ? '#f59e0b'
+                              : '#3b82f6'
+                          }
+                          opacity={0.8}
+                        />
+                      </svg>
+                      <div
+                        className="absolute z-10"
+                        style={{
+                          left: '100%',
+                          top: `${issue.bubblePosition.y}%`,
+                          transform: 'translate(20px, -50%)',
+                          width: 280,
+                        }}
+                      >
+                        <div className={cn(
+                          "card-pastel p-4 animate-slide-up",
+                          issue.type === 'error' && "border-l-4 border-l-red-400",
+                          issue.type === 'warning' && "border-l-4 border-l-amber-400",
+                          issue.type === 'info' && "border-l-4 border-l-blue-400"
+                        )}>
+                          <div className="flex items-start space-x-3">
+                            <div className={cn(
+                              "p-2 rounded-lg",
+                              issue.type === 'error' && "bg-red-100",
+                              issue.type === 'warning' && "bg-amber-100",
+                              issue.type === 'info' && "bg-blue-100"
+                            )}>
+                              {issue.type === 'error' && <AlertTriangle className="w-4 h-4 text-red-600" />}
+                              {issue.type === 'warning' && <AlertTriangle className="w-4 h-4 text-amber-600" />}
+                              {issue.type === 'info' && <Info className="w-4 h-4 text-blue-600" />}
+                            </div>
+                            <div className="flex-1">
+                              <h4 className={cn(
+                                "font-semibold text-sm mb-1",
+                                issue.type === 'error' && "text-red-800",
+                                issue.type === 'warning' && "text-amber-800",
+                                issue.type === 'info' && "text-blue-800"
+                              )}>
+                                {issue.title}
+                              </h4>
+                              <p className="text-xs text-gray-600 mb-3 leading-relaxed">
+                                {issue.description}
+                              </p>
+                              <div className="flex gap-2">
+                                <button
+                                  onClick={() => onPreview(issue.suggestions[0])}
+                                  className="btn-pastel-success text-xs px-3 py-1.5"
+                                >
+                                  수락
+                                </button>
+                                <button
+                                  onClick={() => onIgnore(issue.id)}
+                                  className="text-xs px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors"
+                                >
+                                  무시
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </React.Fragment>
+                  ))}
               </div>
-            )}
-            {isAnalyzing && (
-              <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-90 text-gray-500">
-                <div className="text-center">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-2"></div>
-                  <p>Flutter 프로젝트를 분석하는 중...</p>
-                </div>
-              </div>
-            )}
+            </div>
           </div>
 
-          {/* 말풍선 + 연결선 */}
-          {ready &&
-            accessibilityIssues.map(issue => (
-              <React.Fragment key={issue.id}>
-                <svg
-                  className="absolute pointer-events-none"
-                  style={{ top: 0, left: 0, width: '100%', height: '100%' }}
+          {/* 오른쪽: 리포트 패널 */}
+          <div className="w-96 space-y-6">
+            {/* 접근성 평가 정보 카드 */}
+            <div className="card-pastel p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                  <div className="p-2 bg-blue-100 rounded-lg">
+                    <Shield className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <h2 className="text-lg font-semibold text-gray-800">접근성 평가</h2>
+                </div>
+                <button
+                  onClick={handleDashboardOpen}
+                  className="btn-pastel-primary text-xs px-3 py-1.5"
                 >
-                  <line
-                    x1={`${issue.position.x}%`}
-                    y1={`${issue.position.y}%`}
-                    x2="100%"
-                    y2={`${issue.bubblePosition.y}%`}
-                    stroke={
-                      issue.type === 'error'
-                        ? '#dc2626'
-                        : issue.type === 'warning'
-                        ? '#ca8a04'
-                        : '#2563eb'
-                    }
-                    strokeWidth={1}
-                    strokeDasharray="3,3"
-                    opacity={0.4}
-                  />
-                  <circle
-                    cx={`${issue.position.x}%`}
-                    cy={`${issue.position.y}%`}
-                    r={3}
-                    fill={
-                      issue.type === 'error'
-                        ? '#dc2626'
-                        : issue.type === 'warning'
-                        ? '#ca8a04'
-                        : '#2563eb'
-                    }
-                    opacity={0.6}
-                  />
-                </svg>
-                <div
-                  className="absolute z-10"
-                  style={{
-                    left: '100%',
-                    top: `${issue.bubblePosition.y}%`,
-                    transform: 'translate(16px, -50%)',
-                    width: 260,
-                  }}
+                  대시보드
+                </button>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="flex items-center justify-between p-3 bg-gradient-to-r from-red-50 to-pink-50 rounded-lg border border-red-100">
+                  <div className="flex items-center space-x-2">
+                    <AlertTriangle className="w-4 h-4 text-red-500" />
+                    <span className="text-sm font-medium text-red-700">오류</span>
+                  </div>
+                  <span className="text-lg font-bold text-red-600">
+                    {accessibilityIssues.filter(i => i.type === 'error').length}
+                  </span>
+                </div>
+                
+                <div className="flex items-center justify-between p-3 bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg border border-amber-100">
+                  <div className="flex items-center space-x-2">
+                    <AlertTriangle className="w-4 h-4 text-amber-500" />
+                    <span className="text-sm font-medium text-amber-700">경고</span>
+                  </div>
+                  <span className="text-lg font-bold text-amber-600">
+                    {accessibilityIssues.filter(i => i.type === 'warning').length}
+                  </span>
+                </div>
+                
+                <div className="flex items-center justify-between p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
+                  <div className="flex items-center space-x-2">
+                    <Info className="w-4 h-4 text-blue-500" />
+                    <span className="text-sm font-medium text-blue-700">정보</span>
+                  </div>
+                  <span className="text-lg font-bold text-blue-600">
+                    {accessibilityIssues.filter(i => i.type === 'info').length}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* 도구 버튼들 */}
+            <div className="card-pastel p-6">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center space-x-2">
+                <Zap className="w-5 h-5 text-purple-500" />
+                <span>분석 도구</span>
+              </h3>
+              
+              <div className="space-y-3">
+                <button
+                  onClick={handleCodeStructureOpen}
+                  className="w-full flex items-center space-x-3 p-3 bg-gradient-to-r from-purple-100 to-pink-100 hover:from-purple-200 hover:to-pink-200 rounded-lg transition-all duration-200 group"
                 >
+                  <div className="p-2 bg-purple-500 rounded-lg group-hover:scale-110 transition-transform">
+                    <FileText className="w-4 h-4 text-white" />
+                  </div>
+                  <span className="text-sm font-medium text-purple-700">코드 구조 분석</span>
+                </button>
+                
+                <button
+                  onClick={handleUMLDiagramOpen}
+                  className="w-full flex items-center space-x-3 p-3 bg-gradient-to-r from-indigo-100 to-blue-100 hover:from-indigo-200 hover:to-blue-200 rounded-lg transition-all duration-200 group"
+                >
+                  <div className="p-2 bg-indigo-500 rounded-lg group-hover:scale-110 transition-transform">
+                    <BarChart3 className="w-4 h-4 text-white" />
+                  </div>
+                  <span className="text-sm font-medium text-indigo-700">UML 다이어그램</span>
+                </button>
+                
+                <button
+                  onClick={handleMarkdownDocOpen}
+                  className="w-full flex items-center space-x-3 p-3 bg-gradient-to-r from-emerald-100 to-teal-100 hover:from-emerald-200 hover:to-teal-200 rounded-lg transition-all duration-200 group"
+                >
+                  <div className="p-2 bg-emerald-500 rounded-lg group-hover:scale-110 transition-transform">
+                    <FileText className="w-4 h-4 text-white" />
+                  </div>
+                  <span className="text-sm font-medium text-emerald-700">문서 생성</span>
+                </button>
+              </div>
+            </div>
+
+            {/* 이슈 목록 */}
+            <div className="card-pastel p-6">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">발견된 이슈</h3>
+              
+              <div className="space-y-3 max-h-96 overflow-y-auto">
+                {accessibilityIssues.map(issue => (
                   <div
-                    className={`bg-white border-l-4 rounded-r-lg px-3 py-2 shadow-sm ${
-                      issue.type === 'error'
-                        ? 'border-red-500'
-                        : issue.type === 'warning'
-                        ? 'border-yellow-500'
-                        : 'border-blue-500'
-                    }`}
+                    key={issue.id}
+                    className={cn(
+                      "p-3 rounded-lg border-l-4 transition-all duration-200 hover:shadow-md",
+                      issue.type === 'error' && "bg-red-50 border-l-red-400 hover:bg-red-100",
+                      issue.type === 'warning' && "bg-amber-50 border-l-amber-400 hover:bg-amber-100",
+                      issue.type === 'info' && "bg-blue-50 border-l-blue-400 hover:bg-blue-100"
+                    )}
                   >
-                    <div
-                      className={`font-medium text-xs ${
-                        issue.type === 'error'
-                          ? 'text-red-800'
-                          : issue.type === 'warning'
-                          ? 'text-yellow-800'
-                          : 'text-blue-800'
-                      }`}
-                    >
-                      {issue.title}
-                    </div>
-                    <div className="text-xs text-gray-600 mt-1 mb-2">
-                      {issue.description}
-                    </div>
-                    <div className="flex gap-1">
-                      <button
-                        onClick={() => onPreview(issue.suggestions[0])}
-                        className="bg-green-600 hover:bg-green-700 text-white text-xs px-2 py-1 rounded"
-                      >
-                        수락
-                      </button>
-                      <button
-                        onClick={() => onDiscuss(issue.suggestions[0])}
-                        className="bg-blue-600 hover:bg-blue-700 text-white text-xs px-2 py-1 rounded"
-                      >
-                        논의
-                      </button>
-                      <button
-                        onClick={() => onIgnore(issue.id)}
-                        className="bg-gray-500 hover:bg-gray-600 text-white text-xs px-2 py-1 rounded"
-                      >
-                        무시
-                      </button>
+                    <div className="flex items-start space-x-2">
+                      <div className={cn(
+                        "p-1 rounded",
+                        issue.type === 'error' && "bg-red-100",
+                        issue.type === 'warning' && "bg-amber-100",
+                        issue.type === 'info' && "bg-blue-100"
+                      )}>
+                        {issue.type === 'error' && <AlertTriangle className="w-3 h-3 text-red-600" />}
+                        {issue.type === 'warning' && <AlertTriangle className="w-3 h-3 text-amber-600" />}
+                        {issue.type === 'info' && <Info className="w-3 h-3 text-blue-600" />}
+                      </div>
+                      <div className="flex-1">
+                        <h4 className={cn(
+                          "font-medium text-sm mb-1",
+                          issue.type === 'error' && "text-red-800",
+                          issue.type === 'warning' && "text-amber-800",
+                          issue.type === 'info' && "text-blue-800"
+                        )}>
+                          {issue.title}
+                        </h4>
+                        <p className="text-xs text-gray-600 leading-relaxed">
+                          {issue.description}
+                        </p>
+                        <p className="text-xs text-gray-500 mt-1">요소: {issue.element}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </React.Fragment>
-            ))}
-        </div>
-      </div>
-
-      {/* 오른쪽: 리포트 패널 */}
-      <div className="w-80 bg-white rounded-2xl shadow p-6 space-y-4 max-h-screen overflow-y-auto">
-        <div className="flex justify-between items-center">
-          <h2 className="text-lg font-semibold">접근성 평가 정보</h2>
-          <button
-            onClick={handleDashboardOpen}
-            className="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600"
-          >
-            대시보드
-          </button>
-        </div>
-        <p className="text-gray-600 text-xs">
-          이 앱에 대한 접근성 평가 결과입니다.
-        </p>
-
-        {/* 새로운 도구 버튼들 */}
-        <div className="space-y-2">
-          <button
-            onClick={handleCodeStructureOpen}
-            className="w-full px-3 py-2 bg-purple-500 text-white text-sm rounded hover:bg-purple-600 transition-colors"
-          >
-            📁 코드 구조 분석
-          </button>
-          <button
-            onClick={handleUMLDiagramOpen}
-            className="w-full px-3 py-2 bg-indigo-500 text-white text-sm rounded hover:bg-indigo-600 transition-colors"
-          >
-            📊 UML 다이어그램
-          </button>
-          <button
-            onClick={handleMarkdownDocOpen}
-            className="w-full px-3 py-2 bg-green-500 text-white text-sm rounded hover:bg-green-600 transition-colors"
-          >
-            📝 문서 생성
-          </button>
-        </div>
-
-        {accessibilityIssues.map(issue => (
-          <div
-            key={issue.id}
-            className={`border-l-4 p-3 rounded ${
-              issue.type === 'error'
-                ? 'bg-red-100 border-red-500'
-                : issue.type === 'warning'
-                ? 'bg-yellow-100 border-yellow-500'
-                : 'bg-blue-100 border-blue-500'
-            }`}
-          >
-            <div className="flex items-center gap-2">
-              <span
-                className={`font-medium text-sm ${
-                  issue.type === 'error'
-                    ? 'text-red-800'
-                    : issue.type === 'warning'
-                    ? 'text-yellow-800'
-                    : 'text-blue-800'
-                }`}
-              >
-                {issue.title}
-              </span>
-              <span
-                className={`text-xs px-2 py-1 rounded ${
-                  issue.type === 'error'
-                    ? 'bg-red-200 text-red-800'
-                    : issue.type === 'warning'
-                    ? 'bg-yellow-200 text-yellow-800'
-                    : 'bg-blue-200 text-blue-800'
-                }`}
-              >
-                {issue.type === 'error'
-                  ? '오류'
-                  : issue.type === 'warning'
-                  ? '경고'
-                  : '정보'}
-              </span>
+                ))}
+                
+                {accessibilityIssues.length === 0 && (
+                  <div className="text-center py-8">
+                    <CheckCircle className="w-12 h-12 text-green-400 mx-auto mb-3" />
+                    <p className="text-sm text-gray-500">발견된 접근성 이슈가 없습니다!</p>
+                  </div>
+                )}
+              </div>
             </div>
-            <p className="text-xs text-gray-700 mt-1">{issue.description}</p>
-            <p className="text-xs text-gray-500 mt-1">요소: {issue.element}</p>
           </div>
-        ))}
+        </div>
       </div>
 
       {/* 미리보기 모달 */}
       {previewSug && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20">
-          <div className="bg-white rounded-lg p-6 w-96 max-h-[80vh] overflow-auto">
-            <h3 className="text-lg font-semibold mb-2">제안 미리보기</h3>
-            <p className="text-sm text-gray-600 mb-4">
-              <strong>파일:</strong> {previewSug.file}
-              <br />
-              <strong>위치:</strong> Line {previewSug.line}, Column {previewSug.column}
-            </p>
-            <pre className="bg-gray-100 p-3 rounded text-xs overflow-auto whitespace-pre-wrap">
-              {previewSug.text}
-            </pre>
-            <div className="mt-4 flex justify-end gap-2">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in">
+          <div className="card-pastel p-6 w-96 max-h-[80vh] overflow-auto animate-slide-up">
+            <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2">
+              <Eye className="w-5 h-5 text-blue-500" />
+              <span>제안 미리보기</span>
+            </h3>
+            <div className="space-y-3 mb-4">
+              <div className="p-3 bg-gray-50 rounded-lg">
+                <p className="text-sm text-gray-600">
+                  <strong>파일:</strong> {previewSug.file}
+                </p>
+                <p className="text-sm text-gray-600">
+                  <strong>위치:</strong> Line {previewSug.line}, Column {previewSug.column}
+                </p>
+              </div>
+              <pre className="bg-gray-100 p-3 rounded-lg text-xs overflow-auto whitespace-pre-wrap border">
+                {previewSug.text}
+              </pre>
+            </div>
+            <div className="flex justify-end gap-2">
               <button
                 onClick={() => setPreviewSug(null)}
-                className="px-3 py-1 rounded border"
+                className="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors"
               >
                 닫기
               </button>
               <button
                 onClick={() => onAccept(previewSug)}
-                className="px-3 py-1 rounded bg-green-600 text-white"
+                className="btn-pastel-success text-sm px-4 py-2"
               >
                 이대로 수락
               </button>

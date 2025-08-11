@@ -1,46 +1,88 @@
-# Getting Started with Create React App
+# Flutter Accessibility Checker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Flutter 앱의 접근성을 분석하고 개선하는 AI 기반 도구입니다.
 
-## Available Scripts
+## 🚀 시작하기
 
-In the project directory, you can run:
+### 1. 의존성 설치
+```bash
+npm install
+```
 
-### `npm start`
+### 2. 환경변수 설정
+프로젝트 루트에 `.env` 파일을 생성하고 다음 내용을 추가하세요:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```bash
+# OpenAI API 키 (필수)
+REACT_APP_OPENAI_API_KEY=your_openai_api_key_here
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# Anthropic API 키 (선택사항)
+REACT_APP_ANTHROPIC_API_KEY=your_anthropic_api_key_here
 
-### `npm test`
+# Google AI API 키 (선택사항)
+REACT_APP_GOOGLE_API_KEY=your_google_api_key_here
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**중요:** `.env` 파일은 `.gitignore`에 포함되어 있으므로 Git에 커밋되지 않습니다.
 
-### `npm run build`
+### 3. 개발 서버 실행
+```bash
+npm start
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+앱이 [http://localhost:3000](http://localhost:3000)에서 실행됩니다.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🔧 환경변수 주입
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+이 프로젝트는 빌드 시점에 환경변수를 자동으로 주입합니다:
 
-### `npm run eject`
+- `npm start` 실행 시 `prestart` 스크립트가 자동으로 실행됩니다
+- 환경변수가 `public/env-config.js` 파일에 주입됩니다
+- 브라우저에서 `window._env_` 객체로 접근할 수 있습니다
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 📁 프로젝트 구조
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+react-app/
+├── public/
+│   ├── env-config.js     # 환경변수 주입 파일
+│   └── index.html
+├── scripts/
+│   └── env.js           # 환경변수 주입 스크립트
+├── src/
+│   ├── components/      # React 컴포넌트
+│   ├── services/        # API 서비스
+│   └── ...
+└── package.json
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## 🎯 주요 기능
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- **AI 기반 접근성 분석**: GPT-4, Claude, Gemini 모델 지원
+- **실시간 채팅**: AI와 대화하며 접근성 개선 방안 논의
+- **코드 제안**: 구체적인 Flutter 코드 수정 제안
+- **사용자 저니 분석**: PlantUML 다이어그램으로 시각화
+- **WCAG 2.2 준수**: 최신 접근성 가이드라인 적용
 
-## Learn More
+## 🔍 사용법
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. **AI 모델 설정**: 우측 상단의 설정 버튼에서 API 키와 모델을 선택
+2. **프로젝트 분석**: 채팅 버튼을 클릭하여 AI와 대화 시작
+3. **접근성 개선**: AI의 제안을 바탕으로 코드 수정
+4. **레포트 생성**: 분석 결과를 PDF로 다운로드
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🛠️ 개발
+
+### 빌드
+```bash
+npm run build
+```
+
+### 테스트
+```bash
+npm test
+```
+
+## �� 라이선스
+
+MIT License

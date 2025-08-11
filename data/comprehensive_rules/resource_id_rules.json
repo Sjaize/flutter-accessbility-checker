@@ -1,0 +1,3359 @@
+{
+  "backBtn": [
+    "go back",
+    "previous",
+    "go to back"
+  ],
+  "tab_activity": [
+    "view activity",
+    "open activity menu",
+    "this is the activity button"
+  ],
+  "tab_artist": [
+    "click to view artist",
+    "open artist page",
+    "artist button"
+  ],
+  "tab_camera": [
+    "open camera",
+    "take photo",
+    "open the camera"
+  ],
+  "tab_circle": [
+    "go to my circle",
+    "the people circle widget",
+    "open friends tab"
+  ],
+  "update_position_button": [
+    "location toggle",
+    "open navigation",
+    "open gps"
+  ],
+  "history_button": [
+    "display time",
+    "time option",
+    "enter timer"
+  ],
+  "search_button": [
+    "search",
+    "search option",
+    "search the map"
+  ],
+  "fragment_history__navButton": [
+    "search",
+    "search for numbers",
+    "search phone number"
+  ],
+  "folders": [
+    "open the file",
+    "open this account",
+    "download all files of that email"
+  ],
+  "compassIcon": [
+    "direction compass",
+    "north and south",
+    "toggle compass"
+  ],
+  "btnMenu": [
+    "open menu",
+    "menu",
+    "open main menu"
+  ],
+  "btnRefres": [
+    "refresh",
+    "go to refresh",
+    "refresh the map image"
+  ],
+  "btnSearch": [
+    "search",
+    "go do serch",
+    "opens the search function"
+  ],
+  "btnLocation": [
+    "center in my location",
+    "locate your location",
+    "use compass for direction"
+  ],
+  "btnStar": [
+    "add to favorites",
+    "bookmark this",
+    "add favorites"
+  ],
+  "btnSettings": [
+    "go to settings",
+    "open settings",
+    "go to setting option"
+  ],
+  "btn_edit_name": [
+    "edit",
+    "edit option",
+    "edit the plant name"
+  ],
+  "manage_users_list_item_more": [
+    "click setting",
+    "more options for user",
+    "toggle to more options tab to more options"
+  ],
+  "main_tabbed_iv_user_account_photo": [
+    "sign in",
+    "go to profile",
+    "profile view option"
+  ],
+  "layout_image_poster": [
+    "movie poster",
+    "view information on movie named arrival",
+    "view movie details"
+  ],
+  "image_star": [
+    "add to favorites",
+    "save as favorite",
+    "favorite"
+  ],
+  "image_map": [
+    "distance by car",
+    "directions by car",
+    "get directions"
+  ],
+  "search_btn": [
+    "search",
+    "go to next",
+    "next"
+  ],
+  "location": [
+    "go to current location",
+    "zoom in or zoom out the map"
+  ],
+  "list": [
+    "get the list",
+    "open list",
+    "show list"
+  ],
+  "validateable_text_view_clear_button": [
+    "delete text",
+    "reset password input"
+  ],
+  "validateable_text_view_right_image": [
+    "done",
+    "password correct"
+  ],
+  "btn_pro": [
+    "unlock special feature",
+    "upgrade profile to pro option",
+    "upgrade to pro"
+  ],
+  "imgDelete": [
+    "close the text field",
+    "delete in the search option",
+    "clear data field"
+  ],
+  "btnReport": [
+    "open chat box",
+    "send message",
+    "use chat"
+  ],
+  "action_icon_image": [
+    "call business",
+    "call",
+    "call location"
+  ],
+  "Widgets_TitleBar_ButtonLeft": [
+    "menu",
+    "open menu",
+    "go to menu"
+  ],
+  "Widgets_TitleBar_ButtonRight": [
+    "chat",
+    "messages",
+    "open chat"
+  ],
+  "img_edit_datetime": [
+    "change the date",
+    "edit item"
+  ],
+  "img_edit_custom_text": [
+    "edit message",
+    "edit text"
+  ],
+  "ad_action_image": [
+    "opens the scoot app in the app store",
+    "scroll down",
+    "advertisement information"
+  ],
+  "btn_cancel": [
+    "close out of emojis",
+    "close the emoji keyboard",
+    "exit"
+  ],
+  "emoji_img_view_0": [
+    "add smiling emoji",
+    "insert a smile face",
+    "crying sticker"
+  ],
+  "emoji_img_view_1": [
+    "select angel emoji",
+    "select grin emoji",
+    "use happy emoji"
+  ],
+  "emoji_img_view_2": [
+    "smiley",
+    "wow emoji",
+    "choose face"
+  ],
+  "emoji_img_view_3": [
+    "select emoji",
+    "add a tongue out emoji",
+    "derp smiley"
+  ],
+  "emoji_img_view_4": [
+    "cool emoji",
+    "cool smiley",
+    "insert an emoji"
+  ],
+  "emoji_img_view_5": [
+    "heart eye emoji",
+    "insert love smiley emoji",
+    "love face"
+  ],
+  "emoji_img_view_6": [
+    "add crying emoji to chat",
+    "inserts the crying emoji",
+    "select crying emoji"
+  ],
+  "setting_iv_pf": [
+    "setting",
+    "settings",
+    "settings the page"
+  ],
+  "iv_more": [
+    "lern more",
+    "more options",
+    "open drop-down menu"
+  ],
+  "options": [
+    "edit team options",
+    "menu button",
+    "view options"
+  ],
+  "btn_map": [
+    "check the map",
+    "tap for your current location"
+  ],
+  "retailer_favorite": [
+    "favorite",
+    "star",
+    "bookmark"
+  ],
+  "imageViewShareIcon": [
+    "share the article",
+    "share article",
+    "article sharing button"
+  ],
+  "imageViewReadLaterIcon": [
+    "bookmark page",
+    "bookmark article",
+    "bookmark the article"
+  ],
+  "ivSetting": [
+    "open menu",
+    "more options",
+    "additional menu options"
+  ],
+  "ivRoute1": [
+    "play",
+    "play the listing",
+    "play video"
+  ],
+  "ivRouteList": [
+    "notes",
+    "open menu",
+    "show as a document"
+  ],
+  "next": [
+    "go forward",
+    "go to next page",
+    "go to next"
+  ],
+  "gu": [
+    "first page",
+    "loading"
+  ],
+  "gv": [
+    "go to next screen",
+    "next page",
+    "swipe to next"
+  ],
+  "toolbar_navigation": [
+    "go back",
+    "open the menu",
+    "navigate to previous screen"
+  ],
+  "ct_upper_brand_button": [
+    "record",
+    "open video",
+    "record video"
+  ],
+  "thumb1": [
+    "go to contacts",
+    "go to contacts page",
+    "call options"
+  ],
+  "btn_list_download": [
+    "download",
+    "shows exit option",
+    "remove clock app"
+  ],
+  "settings": [
+    "go to settings",
+    "settings",
+    "open settings"
+  ],
+  "share": [
+    "share app",
+    "share the app",
+    "share the content"
+  ],
+  "more": [
+    "more options",
+    "more information",
+    "options"
+  ],
+  "ivPosition": [
+    "go to details",
+    "go to image",
+    "information"
+  ],
+  "ivMarker": [
+    "detect location",
+    "location identifier",
+    "select location"
+  ],
+  "ib_spn_left": [
+    "go back",
+    "go to previous",
+    "play the song"
+  ],
+  "ib_spn_right": [
+    "go forward",
+    "goto next menu",
+    "icon to go next"
+  ],
+  "iv_overflow_menu_card": [
+    "more options",
+    "open options for food",
+    "show more options"
+  ],
+  "action_search": [
+    "search",
+    "open magnify glass"
+  ],
+  "ub__storefront_toolbar_up_arrow": [
+    "back to previous screen",
+    "go back",
+    "go to previous"
+  ],
+  "ub__storefront_toolbar_share_restaurant": [
+    "get link to share",
+    "share page",
+    "share the recipe"
+  ],
+  "navigation_bar_scroll_to_right_button": [
+    "next option",
+    "next tab",
+    "show more"
+  ],
+  "share_button": [
+    "share the article",
+    "change the location",
+    "share"
+  ],
+  "layer_button": [
+    "bring up a menu",
+    "show map options",
+    "filestack logo"
+  ],
+  "closeIcon": [
+    "go back",
+    "go to previous"
+  ],
+  "Play2": [
+    "go back",
+    "play cradle carousel"
+  ],
+  "Play17": [
+    "sleep noise option",
+    "white noise"
+  ],
+  "Play15": [
+    "cleaning",
+    "select the option"
+  ],
+  "Play16": [
+    "enable hair dryer sound",
+    "hair dryer"
+  ],
+  "Play8": [
+    "heart option",
+    "play heartbeat sound"
+  ],
+  "Play11": [
+    "choose the rain sound",
+    "rain",
+    "rainy"
+  ],
+  "Play12": [
+    "cattails icon",
+    "garden"
+  ],
+  "Play9": [
+    "car cleaning",
+    "car vaccum clken",
+    "select car sound"
+  ],
+  "Minus": [
+    "raise the volume",
+    "sound less"
+  ],
+  "Plus": [
+    "increase time",
+    "increase timer minutes",
+    "increase volume"
+  ],
+  "Loop": [
+    "play back",
+    "play white noise indefinitely",
+    "repeat"
+  ],
+  "Play": [
+    "go to next sound",
+    "play button"
+  ],
+  "twitter": [
+    "follow on twitter",
+    "visit twitter page"
+  ],
+  "facebook": [
+    "facebook contact",
+    "follow on facebook",
+    "follow us on facebook"
+  ],
+  "instagram": [
+    "select instagram",
+    "view instagram profile",
+    "visit instagram"
+  ],
+  "text_input_password_toggle": [
+    "eye button",
+    "see password",
+    "toggle password visibility"
+  ],
+  "mainMenuImageView": [
+    "open menu",
+    "options",
+    "open drop down menu"
+  ],
+  "syncImageView": [
+    "go to profile",
+    "profile",
+    "go to personal profile"
+  ],
+  "addPantryButton": [
+    "add stock"
+  ],
+  "buzzEditFieldCamera": [
+    "camera option",
+    "click camera icon",
+    "take photo to diplay"
+  ],
+  "buzzHeaderUserPic": [
+    "click profile picture option",
+    "click to view profile",
+    "display picture of joshua velazquez 27"
+  ],
+  "buzzHeaderSettingsButton": [
+    "click to hide the details",
+    "get more option",
+    "profile details option"
+  ],
+  "locSpinnerBtn": [
+    "see previous searches",
+    "select favorite locations with dropdown menu"
+  ],
+  "iv_back": [
+    "go back",
+    "go back to menu"
+  ],
+  "fl_fragment_recorder_flash_button": [
+    "go faster",
+    "turn on flash"
+  ],
+  "fl_fragment_recorder_flip_button": [
+    "change camera view",
+    "rotate camera",
+    "select image"
+  ],
+  "offer_save": [
+    "select coupon",
+    "set favorite",
+    "add to favorites"
+  ],
+  "offer_share": [
+    "share button",
+    "share the data",
+    "share the deal"
+  ],
+  "offer_favorite": [
+    "favorite dollar tree",
+    "favorite this",
+    "mark as a favorite"
+  ],
+  "leftButton": [
+    "go back",
+    "go to previous",
+    "to go back to the previous page"
+  ],
+  "homeButton": [
+    "go home",
+    "go to home page",
+    "go to home screen"
+  ],
+  "rightButton": [
+    "next page",
+    "go to next page",
+    "go forward"
+  ],
+  "beard": [
+    "add a moustache",
+    "add mustache",
+    "apply mustache on face"
+  ],
+  "glasses": [
+    "add glasses",
+    "add glasses to the image"
+  ],
+  "eyebrows": [
+    "add the effects",
+    "apply eyebrows",
+    "change eyebrows"
+  ],
+  "moreOptions": [
+    "more options",
+    "open details",
+    "opens an options menu"
+  ],
+  "ppRecentIcon": [
+    "landscape /portrait",
+    "see the gallery"
+  ],
+  "ppCamIcon": [
+    "open camera",
+    "take a photo",
+    "take picture"
+  ],
+  "ppFacebookIcon": [
+    "link to facebook",
+    "share to facebook",
+    "view facebook profile"
+  ],
+  "up_item": [
+    "go do colused",
+    "to close the settings option",
+    "close"
+  ],
+  "btn_prev1": [
+    "go back",
+    "go to previous",
+    "go to back"
+  ],
+  "btn_set": [
+    "download",
+    "download option",
+    "export design"
+  ],
+  "btn_save": [
+    "save image",
+    "save",
+    "save this"
+  ],
+  "btn_share": [
+    "share",
+    "share verse",
+    "share image"
+  ],
+  "btn_next1": [
+    "go to next",
+    "go forward",
+    "next image"
+  ],
+  "btn_back": [
+    "go back",
+    "cancel this operation",
+    "close camera"
+  ],
+  "password_visibility": [
+    "show password",
+    "toggle password visibility"
+  ],
+  "caret": [
+    "detail arrow",
+    "open drop down menu",
+    "page display"
+  ],
+  "navigation_bar_scroll_to_left_button": [
+    "go back",
+    "scroll left",
+    "previous tabs"
+  ],
+  "profile_activity_menu_container_chat": [
+    "open chat",
+    "comments option",
+    "message option"
+  ],
+  "profile_activity_menu_container_profile": [
+    "go to profile",
+    "see profile",
+    "view profile"
+  ],
+  "profile_activity_menu_container_hidevisit": [
+    "show images",
+    "toggle public view",
+    "turn off visibility"
+  ],
+  "activity_search__navButton": [
+    "go back",
+    "go back delete info arrow new search",
+    "go to previous"
+  ],
+  "search_card__clearTextButton": [
+    "cancel",
+    "clear out phone number",
+    "delete input"
+  ],
+  "gallery_icon": [
+    "zoom",
+    "zoom in on picture",
+    "zoom into photo"
+  ],
+  "img_ctryflag": [
+    "change country",
+    "choose country"
+  ],
+  "img_whatisctry": [
+    "show help",
+    "help"
+  ],
+  "img_fav": [
+    "favorite",
+    "favorite a contact"
+  ],
+  "abLeftButton": [
+    "open menu options",
+    "view menu options",
+    "menu"
+  ],
+  "searchButton": [
+    "do a search",
+    "search icon",
+    "click to search"
+  ],
+  "btn_ab_common_up": [
+    "go back",
+    "turn back",
+    "this button goes to the previous page"
+  ],
+  "register_ab_refresh": [
+    "refresh",
+    "refresh the page"
+  ],
+  "view_list_card_item_menu": [
+    "select more options",
+    "additional information for chosen subject",
+    "select entry"
+  ],
+  "view_list_card_header_menu": [
+    "more options",
+    "asking to see options",
+    "full menu option"
+  ],
+  "main_play_pause": [
+    "play music",
+    "play song"
+  ],
+  "main_next": [
+    "fast forward",
+    "play the music in question",
+    "skip song"
+  ],
+  "main_previous": [
+    "list music",
+    "open playlist queue",
+    "show queue"
+  ],
+  "help": [
+    "help button",
+    "ask a question",
+    "faq section"
+  ],
+  "contents_page_back_btn": [
+    "go back",
+    "back button"
+  ],
+  "imgCopy": [
+    "copy button",
+    "copy selected",
+    "open new sheet"
+  ],
+  "imgInsert": [
+    "open document",
+    "save this note"
+  ],
+  "imgSave": [
+    "camara",
+    "download program"
+  ],
+  "imgLoad": [
+    "etc",
+    "open file folder"
+  ],
+  "imgRun": [
+    "play button",
+    "play program"
+  ],
+  "btnHome": [
+    "go to home page",
+    "go home",
+    "etc"
+  ],
+  "filterListButton": [
+    "expand options",
+    "trending menu"
+  ],
+  "overFlowMenu": [
+    "more options",
+    "expand the menu options for the stock",
+    "settings button for stock"
+  ],
+  "back_button": [
+    "go back",
+    "fast rewind",
+    "go to previous track"
+  ],
+  "play_button": [
+    "play",
+    "play button",
+    "play music"
+  ],
+  "forward_button": [
+    "go to next",
+    "fast forward",
+    "go forward"
+  ],
+  "eject_button": [
+    "expand player controls",
+    "expand playlist",
+    "expand player options"
+  ],
+  "location_button": [
+    "detect location",
+    "go to my location",
+    "toggle crosshair"
+  ],
+  "menu": [
+    "go back",
+    "open menu",
+    "open list"
+  ],
+  "imageButtonH": [
+    "record speak",
+    "turn mic on",
+    "voice recorder"
+  ],
+  "imageButtonPS": [
+    "speaker volume",
+    "volume control",
+    "volume increase"
+  ],
+  "ib_cv_favorite": [
+    "comment",
+    "star"
+  ],
+  "results_page_btn_back": [
+    "back",
+    "go back"
+  ],
+  "ad_icon": [
+    "open app page",
+    "select option",
+    "visit the worldremit app"
+  ],
+  "btn_detail_back": [
+    "back option",
+    "go back",
+    "return to previous screen"
+  ],
+  "btn_detail_description": [
+    "less info",
+    "more information about video",
+    "show details"
+  ],
+  "arrow_left": [
+    "go back",
+    "go to previous",
+    "back button"
+  ],
+  "arrow_right": [
+    "go to next page",
+    "next screen",
+    "go back"
+  ],
+  "iv_toolbar_centered_image_view": [
+    "favorite or bookmark this page",
+    "rate",
+    "shows favorited items"
+  ],
+  "ib_exercises_list_search": [
+    "look closer",
+    "look up",
+    "search"
+  ],
+  "report_control_photo_img": [
+    "add a photo",
+    "add a picture",
+    "add picture"
+  ],
+  "buttonClose": [
+    "close popup",
+    "exit share menu",
+    "close screen"
+  ],
+  "profile_activity_menu_container_quickshare": [
+    "flash option",
+    "go to battery",
+    "toggle flash"
+  ],
+  "profile_activity_btn_set_footprint": [
+    "open the romeo app",
+    "use this toggle to add to your favourites"
+  ],
+  "profile_activity_btn_delete_footprint": [
+    "click out of this option",
+    "close app",
+    "remove this button"
+  ],
+  "networkItem": [
+    "copy and share link",
+    "get link",
+    "get/copy link"
+  ],
+  "article_image": [
+    "play video",
+    "click on video",
+    "next video in the lineup"
+  ],
+  "button_titlebar_drawer": [
+    "menu",
+    "app settings",
+    "display app menu"
+  ],
+  "btn_right_image": [
+    "share",
+    "share item for sale",
+    "share this"
+  ],
+  "pic_seller": [
+    "go to profile",
+    "clip this page",
+    "zoom in on profile picture"
+  ],
+  "btn_wish": [
+    "favorite",
+    "favorite the item",
+    "make favorite"
+  ],
+  "btn_alert": [
+    "notify",
+    "setup alert",
+    "change sound option"
+  ],
+  "imgHintAndroid": [
+    "add light",
+    "open page",
+    "brightness symbol"
+  ],
+  "imgHintBuy": [
+    "dollars",
+    "enter funds or payment option",
+    "show total balance"
+  ],
+  "imageButton_indicator_intro_2": [
+    "change page",
+    "next page",
+    "switch the page"
+  ],
+  "imageButton_indicator_intro_3": [
+    "see next",
+    "third page"
+  ],
+  "footerImage": [
+    "click question mark icon",
+    "question or info box",
+    "view more information"
+  ],
+  "post_avatar": [
+    "go to user page",
+    "john smith 's avatar",
+    "toggle emoji option"
+  ],
+  "fs_headicon": [
+    "profile picture",
+    "personal photo area for avatar",
+    "toggle image box"
+  ],
+  "imageView4": [
+    "give a thumbs up",
+    "like",
+    "like button"
+  ],
+  "imageView3": [
+    "'favorite this page",
+    "add to favourite list",
+    "select love item"
+  ],
+  "shareButton": [
+    "go back",
+    "move forward"
+  ],
+  "btn_close": [
+    "cancel",
+    "close the page",
+    "close the window"
+  ],
+  "icon_info": [
+    "press message icon",
+    "show info",
+    "view info on page"
+  ],
+  "icon_left": [
+    "go back",
+    "go to previous day",
+    "view previous date"
+  ],
+  "icon_right": [
+    "forward the date",
+    "move forward a day",
+    "next day"
+  ],
+  "icon_close": [
+    "close the current page",
+    "close this",
+    "exit"
+  ],
+  "icon_audio": [
+    "control sound",
+    "hear the word spoken",
+    "toggle volume settings"
+  ],
+  "icon_favorite": [
+    "favorite",
+    "tap to make favorite"
+  ],
+  "icon_share": [
+    "displays more options",
+    "share",
+    "share link"
+  ],
+  "backward": [
+    "go back",
+    "scroll left"
+  ],
+  "forward": [
+    "go forward",
+    "go to next page",
+    "next post"
+  ],
+  "leftBtn": [
+    "go back"
+  ],
+  "roleIcon": [
+    "check role",
+    "select role option",
+    "change role"
+  ],
+  "sceneIcon": [
+    "go to scene",
+    "scene options",
+    "change the scene"
+  ],
+  "dialogIcon": [
+    "have a dialog conversation with someone else",
+    "open dialog",
+    "put a dialog button"
+  ],
+  "toolIcon": [
+    "add prop",
+    "add props",
+    "app delete"
+  ],
+  "frameIcon": [
+    "change frame",
+    "frame options",
+    "select frame"
+  ],
+  "paintIcon": [
+    "select brush tool",
+    "brush the picture",
+    "select brush"
+  ],
+  "del_btn": [
+    "delete option",
+    "delete selected bookmark",
+    "delete the content what we do n't want"
+  ],
+  "hd_setting": [
+    "go to settings",
+    "settings",
+    "news"
+  ],
+  "hd_refresh_iv": [
+    "refresh",
+    "refresh page",
+    "go back"
+  ],
+  "like_image_view": [
+    "add to favorites",
+    "favorite item",
+    "mark as favorite"
+  ],
+  "imageViewFullscreen": [
+    "full screen",
+    "switch to full screen"
+  ],
+  "btn_flash": [
+    "the button is used to set the camera 's flash mode",
+    "toggle flash",
+    "toggle flash option"
+  ],
+  "btn_switch": [
+    "make camera face other direction",
+    "rotate to front/back camera",
+    "toggle front camera"
+  ],
+  "btn_capture": [
+    "click photo",
+    "take a photo",
+    "take a picture"
+  ],
+  "btn_img": [
+    "go to photo gallery",
+    "photo"
+  ],
+  "imageButtonHMW": [
+    "display help for this page",
+    "get help"
+  ],
+  "re_fresh": [
+    "press refresh",
+    "refresh the page",
+    "refreshes current screen"
+  ],
+  "tabletStateImage": [
+    "change page orientation",
+    "phone compatable"
+  ],
+  "play_btn": [
+    "play",
+    "play song",
+    "play the video"
+  ],
+  "scroll_effects_button": [
+    "go to the next page",
+    "scroll right",
+    "view more sound effects"
+  ],
+  "imageView1": [
+    "hear the pronunciation loud",
+    "sound config",
+    "volume modification"
+  ],
+  "solo_search_ad_flag": [
+    "advertisement label",
+    "view advertisement"
+  ],
+  "select_image": [
+    "select wallpaper",
+    "wallpaper",
+    "wallpaper button"
+  ],
+  "select_style": [
+    "select style",
+    "change appearance"
+  ],
+  "select_password": [
+    "need to add password",
+    "password pattern",
+    "set screen lock password"
+  ],
+  "select_feedback": [
+    "leave feedback",
+    "select feedback",
+    "send feedback"
+  ],
+  "select_try": [
+    "open shuffle settings go to shuffle settings",
+    "shuffle"
+  ],
+  "button_clear": [
+    "delete button",
+    "delete message",
+    "garbage"
+  ],
+  "button_mute": [
+    "set alarm",
+    "show alarms",
+    "toggle alerts"
+  ],
+  "imageview_close": [
+    "close alert",
+    "closes alert message",
+    "x button"
+  ],
+  "button_attach": [
+    "add an attachment",
+    "click to attach file",
+    "link media and send as message"
+  ],
+  "button_send": [
+    "send message",
+    "submit comment",
+    "send"
+  ],
+  "appwall_back": [
+    "go back",
+    "go back to prior screen option"
+  ],
+  "user_image_view": [
+    "go back",
+    "go to previous"
+  ],
+  "imageButton_star": [
+    "add to favorites",
+    "favorite",
+    "include in favorite"
+  ],
+  "imageView_audio": [
+    "play sound",
+    "listen",
+    "listen to this sound"
+  ],
+  "footer_button": [
+    "go to more options",
+    "more button",
+    "options"
+  ],
+  "tags_close": [
+    "close button",
+    "exit area",
+    "exit current screen"
+  ],
+  "create_account_password_hint_image": [
+    "help",
+    "password find button"
+  ],
+  "header_left_schedule": [
+    "go back"
+  ],
+  "map_button_map": [
+    "map icon",
+    "show map",
+    "show world map"
+  ],
+  "map_button_expand": [
+    "expand map",
+    "fit to screen",
+    "full screen"
+  ],
+  "expand_button": [
+    "it will tell more about that channel",
+    "show details",
+    "view link"
+  ],
+  "minusButton": [
+    "delete item",
+    "this button is here if you want more than one item select quantity",
+    "decrease reps"
+  ],
+  "plusButton": [
+    "increase quantity",
+    "add 1",
+    "quantity increase"
+  ],
+  "addMediaFromChooserAlias": [
+    "adds picture",
+    "open camera",
+    "upload picture"
+  ],
+  "addtolist": [
+    "add new calculation",
+    "calculate multi-item",
+    "go to add option"
+  ],
+  "done": [
+    "checkpoint enter",
+    "continue",
+    "select option"
+  ],
+  "imageButton_calender": [
+    "open calendar"
+  ],
+  "imageButton_genderArrow": [
+    "ddrop down for selection",
+    "drop menu on gender",
+    "more option to select"
+  ],
+  "imageButton_raceArrow": [
+    "dropdown to view the ethinicity",
+    "select ethnicity",
+    "select race"
+  ],
+  "btn_image_share": [
+    "add a photo",
+    "add image",
+    "open quote as image"
+  ],
+  "iv_right_icon": [
+    "reveal password entered",
+    "show the password"
+  ],
+  "menuButton": [
+    "open category",
+    "show more",
+    "expand"
+  ],
+  "nativeAdIcon": [
+    "open application",
+    "stop searching",
+    "the button provides more information on the vivid seats app"
+  ],
+  "actionbar_button": [
+    "go back",
+    "return to previous page",
+    "chose the new item"
+  ],
+  "conversation_input_submit_button": [
+    "submit comment",
+    "send the message"
+  ],
+  "act_set_city_back": [
+    "go back",
+    "to return to the start menu of the phone or application"
+  ],
+  "delete_common": [
+    "delete",
+    "delete the activity"
+  ],
+  "bt_get_calls": [
+    "go to cart",
+    "go to shopping cart"
+  ],
+  "main_page_menu_btn": [
+    "drop down menu",
+    "go to main menu",
+    "open menu"
+  ],
+  "main_page_search_btn": [
+    "search",
+    "search function",
+    "search up something"
+  ],
+  "menu_btn": [
+    "add a text",
+    "add image gifs emojis etc",
+    "to send sticker"
+  ],
+  "smileys_btn": [
+    "add emoji",
+    "it has smileys to chat"
+  ],
+  "giphy_btn": [
+    "attach gif",
+    "browse gifs",
+    "find a gif"
+  ],
+  "send": [
+    "send",
+    "send by email"
+  ],
+  "btn_cancel_bookmark": [
+    "go back"
+  ],
+  "buttonLeft": [
+    "go to previous",
+    "go to previous page",
+    "previous information"
+  ],
+  "buttonRight": [
+    "go forward",
+    "go to the next",
+    "move to the next screen"
+  ],
+  "play_anime": [
+    "play episode",
+    "play video",
+    "display permission instructions"
+  ],
+  "download_anime": [
+    "download option",
+    "download episode",
+    "download"
+  ],
+  "btn_change_directions": [
+    "reverse directions",
+    "change destination",
+    "direction"
+  ],
+  "likeBtn": [
+    "like button",
+    "thumbs-up comment",
+    "click like option"
+  ],
+  "dislikeBtn": [
+    "dislike comment",
+    "click to dislike",
+    "downvote comment"
+  ],
+  "imgTellAFriend": [
+    "check user account",
+    "profile button",
+    "see profile"
+  ],
+  "imageBtnBuy": [
+    "see internet",
+    "shoppin cart option",
+    "go to shop"
+  ],
+  "btTalk": [
+    "activate microphone",
+    "change to singing",
+    "see volume menu"
+  ],
+  "btGuitarra": [
+    "guitar button",
+    "guitar option button",
+    "play guitar"
+  ],
+  "btTrompeta": [
+    "play horn",
+    "select trumpet",
+    "switch to trumpet"
+  ],
+  "btBateria": [
+    "drum",
+    "open drums",
+    "plays drums"
+  ],
+  "flechaIzq": [
+    "go back",
+    "back bace"
+  ],
+  "flechaDer": [
+    "go to the next",
+    "next set",
+    "scroll options right"
+  ],
+  "ibtCancion2": [
+    "select option 2",
+    "select song two"
+  ],
+  "ibtCancion3": [
+    "go to third section",
+    "number selection",
+    "the number three"
+  ],
+  "ibtCancion4": [
+    "four",
+    "number 4",
+    "select animation 4"
+  ],
+  "ibtCancion5": [
+    "instrument 5",
+    "select number 5",
+    "track 5 page 5"
+  ],
+  "ibtCancion6": [
+    "choose option 6",
+    "open music 6",
+    "press number six"
+  ],
+  "ibtCancion7": [
+    "number seven",
+    "select seven"
+  ],
+  "ibtCancion8": [
+    "click on the number 8",
+    "instrument 8",
+    "switch to 8 action"
+  ],
+  "user_avatar": [
+    "go back",
+    "profile picture",
+    "redirects to the singer 's page"
+  ],
+  "btn_pronounce": [
+    "listen to audio",
+    "turn on sound",
+    "mute sound"
+  ],
+  "close_btn": [
+    "close",
+    "close button"
+  ],
+  "imageview_search": [
+    "go to search",
+    "search",
+    "search button"
+  ],
+  "imagebutton_content_location": [
+    "globe icon",
+    "globe option",
+    "select globe option"
+  ],
+  "download": [
+    "download this item",
+    "download",
+    "go to download"
+  ],
+  "ShelfLeftButton": [
+    "go back",
+    "go previous"
+  ],
+  "ShelfRightButton": [
+    "go forward",
+    "go to next page"
+  ],
+  "ics_menu_button": [
+    "menu option",
+    "options menu",
+    "options"
+  ],
+  "channelShowOptionsIcon": [
+    "more options",
+    "show more options",
+    "open menu options"
+  ],
+  "light": [
+    "change flash",
+    "disable/enable flash",
+    "flash setting"
+  ],
+  "takepicture": [
+    "take photo",
+    "take picture",
+    "this button would take a picture"
+  ],
+  "map_category": [
+    "drop down menu",
+    "option",
+    "drop menu"
+  ],
+  "title_back": [
+    "go back",
+    "turn back"
+  ],
+  "btnHelp": [
+    "help button",
+    "show help"
+  ],
+  "share_image_view": [
+    "share on whatsapp",
+    "share the article",
+    "share this item"
+  ],
+  "imgViewVolumeDown": [
+    "lower volume",
+    "volume down",
+    "volume option"
+  ],
+  "imgViewVolumeUp": [
+    "full volume indication",
+    "rise the volume",
+    "volume"
+  ],
+  "btnVolumeMute": [
+    "mute audio",
+    "mute sound",
+    "mute volume"
+  ],
+  "imgNotificationArea": [
+    "explain the method of working",
+    "start demo"
+  ],
+  "imgMoreMenu": [
+    "menu",
+    "see more options"
+  ],
+  "close_dialog": [
+    "close the current screen",
+    "exit",
+    "exit this pop-up"
+  ],
+  "addIncBtn": [
+    "add button for bills receipts",
+    "add option",
+    "displays more options"
+  ],
+  "addExpBtn": [
+    "add a payment or debit",
+    "move account position up and down in account list",
+    "select to delete"
+  ],
+  "addTransferBtn": [
+    "forward and back button",
+    "reverse these accounts"
+  ],
+  "address_view_gps_button": [
+    "locate current location",
+    "open gps",
+    "select track the city"
+  ],
+  "tutorial_ximageview": [
+    "close",
+    "close page",
+    "close tutorial"
+  ],
+  "top_bar_right_icon": [
+    "confirm actions",
+    "save the page",
+    "select icon"
+  ],
+  "menu_button": [
+    "open menu",
+    "go back",
+    "see more"
+  ],
+  "ch_news_detail_toolbar_back_button": [
+    "go back",
+    "go back a page",
+    "go to previous"
+  ],
+  "ch_news_detail_toolbar_share_button": [
+    "follow to new locations",
+    "open share options"
+  ],
+  "sc_img_left": [
+    "back",
+    "go back image",
+    "previous option"
+  ],
+  "sc_img_right": [
+    "next",
+    "next story"
+  ],
+  "social_facebook": [
+    "post to facebook",
+    "share on facebook"
+  ],
+  "social_twitter": [
+    "share page on twitter",
+    "twitter"
+  ],
+  "social_google": [
+    "access by google plus",
+    "google",
+    "visit on google"
+  ],
+  "social_share": [
+    "share app",
+    "share the app"
+  ],
+  "btn_next": [
+    "go to next",
+    "go to next page",
+    "go forward"
+  ],
+  "btn_price_drop": [
+    "buy and sell pre-owned designer items",
+    "share the post",
+    "stadistics"
+  ],
+  "pd_placeImage": [
+    "select to see photos",
+    "tapping this will show me 10 photos of the restaurant",
+    "view more photos"
+  ],
+  "to_reading": [
+    "pin marking",
+    "skip page"
+  ],
+  "to_day": [
+    "go to next",
+    "skip verses"
+  ],
+  "trackOneImageButton": [
+    "open sound",
+    "quality of the picture"
+  ],
+  "trackThreeImageButton": [
+    "crackling fire video",
+    "play video"
+  ],
+  "audioModeOn": [
+    "toggle audio mode",
+    "toggle audio mode option"
+  ],
+  "list_view_favorited": [
+    "add to favorites",
+    "favourite",
+    "switch favorites"
+  ],
+  "list_view_not_favorited": [
+    "add to favorites",
+    "favorite audio track",
+    "toggle favorite"
+  ],
+  "line1": [
+    "first page",
+    "open selected window"
+  ],
+  "line2": [
+    "commute location option",
+    "select 2"
+  ],
+  "line3": [
+    "go to step 3",
+    "third bus stop",
+    "view alternate route"
+  ],
+  "line5": [
+    "5 train button",
+    "este e o numero 5",
+    "view 5th step"
+  ],
+  "line6": [
+    "click on number 6",
+    "este e o numero 6",
+    "view train 6 times"
+  ],
+  "linea": [
+    "get information about a line",
+    "other stations",
+    "view step a"
+  ],
+  "linec": [
+    "select c",
+    "select option c select route c",
+    "view station"
+  ],
+  "imageView0": [
+    "commute location button",
+    "select number 2 top downtown"
+  ],
+  "hp_refer": [
+    "open referral link",
+    "refer a friend",
+    "refera a friend"
+  ],
+  "preferencesButton": [
+    "open settings menu",
+    "options/settings",
+    "view settings"
+  ],
+  "btn_delete": [
+    "delete",
+    "tap to delete everything",
+    "delete photo"
+  ],
+  "heartImageView": [
+    "favorite an item",
+    "like the dress you love",
+    "toggle like"
+  ],
+  "imgBtnSearch": [
+    "get my current location",
+    "show current location",
+    "detect location"
+  ],
+  "iv_setting_back": [
+    "go back",
+    "go to back",
+    "salud para tu bateria"
+  ],
+  "menu_settings": [
+    "app name placeholder",
+    "go homepage",
+    "go to homepage"
+  ],
+  "imgMenu": [
+    "view more options",
+    "more option",
+    "menu icon"
+  ],
+  "imgIcon": [
+    "circuit map",
+    "pulse button",
+    "look closely at the photo"
+  ],
+  "back_btn": [
+    "go back",
+    "return to previous menu"
+  ],
+  "imageButtonAdd": [
+    "add business card",
+    "add description",
+    "compose new mail"
+  ],
+  "imageViewPicture": [
+    "change profile",
+    "profile picture",
+    "set avatar"
+  ],
+  "btn_export_from_edit": [
+    "share pdf",
+    "upload"
+  ],
+  "btn_move": [
+    "go to sd card",
+    "next page",
+    "save document"
+  ],
+  "btn_merge": [
+    "copy the pdf page",
+    "open new tab"
+  ],
+  "back": [
+    "go back",
+    "go to previous screen"
+  ],
+  "IB_ZOOMPAN": [
+    "zoom in"
+  ],
+  "IB_Paint": [
+    "create a picture",
+    "create image",
+    "open color palet option"
+  ],
+  "IB_Camera": [
+    "display photos",
+    "take photo",
+    "view saved images"
+  ],
+  "IB_Text": [
+    "enter text",
+    "write text"
+  ],
+  "IB_Send": [
+    "send message",
+    "send wish card"
+  ],
+  "IB_Undo": [
+    "undo",
+    "go back"
+  ],
+  "IB_PhotoEffect": [
+    "open camera",
+    "take picture",
+    "toggle camera"
+  ],
+  "IB_Redo": [
+    "go back",
+    "go forward",
+    "undo"
+  ],
+  "bg_mic_button": [
+    "headphones options",
+    "play on headphones",
+    "use microphone headset"
+  ],
+  "play_state_button": [
+    "pause",
+    "pause the song",
+    "pause the sound"
+  ],
+  "appinstall_icon": [
+    "access your location",
+    "location cion"
+  ],
+  "sender_image": [
+    "accept chat",
+    "go to their profile",
+    "toggle profile"
+  ],
+  "imageView": [
+    "select album",
+    "choose album art",
+    "select album art"
+  ],
+  "ub__storefront_share_restaurant": [
+    "share page",
+    "share the friends"
+  ],
+  "actionbar_search_back": [
+    "go back"
+  ],
+  "query_delete": [
+    "cancel",
+    "clears the search area",
+    "click on cross button where korea is written"
+  ],
+  "category_delete": [
+    "clear the selection",
+    "close botton",
+    "delete deal category"
+  ],
+  "airport_delete": [
+    "clear the option selected for airports",
+    "close airports",
+    "enable/ disable filter"
+  ],
+  "start_date_delete": [
+    "clear from date",
+    "click to close option",
+    "dismiss the content"
+  ],
+  "end_date_delete": [
+    "clear datre",
+    "click to erace",
+    "delet option"
+  ],
+  "hotel_stars_delete": [
+    "choose cancel button",
+    "clear option for hotel min"
+  ],
+  "hotel_food_delete": [
+    "click on meals included min cross button",
+    "the closer button",
+    "undo option that was submitted"
+  ],
+  "min_price_delete": [
+    "cancel",
+    "click to close",
+    "close minimum price option"
+  ],
+  "max_price_delete": [
+    "clear maximum price",
+    "close button",
+    "remove maximum price filter"
+  ],
+  "cancel": [
+    "close menu",
+    "close page",
+    "exit out of page"
+  ],
+  "left_image": [
+    "go back",
+    "switch the previous page"
+  ],
+  "right_image": [
+    "export item",
+    "go to previous",
+    "share item"
+  ],
+  "detail_favor": [
+    "add to wishlish",
+    "favorite",
+    "like this item"
+  ],
+  "tab_print": [
+    "print",
+    "print picture",
+    "print artist info"
+  ],
+  "newsfeed_btn": [
+    "go to headlines",
+    "news",
+    "view news and post"
+  ],
+  "chats_btn": [
+    "message",
+    "start chat",
+    "view message"
+  ],
+  "btn_search": [
+    "search",
+    "search button",
+    "go to search"
+  ],
+  "btn_clear": [
+    "clear search text",
+    "erase text",
+    "remove typed entry"
+  ],
+  "circleView": [
+    "change profile picture",
+    "update your picture"
+  ],
+  "btn_add": [
+    "add new",
+    "zoom in on image"
+  ],
+  "btn_export": [
+    "share",
+    "share the pdf",
+    "upload pdf"
+  ],
+  "btn_edit": [
+    "draw on image",
+    "edit picture",
+    "toggle pen"
+  ],
+  "btn_set_password": [
+    "lock the page",
+    "toggle to lock or secure document",
+    "turn on image privacy"
+  ],
+  "arrow_forward": [
+    "advance forward",
+    "go to next page",
+    "next arrow"
+  ],
+  "arrow_backward": [
+    "go back",
+    "go to previous",
+    "go back button"
+  ],
+  "btn_connect_vestiaire": [
+    "select the social media with v symbol",
+    "sign in option",
+    "sign in with vestiaire"
+  ],
+  "btn_connect_fb": [
+    "sign in with facebook",
+    "sign in with your facebook account"
+  ],
+  "btn_connect_tw": [
+    "go twitter",
+    "select the twitter symbol",
+    "twitter sign in"
+  ],
+  "register_sign_up_email_arrow_btn": [
+    "continue login with this username/email",
+    "move to next page",
+    "sign up button"
+  ],
+  "imageViewAdd": [
+    "add an image",
+    "select image"
+  ],
+  "commentBtn": [
+    "chat option",
+    "comment on the article",
+    "go to message option"
+  ],
+  "btnMoreAction": [
+    "more options",
+    "open more information",
+    "opens up more options for the post"
+  ],
+  "configuration_screen_header_close_button": [
+    "go back",
+    "back",
+    "go to previous"
+  ],
+  "facebookRemovedDismissButton": [
+    "close note",
+    "close window",
+    "exit registration"
+  ],
+  "iv_signal": [
+    "connect to wi-fi network",
+    "open wifi settings",
+    "connect to wifi network"
+  ],
+  "button_create_wave": [
+    "button to start wave",
+    "wave homescreen"
+  ],
+  "musicNext": [
+    "go forward",
+    "next",
+    "skip track"
+  ],
+  "musicPause": [
+    "play",
+    "toggle play or pause"
+  ],
+  "musicPrevious": [
+    "go back",
+    "scan backwards"
+  ],
+  "brightness_low": [
+    "that is the low brightness",
+    "toggle night mode"
+  ],
+  "brightness_high": [
+    "make screen brighter",
+    "sun"
+  ],
+  "buttonJumpingClock": [
+    "night mode",
+    "switch to night mode"
+  ],
+  "buttonSetting": [
+    "settings menu",
+    "settings"
+  ],
+  "flip_speedometer": [
+    "display time",
+    "show time option",
+    "view clock"
+  ],
+  "icon_menu": [
+    "drop down menu",
+    "open settings menu",
+    "see more options"
+  ],
+  "info_bar_cancel_button": [
+    "clos the window",
+    "close this sideline number",
+    "closes the support chat window"
+  ],
+  "default_native_logo": [
+    "go to covered",
+    "open the link to covered ca official site",
+    "toggle ca official site logo"
+  ],
+  "iv_left": [
+    "go back",
+    "go to previous",
+    "click arrow to go back to previous page"
+  ],
+  "product_favorite_btn": [
+    "like the product",
+    "add to favorites",
+    "click to like"
+  ],
+  "home_search_icon": [
+    "menu",
+    "open menu",
+    "view more on site"
+  ],
+  "reg_scan_card_button": [
+    "click barcode",
+    "type in membership number"
+  ],
+  "reg_info_button": [
+    "additional information",
+    "form information",
+    "information"
+  ],
+  "eula_button_agree": [
+    "agree",
+    "agree option",
+    "agree to terms"
+  ],
+  "eula_button_decline": [
+    "decline agreement",
+    "decline"
+  ],
+  "button_titlebar_return": [
+    "go back",
+    "go back to home"
+  ],
+  "tip_bill_amount_down": [
+    "delete bill amount",
+    "minus amount button",
+    "minus value"
+  ],
+  "tip_bill_amount_up": [
+    "add to bill",
+    "increase the bill amount",
+    "round up"
+  ],
+  "tip_percentage_up": [
+    "add to tip",
+    "increase tip percent",
+    "increase tip percentage"
+  ],
+  "tip_amount_down": [
+    "decrease tip",
+    "decrease tip button",
+    "decrement tip amount"
+  ],
+  "tip_amount_up": [
+    "add button",
+    "add tip amount",
+    "increase tip amount"
+  ],
+  "total_amount_down": [
+    "decrease total amount",
+    "subtract from total amount"
+  ],
+  "total_amount_up": [
+    "add money to total amount",
+    "add this item",
+    "add to cart"
+  ],
+  "no_people_down": [
+    "decrease number of people",
+    "decrease people",
+    "make amount lower"
+  ],
+  "no_people_up": [
+    "increase button",
+    "increase count",
+    "plus"
+  ],
+  "total_per_person_down": [
+    "decrease each person pays amount",
+    "subtract amount",
+    "the square button is used to decrese what each person pays"
+  ],
+  "btnPostComment": [
+    "send message",
+    "post a comment"
+  ],
+  "view_more": [
+    "menu button",
+    "see songs"
+  ],
+  "btn_top": [
+    "download the widget",
+    "return to top"
+  ],
+  "btn_create_folder": [
+    "new folder",
+    "select the file"
+  ],
+  "search_menu_item": [
+    "enter search option",
+    "open search",
+    "search"
+  ],
+  "overflow_item": [
+    "more options",
+    "open settings",
+    "settings"
+  ],
+  "attach_image": [
+    "image button",
+    "share a photo",
+    "upload a photo"
+  ],
+  "Widgets_TitleBar_ButtonCenter": [
+    "app logo",
+    "go to homepage"
+  ],
+  "pause": [
+    "pause",
+    "pause audio"
+  ],
+  "imgJoy1": [
+    "open this image",
+    "select the image for the song",
+    "switch to item"
+  ],
+  "imgJoy2": [
+    "next track",
+    "select the image for the song",
+    "switch to item"
+  ],
+  "imgJoy3": [
+    "go to next album",
+    "move to another image",
+    "play another audio"
+  ],
+  "imgJoy4": [
+    "change to another audio",
+    "the next image button"
+  ],
+  "imgJoy5": [
+    "next picture",
+    "select this option",
+    "what to play option"
+  ],
+  "button_reply": [
+    "go back",
+    "reply to comment",
+    "go to previous"
+  ],
+  "button_pause_play": [
+    "pause",
+    "play",
+    "pause music"
+  ],
+  "button_next_track": [
+    "next song",
+    "next track",
+    "go next"
+  ],
+  "iv_Facebook": [
+    "go to facebook page",
+    "facebook registration",
+    "open facebook"
+  ],
+  "iv_Twitter": [
+    "go to twitter",
+    "share the article",
+    "twitter button"
+  ],
+  "iv_Instagram": [
+    "share on instagram",
+    "go to instagram page",
+    "share to instagram"
+  ],
+  "camera_btn": [
+    "take photo",
+    "this button turns on my camera"
+  ],
+  "iv_close": [
+    "close",
+    "lose the advertisement",
+    "play"
+  ],
+  "iv_icon": [
+    "click to visit app page",
+    "open kika keyboard-emojis gifs"
+  ],
+  "img": [
+    "add photo",
+    "adding the term",
+    "create"
+  ],
+  "btn_filter_dontknow": [
+    "see red tagged questions",
+    "there is no answer for the filter"
+  ],
+  "btn_filter_unanswered": [
+    "filter unanswered",
+    "select blue tag"
+  ],
+  "select_whip_1": [
+    "an option to pick a whip",
+    "choose the whip",
+    "select item"
+  ],
+  "select_whip_2": [
+    "choose that whip sound",
+    "select middle whip",
+    "switch autoplay option"
+  ],
+  "select_whip_3": [
+    "choose a whip",
+    "open a page featuring the highlighted product",
+    "pick brown whip"
+  ],
+  "select_whip_5": [
+    "play that whip sound",
+    "select whip",
+    "whip style button"
+  ],
+  "select_whip_7": [
+    "select the whip",
+    "select this option",
+    "select whip"
+  ],
+  "vocabItemSaveVocab": [
+    "favorite this",
+    "go to favoruite"
+  ],
+  "btAdd": [
+    "toggle edit",
+    "write a message",
+    "write message"
+  ],
+  "faqbuttondone": [
+    "go back",
+    "return to the previous screen"
+  ],
+  "faqbuttonshare": [
+    "share the article",
+    "toggle to share option"
+  ],
+  "profile_image_view": [
+    "add a photo",
+    "to take a picture",
+    "to take photo"
+  ],
+  "ivClose": [
+    "close window",
+    "close out"
+  ],
+  "ivMenu": [
+    "open settings",
+    "open settings menu",
+    "view settings"
+  ],
+  "ivStrobePower": [
+    "turn light off",
+    "turn off",
+    "turn on/off the light"
+  ],
+  "ivTechnoPower": [
+    "toggle music",
+    "turn on the music"
+  ],
+  "cameraIcon": [
+    "a camera icon for taking a screen shot",
+    "add photo",
+    "show camera"
+  ],
+  "poi_settings": [
+    "drop a map pin",
+    "pick a location",
+    "set the location"
+  ],
+  "ivRotate": [
+    "a button for rotating photo",
+    "rotate photo",
+    "rotate photo option"
+  ],
+  "key_vod": [
+    "use video clube",
+    "video cube button"
+  ],
+  "key_guide": [
+    "go to guia tv",
+    "ss",
+    "tv guide"
+  ],
+  "key_playto": [
+    "play button",
+    "tv"
+  ],
+  "key_rewind": [
+    "backward",
+    "rewind video"
+  ],
+  "key_playpause": [
+    "because back devicer",
+    "play pause",
+    "play/pause"
+  ],
+  "key_record": [
+    "press stop",
+    "record",
+    "stop"
+  ],
+  "key_forward": [
+    "fast forward",
+    "fast forwards",
+    "go to next"
+  ],
+  "key_volumeup": [
+    "volume up",
+    "increase volume"
+  ],
+  "key_up": [
+    "go up"
+  ],
+  "key_left": [
+    "go to previous",
+    "play back",
+    "previous"
+  ],
+  "key_ok": [
+    "confirm selection option",
+    "okay button",
+    "select option"
+  ],
+  "key_right": [
+    "move right",
+    "move to the right"
+  ],
+  "key_volumedown": [
+    "select this button",
+    "volume down"
+  ],
+  "key_down": [
+    "go down"
+  ],
+  "key_channeldown": [
+    "go down one channel",
+    "p-"
+  ],
+  "change_photo_button_user": [
+    "add a photo to the profile",
+    "add a profile photo",
+    "photo"
+  ],
+  "nickname_check": [
+    "submit name button",
+    "the name has been approved"
+  ],
+  "iv_options": [
+    "open settings",
+    "switch to information"
+  ],
+  "button_previous_page": [
+    "go back"
+  ],
+  "button_next_page": [
+    "go to back",
+    "go to next page",
+    "go forward"
+  ],
+  "favoriteButtonId": [
+    "like button",
+    "like icon",
+    "like post"
+  ],
+  "login_btn_close": [
+    "close",
+    "close program",
+    "go back"
+  ],
+  "settingsButton": [
+    "settings",
+    "go to search button"
+  ],
+  "img_setting_btn": [
+    "settings",
+    "go to settings"
+  ],
+  "imageView2": [
+    "allows the user to bookmark the page",
+    "favorite furniture mods",
+    "like to the page"
+  ],
+  "drawer_pause_record": [
+    "begin or pause recording",
+    "play recoding pause recording stop recording",
+    "play/pause button"
+  ],
+  "drawer_stop": [
+    "click to play",
+    "stop",
+    "stop recording"
+  ],
+  "image_blocked": [
+    "dislike",
+    "dislike topic",
+    "thumbs down"
+  ],
+  "image_fav": [
+    "likes",
+    "like",
+    "thumbs up"
+  ],
+  "iv_carrot_left": [
+    "go back",
+    "sort"
+  ],
+  "ivListCall": [
+    "call number",
+    "call",
+    "call hotel"
+  ],
+  "iv_cross": [
+    "close window",
+    "exit prompt"
+  ],
+  "btnBackspace": [
+    "delete",
+    "delete button",
+    "its a standard button for deleting text"
+  ],
+  "h1": [
+    "agree to privacy policy and user experience program",
+    "enable user experience program",
+    "toggle check box"
+  ],
+  "change_left_text_color": [
+    "change text style",
+    "show text options"
+  ],
+  "change_right_text_color": [
+    "select bubble color",
+    "capitalize",
+    "change text size"
+  ],
+  "button_previous_track": [
+    "go back previous",
+    "goes to previous item played",
+    "previous song"
+  ],
+  "historyRew": [
+    "backward button",
+    "go back rewind",
+    "go to previous"
+  ],
+  "btnChange": [
+    "edit contact details",
+    "enter contact information"
+  ],
+  "lyft_logo": [
+    "go to the lyft website",
+    "lya company logo"
+  ],
+  "button_photo_ext": [
+    "opens camera",
+    "take a picture",
+    "access phone 's camera"
+  ],
+  "closeLogin": [
+    "close app",
+    "close out app",
+    "close the page"
+  ],
+  "close": [
+    "close page",
+    "exit app",
+    "close the code"
+  ],
+  "create_account_phone_hint_image": [
+    "because it is necessary",
+    "open more information",
+    "see help"
+  ],
+  "ivShowPassword": [
+    "show",
+    "show typed password",
+    "view password characters"
+  ],
+  "img_delete": [
+    "delete entry"
+  ],
+  "paint_type_1": [
+    "highlighter",
+    "sharpie option"
+  ],
+  "paint_type_2": [
+    "select editing tool",
+    "select the pen"
+  ],
+  "paint_type_3": [
+    "choose the line drawing tool",
+    "line shape",
+    "line tool"
+  ],
+  "detect_full": [
+    "expand",
+    "expand the window"
+  ],
+  "detect_save": [
+    "accept image adjustment",
+    "click tha option",
+    "go to complete option"
+  ],
+  "verification_button": [
+    "close button",
+    "exit",
+    "exit out of account verification"
+  ],
+  "buttonRemove": [
+    "delete verse",
+    "delete button",
+    "delete message"
+  ],
+  "refine_button": [
+    "adjust filters",
+    "filter",
+    "filter the results"
+  ],
+  "signup_img_profile": [
+    "add a profile photo",
+    "select profile icon",
+    "upload profile picture"
+  ],
+  "landing_menu_button": [
+    "go adjustments",
+    "go to options",
+    "select options"
+  ],
+  "icon": [
+    "save contact",
+    "tap to agree",
+    "block"
+  ],
+  "iv_voice_search": [
+    "find out more about this option",
+    "new voice message help",
+    "receive more information"
+  ],
+  "image": [
+    "share this item",
+    "share the item",
+    "share the link"
+  ],
+  "vocabFavouriteIndicator": [
+    "add to favorites",
+    "add to favorites star",
+    "favourite button"
+  ],
+  "entityPhrasePlay": [
+    "play",
+    "play the audio",
+    "plays the selected audio"
+  ],
+  "creator_artwork": [
+    "logo button",
+    "view this post"
+  ],
+  "create_googleplus": [
+    "enter google account",
+    "google plus sign in button",
+    "login with google plus"
+  ],
+  "create_facebook": [
+    "facebook",
+    "go to facebook",
+    "sign up facebook"
+  ],
+  "btnMoins": [
+    "decrease volume",
+    "reduce option",
+    "volume low"
+  ],
+  "flag": [
+    "location",
+    "pause video"
+  ],
+  "play": [
+    "play sound",
+    "play content",
+    "forward button"
+  ],
+  "stop": [
+    "go to record",
+    "stop the video"
+  ],
+  "btnPlus": [
+    "add option",
+    "click on plus button",
+    "next track"
+  ],
+  "setwallpaper": [
+    "open more settings",
+    "open options",
+    "switch on menu option"
+  ],
+  "repeat": [
+    "repeat song",
+    "switch repeat option",
+    "toggle loop option"
+  ],
+  "shuffle": [
+    "shuffle music",
+    "toggle shuffle"
+  ],
+  "previous": [
+    "go back",
+    "last song",
+    "play previous audio"
+  ],
+  "add": [
+    "add a new track",
+    "add file",
+    "add to app"
+  ],
+  "del": [
+    "close list",
+    "remove from playlist"
+  ],
+  "playlists": [
+    "button to activate the menu",
+    "show full playlist"
+  ],
+  "equalizer": [
+    "set equalizer",
+    "toggle equalizer option"
+  ],
+  "process_rotate": [
+    "refresh",
+    "reload the picture"
+  ],
+  "process_save": [
+    "accept change",
+    "check mark acceptance",
+    "confirm"
+  ],
+  "main_imagesearch": [
+    "go to search ab",
+    "search here",
+    "shows search icon"
+  ],
+  "main_more": [
+    "menu",
+    "open menu",
+    "open options"
+  ],
+  "main_camera": [
+    "capture photo",
+    "on camera",
+    "take a picture"
+  ],
+  "main_gallery": [
+    "images",
+    "select to scan open to scan the image",
+    "upload image from gallery icon"
+  ],
+  "ivRoute2": [
+    "stop",
+    "select the square",
+    "it will stop the timer displayed above"
+  ],
+  "rateBtn": [
+    "get information",
+    "see information"
+  ],
+  "store_ad_icon": [
+    "go to sponsered advertisement item",
+    "would open advertisement for gaana"
+  ],
+  "store_ad_text_action": [
+    "go to advertisement page",
+    "go to the linked advertisement",
+    "open advertisement"
+  ],
+  "profile_pic": [
+    "change profile picture",
+    "go to profile picture",
+    "open avatar"
+  ],
+  "cover": [
+    "film pitcure",
+    "move forward to music",
+    "select album"
+  ],
+  "cover2": [
+    "an album cover",
+    "make a selection",
+    "play album"
+  ],
+  "cover3": [
+    "a album cover",
+    "movie poster",
+    "open"
+  ],
+  "more_app_download_btn": [
+    "download",
+    "download emoji",
+    "download app"
+  ],
+  "about_facebook_logo": [
+    "facebook link",
+    "link to facebook.com",
+    "share on facebook"
+  ],
+  "about_twitter_logo": [
+    "share on twitter",
+    "visit the twitter page of dc comics"
+  ],
+  "adcancle_btn": [
+    "close",
+    "close option",
+    "close this advertisement"
+  ],
+  "feed_avatar": [
+    "go to the profile of poster",
+    "look at user profile",
+    "open profile"
+  ],
+  "button": [
+    "click the start button",
+    "turn off of mobile",
+    "turn on device"
+  ],
+  "register_sign_up_confirm_password_arrow_btn": [
+    "an arrow that points to the right and when pressed goes to the next page",
+    "because back devicer",
+    "go to next"
+  ],
+  "signup_term_of_service_check": [
+    "agree to terms of use",
+    "check option",
+    "check/uncheck box"
+  ],
+  "signup_privacy_policy_check": [
+    "check box to agree to privacy policy",
+    "hit second check mark"
+  ],
+  "lengthBt": [
+    "adjust the height",
+    "advertisement height"
+  ],
+  "men_active": [
+    "pick male gender",
+    "select male",
+    "select male gender"
+  ],
+  "woman_inactive": [
+    "female gender selection",
+    "select female gender"
+  ],
+  "mp_frag_find_hybrid_img_search": [
+    "center on current location",
+    "location"
+  ],
+  "list_iv_map_expand_contract": [
+    "expand map",
+    "fullsize map",
+    "switch to full screen map"
+  ],
+  "btn_watched": [
+    "mark with star",
+    "star"
+  ],
+  "btn_alerted": [
+    "a button to set an alert for a stock market watch",
+    "alarm"
+  ],
+  "footprint_item_icon": [
+    "share the article",
+    "gorgeous face",
+    "hot stuff option"
+  ],
+  "btn_done": [
+    "confirm",
+    "done crop",
+    "done with the crop"
+  ],
+  "linef": [
+    "open station f",
+    "route f"
+  ],
+  "lineg": [
+    "g",
+    "open g"
+  ],
+  "linem": [
+    "go to selected",
+    "view m train"
+  ],
+  "linefs": [
+    "because back devicer",
+    "go to s line option"
+  ],
+  "check_record_list_checkall": [
+    "checkbox to delete",
+    "select content",
+    "select recordings"
+  ],
+  "tutorial_close_button": [
+    "close page",
+    "close window"
+  ],
+  "line4": [
+    "choose page 4",
+    "go to number 4",
+    "open line 4 page"
+  ],
+  "line7": [
+    "7",
+    "number 7"
+  ],
+  "imageview7": [
+    "go to day 7",
+    "pick 6 hours smoke free",
+    "select time option"
+  ],
+  "favorite_button": [
+    "mark as favorite",
+    "bookmark"
+  ],
+  "devotional_1_button": [
+    "back to bible",
+    "switch to read the news"
+  ],
+  "video_button": [
+    "open youtube",
+    "switch the youtube option"
+  ],
+  "indicator_0": [
+    "first image scroll across for more",
+    "go back",
+    "scroll image"
+  ],
+  "indicator_1": [
+    "loading bar",
+    "page 2",
+    "view picture of place"
+  ],
+  "indicator_2": [
+    "select favorite place",
+    "select third option"
+  ],
+  "btn_previous": [
+    "go back",
+    "return to the previous page"
+  ],
+  "FilesItemCommandButton": [
+    "price",
+    "purchase package",
+    "sign up for plan"
+  ],
+  "skip": [
+    "exit the app",
+    "log out"
+  ],
+  "send_post": [
+    "camera",
+    "capture photo",
+    "take a picture"
+  ],
+  "send_comment": [
+    "post comment",
+    "post it",
+    "send comment"
+  ],
+  "avatar": [
+    "view profile",
+    "profile image",
+    "able to see who commented"
+  ],
+  "down_vote": [
+    "down vote",
+    "lower comment ranking",
+    "microphone"
+  ],
+  "upvote": [
+    "like",
+    "rate this post positively",
+    "upvote comment"
+  ],
+  "bookmark_new": [
+    "add folder",
+    "add new folder",
+    "add remainders"
+  ],
+  "bookmark_edit": [
+    "create document",
+    "edit",
+    "notes"
+  ],
+  "bookmark_delete": [
+    "delete",
+    "delete bookmark",
+    "delete option"
+  ],
+  "bookmark_backup_restore": [
+    "check download list",
+    "import export",
+    "up down option"
+  ],
+  "code_area_clear_all": [
+    "clear area code",
+    "closed option"
+  ],
+  "SettingTabLayout": [
+    "open settings",
+    "change settings"
+  ],
+  "InteractTabLayout": [
+    "interact",
+    "open interact tab",
+    "talk option"
+  ],
+  "ListenTabButton": [
+    "show audio session",
+    "start to listen"
+  ],
+  "InstructionsTabLayout": [
+    "check instruction",
+    "get instructions for chronic pain relief app",
+    "go to instructions page"
+  ],
+  "MoreTabLayout": [
+    "more options",
+    "takes you to screen labeled more"
+  ],
+  "unlockImageButton": [
+    "lock screen",
+    "unlock current song"
+  ],
+  "shareImageButton": [
+    "share my informations",
+    "share the content"
+  ],
+  "listen_screen_play_pause_button": [
+    "play",
+    "tap to play",
+    "this button is used to play the music"
+  ],
+  "listen_screen_rewind_button": [
+    "go to audio init",
+    "go to previous session",
+    "this button is used to choose preview"
+  ],
+  "abt_request": [
+    "send button",
+    "choose a nickname"
+  ],
+  "graph_info_button": [
+    "access help",
+    "open help",
+    "questions menu"
+  ],
+  "graph_share_button": [
+    "pressing this icon lets me share this information on social media",
+    "share cycle info",
+    "share on other social networks"
+  ],
+  "select_photo_btn": [
+    "camera",
+    "add photo"
+  ],
+  "closeButton": [
+    "close pop-up window",
+    "close window",
+    "exit"
+  ],
+  "nexttoarrive_selectstartend_begin_button": [
+    "start destination end destination",
+    "start end",
+    "start or end a task"
+  ],
+  "title_bookmark": [
+    "add to favorites",
+    "favorite website"
+  ],
+  "title_tab_image": [
+    "a square with a square behind it and a number one inside indicating pages open",
+    "see opened tabs",
+    "view browser windows"
+  ],
+  "goto_search_imv": [
+    "search",
+    "search box"
+  ],
+  "goto_settings_imv": [
+    "change the settings",
+    "open settings",
+    "settings"
+  ],
+  "buttonSaveGaleria": [
+    "images",
+    "more images",
+    "gallery options"
+  ],
+  "buttonShareGeral": [
+    "share",
+    "share options",
+    "share the photo"
+  ],
+  "buttonShareInstagram": [
+    "a camera icon for taking a screen shot of yhr page",
+    "share on instagram",
+    "take a picture"
+  ],
+  "imageButtonShareFacebook": [
+    "open facebook",
+    "share on facebook",
+    "share on your facebook account"
+  ],
+  "imageButtonShareWhatsapp": [
+    "dial associated number",
+    "share article on whatsapp",
+    "whatsapp"
+  ],
+  "btnprevious": [
+    "go to previous",
+    "go to previous animal",
+    "sweeping"
+  ],
+  "wallpaper": [
+    "gallery option",
+    "go to gallery",
+    "go to photo overview"
+  ],
+  "speak": [
+    "add new image",
+    "edit option"
+  ],
+  "btnnext": [
+    "go forward",
+    "next image"
+  ],
+  "menu_icon": [
+    "ellipsis settings icon",
+    "more option",
+    "more options"
+  ],
+  "on_off": [
+    "toggle to on or off",
+    "turn on",
+    "turn on/off auto play"
+  ],
+  "allservice_currency_button_more": [
+    "a plus to view the map on a large scale",
+    "add country",
+    "add account"
+  ],
+  "toolbar_button_done": [
+    "add artist",
+    "click on done",
+    "save details"
+  ],
+  "image_artist": [
+    "add a profile photo",
+    "add profile pic",
+    "upload a photo"
+  ],
+  "image_artist_gender_boy": [
+    "gender",
+    "select gender male"
+  ],
+  "image_artist_gender_girl": [
+    "choose gender",
+    "pick gender button female"
+  ],
+  "imageViewFC": [
+    "go to profile",
+    "toggle to change"
+  ],
+  "image_button_create_clip": [
+    "create stories",
+    "new",
+    "save the photo"
+  ],
+  "facebookImage": [
+    "facebook page",
+    "follow on facebook",
+    "follow us on facebook tab"
+  ],
+  "twitterImage": [
+    "follow twitter",
+    "follow us on twitter",
+    "share with twitter"
+  ],
+  "btnCountryCode": [
+    "click to flag option",
+    "select country",
+    "us phone number"
+  ],
+  "process": [
+    "stops activity",
+    "uninstall button"
+  ],
+  "cache": [
+    "paste information",
+    "view closed apps"
+  ],
+  "tool": [
+    "go to home",
+    "select android icon"
+  ],
+  "refersh": [
+    "refresh",
+    "refresh icon",
+    "refresh list"
+  ],
+  "button_close_menu": [
+    "close page",
+    "go back button",
+    "window close out"
+  ],
+  "moreButton": [
+    "click more option",
+    "more option button",
+    "see more"
+  ],
+  "fragment_session_bolt_premium_hide": [
+    "close",
+    "close button",
+    "close the advertisement"
+  ],
+  "edit_profile_button": [
+    "edit name",
+    "edit username",
+    "open text field"
+  ],
+  "button_menu": [
+    "customize and control",
+    "more options",
+    "see more options"
+  ],
+  "button_download": [
+    "download song",
+    "download"
+  ],
+  "button_loop": [
+    "restart media",
+    "shuffle music",
+    "toggle continuous play"
+  ],
+  "sign_up_close_icon": [
+    "close",
+    "close the function",
+    "go back"
+  ],
+  "btn_delete_input": [
+    "button is used to close the tab",
+    "clear text",
+    "close search"
+  ],
+  "avatarImage": [
+    "homescreen option",
+    "toggle autoplay optio"
+  ],
+  "footer_setting_imagebutton": [
+    "open settings",
+    "setting button"
+  ],
+  "ivQuit": [
+    "close button",
+    "close page",
+    "close the volume window"
+  ],
+  "ivHide": [
+    "minimize",
+    "minimize screen"
+  ],
+  "iv_refresh": [
+    "refresh",
+    "refresh information",
+    "toggle to retry"
+  ],
+  "buttonFavorite": [
+    "favourite",
+    "a filled in star icon",
+    "go favourite"
+  ],
+  "buttonShare": [
+    "go to share",
+    "share the article",
+    "share the chapter"
+  ],
+  "buttonRemind": [
+    "add time reminder option",
+    "select time option",
+    "add chapter 4 to the play list"
+  ],
+  "remove": [
+    "closes expanded details",
+    "hide or delete current location",
+    "remove the state"
+  ],
+  "gender_malebtn": [
+    "select gender as male",
+    "select male gender option",
+    "selects your gender to be male"
+  ],
+  "gender_femalebtn": [
+    "female icon",
+    "select female gender"
+  ],
+  "imageButtonLock": [
+    "password lock",
+    "save password"
+  ],
+  "playButton": [
+    "press play",
+    "toggle play button"
+  ],
+  "info_button_nohome": [
+    "click for more information",
+    "open information page",
+    "view further information and help for my vehicle registration"
+  ],
+  "btn_minus": [
+    "decrease quantity",
+    "decrease the quantity",
+    "reduce quantity"
+  ],
+  "btn_plus": [
+    "add item to order",
+    "add more",
+    "add quantity button"
+  ],
+  "done_button": [
+    "minimize option",
+    "select the drop down",
+    "show or hide location service"
+  ],
+  "close_button": [
+    "close",
+    "close app"
+  ],
+  "info_button": [
+    "information and support link",
+    "information button",
+    "more information"
+  ],
+  "rewind_button": [
+    "rewind 15 seconds",
+    "go back 15 seconds"
+  ],
+  "background_music_button": [
+    "mute sound",
+    "toggle sound",
+    "volume"
+  ],
+  "cognitivedistortionsquestionbutton": [
+    "more",
+    "open a help article",
+    "question"
+  ],
+  "imgHint50": [
+    "see score details",
+    "select 50/50 option"
+  ],
+  "picture": [
+    "click",
+    "view profile picture"
+  ],
+  "get_zipcode_for_campaign": [
+    "detect location",
+    "find zip code",
+    "use location"
+  ],
+  "btnInfo": [
+    "click instruction option",
+    "i gives information",
+    "more information"
+  ],
+  "privacy_icon": [
+    "refresh button",
+    "share post"
+  ],
+  "like_icon": [
+    "like button",
+    "like simple"
+  ],
+  "reply_ico": [
+    "chat",
+    "message",
+    "view comments"
+  ],
+  "btnPreferences": [
+    "go to app settings",
+    "open settings",
+    "settings"
+  ],
+  "btnShareApp": [
+    "share application",
+    "share page",
+    "share the app"
+  ],
+  "btnClose": [
+    "close application",
+    "exit out of screen",
+    "wxit"
+  ],
+  "btnPlayPause": [
+    "play ringtone",
+    "play song",
+    "play button"
+  ],
+  "btnFavorite": [
+    "mark as favorite",
+    "add to favorites",
+    "add to favorite"
+  ],
+  "imgType": [
+    "delete",
+    "delete mp3 converter library"
+  ],
+  "fac_dtl_lyt_favicon": [
+    "favorite",
+    "select medical office as favorite",
+    "star it"
+  ],
+  "img_play_pause": [
+    "play audio",
+    "play this clip",
+    "plays the page 's audio"
+  ],
+  "ibtn_speak": [
+    "toggle audio",
+    "speaker on",
+    "sound toggle"
+  ],
+  "ibtn_speak_slow": [
+    "play it slower",
+    "slow play option"
+  ],
+  "ibtn_practice": [
+    "access microphone",
+    "talk to text",
+    "tap the microphone"
+  ]
+}

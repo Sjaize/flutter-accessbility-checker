@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 interface LLMConfig {
   model: 'gpt-4' | 'claude-3' | 'gemini-pro';
-  apiKey: string;
+  apiKey?: string;
   provider: 'openai' | 'anthropic' | 'google';
 }
 
@@ -33,10 +33,31 @@ const LLM_MODELS = [
   }
 ];
 
+// 환경변수에서 API 키 가져오기
+const getApiKeyFromEnv = (provider: string): string | undefined => {
+  // React 앱에서 환경변수 접근 방식
+  const getEnvVar = (key: string): string | undefined => {
+    // @ts-ignore - React 환경변수 접근
+    return window._env_?.[key] || process.env[key];
+  };
+
+  switch (provider) {
+    case 'openai':
+      return getEnvVar('REACT_APP_OPENAI_API_KEY') || 
+             getEnvVar('VITE_OPENAI_API_KEY');
+    case 'anthropic':
+      return getEnvVar('REACT_APP_ANTHROPIC_API_KEY') || 
+             getEnvVar('VITE_ANTHROPIC_API_KEY');
+    case 'google':
+      return getEnvVar('REACT_APP_GOOGLE_API_KEY') || 
+             getEnvVar('VITE_GOOGLE_API_KEY');
+    default:
+      return undefined;
+  }
+};
+
 export default function LLMConfigModal({ isOpen, onClose, onConfigSave }: LLMConfigModalProps) {
   const [selectedModel, setSelectedModel] = useState<LLMConfig['model']>('gpt-4');
-  const [apiKey, setApiKey] = useState('');
-  const [isValidating, setIsValidating] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -45,65 +66,31 @@ export default function LLMConfigModal({ isOpen, onClose, onConfigSave }: LLMCon
       if (savedConfig) {
         const config = JSON.parse(savedConfig);
         setSelectedModel(config.model);
-        setApiKey(config.apiKey);
       }
     }
   }, [isOpen]);
 
   const handleSave = async () => {
-    if (!apiKey.trim()) {
-      alert('API 키를 입력해주세요.');
+    // 환경변수에서 API 키 확인
+    const envApiKey = getApiKeyFromEnv(selectedModel);
+    
+    if (!envApiKey) {
+      alert('환경변수에 API 키가 설정되지 않았습니다.\n\n.env 파일에 다음을 추가하세요:\nREACT_APP_OPENAI_API_KEY=your_api_key_here');
       return;
     }
 
-    setIsValidating(true);
+    const config: LLMConfig = {
+      model: selectedModel,
+      provider: LLM_MODELS.find(m => m.id === selectedModel)!.provider
+    };
     
-    try {
-      // API 키 유효성 검증
-      const isValid = await validateAPIKey(selectedModel, apiKey);
-      
-      if (isValid) {
-        const config: LLMConfig = {
-          model: selectedModel,
-          apiKey,
-          provider: LLM_MODELS.find(m => m.id === selectedModel)!.provider
-        };
-        
-        // 로컬 스토리지에 임시 저장
-        localStorage.setItem('llm-config', JSON.stringify(config));
-        onConfigSave(config);
-        onClose();
-      } else {
-        console.log('API 키 검증 실패:', { model: selectedModel, keyLength: apiKey.length });
-        alert(`API 키가 유효하지 않습니다. (모델: ${selectedModel}, 길이: ${apiKey.length})`);
-      }
-    } catch (error) {
-      console.error('API 키 검증 오류:', error);
-      alert('API 키 검증 중 오류가 발생했습니다.');
-    } finally {
-      setIsValidating(false);
-    }
-  };
-
-  const validateAPIKey = async (model: string, key: string): Promise<boolean> => {
-    // 클라이언트 사이드에서만 검증 (API 엔드포인트 없음)
-    console.log('API 키 검증 시작:', { model, keyLength: key.length });
-    
-    // 실제 API 호출은 나중에 구현하고, 지금은 형식 검증만
-    return validateKeyFormat(model, key);
-  };
-
-  const validateKeyFormat = (model: string, key: string): boolean => {
-    // 개발 중에는 매우 관대한 검증 (실제 API 키가 아닌 테스트용)
-    console.log('키 검증:', { model, keyLength: key.length, key: key.substring(0, 5) + '...' });
-    
-    // 최소 길이만 체크
-    return key.trim().length >= 5;
+    // 로컬 스토리지에 저장
+    localStorage.setItem('llm-config', JSON.stringify(config));
+    onConfigSave(config);
+    onClose();
   };
 
   const handleClose = () => {
-    // 창 닫을 때 로컬 스토리지에서 API 키 삭제
-    localStorage.removeItem('llm-config');
     onClose();
   };
 
@@ -114,45 +101,56 @@ export default function LLMConfigModal({ isOpen, onClose, onConfigSave }: LLMCon
       <div className="bg-white rounded-lg p-6 w-96 max-w-md">
         <h3 className="text-lg font-semibold mb-4">AI 모델 설정</h3>
         
-        <div className="mb-4">
+        <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             AI 모델 선택
           </label>
           <div className="space-y-2">
-            {LLM_MODELS.map((model) => (
-              <label key={model.id} className="flex items-center space-x-3 cursor-pointer">
-                <input
-                  type="radio"
-                  name="model"
-                  value={model.id}
-                  checked={selectedModel === model.id}
-                  onChange={(e) => setSelectedModel(e.target.value as LLMConfig['model'])}
-                  className="text-blue-600"
-                />
-                <div>
-                  <div className="font-medium">{model.name}</div>
-                  <div className="text-xs text-gray-500">{model.description}</div>
-                </div>
-              </label>
-            ))}
+            {LLM_MODELS.map((model) => {
+              const hasApiKey = getApiKeyFromEnv(model.provider);
+              return (
+                <label key={model.id} className={`flex items-center space-x-3 cursor-pointer ${!hasApiKey ? 'opacity-50' : ''}`}>
+                  <input
+                    type="radio"
+                    name="model"
+                    value={model.id}
+                    checked={selectedModel === model.id}
+                    onChange={(e) => setSelectedModel(e.target.value as LLMConfig['model'])}
+                    disabled={!hasApiKey}
+                    className="text-blue-600"
+                  />
+                  <div>
+                    <div className="font-medium">{model.name}</div>
+                    <div className="text-xs text-gray-500">{model.description}</div>
+                    {!hasApiKey && (
+                      <div className="text-xs text-red-500">API 키 필요</div>
+                    )}
+                  </div>
+                </label>
+              );
+            })}
           </div>
         </div>
 
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            API 키
-          </label>
-          <input
-            type="password"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-            placeholder="API 키를 입력하세요"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <p className="text-xs text-gray-500 mt-1">
-            API 키는 이 세션 동안만 저장되며, 창을 닫으면 삭제됩니다.
-          </p>
-        </div>
+        {getApiKeyFromEnv(selectedModel) ? (
+          <div className="px-3 py-2 bg-green-50 border border-green-200 rounded-lg mb-6">
+            <p className="text-sm text-green-700">
+              ✅ 환경변수에서 API 키를 사용합니다
+            </p>
+            <p className="text-xs text-green-600 mt-1">
+              {getApiKeyFromEnv(selectedModel)?.substring(0, 10)}...
+            </p>
+          </div>
+        ) : (
+          <div className="px-3 py-2 bg-red-50 border border-red-200 rounded-lg mb-6">
+            <p className="text-sm text-red-700">
+              ❌ API 키가 설정되지 않았습니다
+            </p>
+            <p className="text-xs text-red-600 mt-1">
+              .env 파일에 REACT_APP_OPENAI_API_KEY를 설정하세요
+            </p>
+          </div>
+        )}
 
         <div className="flex justify-end space-x-3">
           <button
@@ -163,17 +161,10 @@ export default function LLMConfigModal({ isOpen, onClose, onConfigSave }: LLMCon
           </button>
           <button
             onClick={handleSave}
-            disabled={isValidating || !apiKey.trim()}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+            disabled={!getApiKeyFromEnv(selectedModel)}
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isValidating ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                <span>검증 중...</span>
-              </>
-            ) : (
-              '저장'
-            )}
+            저장
           </button>
         </div>
       </div>

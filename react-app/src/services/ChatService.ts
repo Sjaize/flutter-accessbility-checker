@@ -1,6 +1,10 @@
+import OpenAI from 'openai';
+import Anthropic from '@anthropic-ai/sdk';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+
 interface LLMConfig {
   model: 'gpt-4' | 'claude-3' | 'gemini-pro';
-  apiKey: string;
+  apiKey?: string; // 선택적으로 변경
   provider: 'openai' | 'anthropic' | 'google';
 }
 
@@ -56,7 +60,34 @@ export class ChatService {
   }
 
   setConfig(config: LLMConfig) {
-    this.config = config;
+    // 환경변수에서 API 키를 우선적으로 가져오기
+    const envApiKey = this.getApiKeyFromEnv(config.provider);
+    this.config = {
+      ...config,
+      apiKey: config.apiKey || envApiKey
+    };
+  }
+
+  private getApiKeyFromEnv(provider: string): string | undefined {
+    // React 앱에서 환경변수 접근 방식
+    const getEnvVar = (key: string): string | undefined => {
+      // @ts-ignore - React 환경변수 접근
+      return window._env_?.[key] || process.env[key];
+    };
+
+    switch (provider) {
+      case 'openai':
+        return getEnvVar('REACT_APP_OPENAI_API_KEY') || 
+               getEnvVar('VITE_OPENAI_API_KEY');
+      case 'anthropic':
+        return getEnvVar('REACT_APP_ANTHROPIC_API_KEY') || 
+               getEnvVar('VITE_ANTHROPIC_API_KEY');
+      case 'google':
+        return getEnvVar('REACT_APP_GOOGLE_API_KEY') || 
+               getEnvVar('VITE_GOOGLE_API_KEY');
+      default:
+        return undefined;
+    }
   }
 
   async analyzeFlutterProject(projectPath: string): Promise<void> {
@@ -194,6 +225,11 @@ lib/
     suggestions?: string[];
     codeSuggestion?: string;
     fileReference?: string;
+    userJourney?: {
+      mainScenarios: string[];
+      accessibilityGaps: string[];
+      semanticsImprovements: string[];
+    };
   }> {
     if (!this.config) {
       throw new Error('LLM 설정이 필요합니다.');
@@ -239,43 +275,104 @@ ${currentFile.content}
 \`\`\`
 ` : '';
 
-    const systemPrompt = `당신은 Flutter 앱의 접근성 전문가입니다. WCAG 2.2 기준에 따라 분석하고 개선 방안을 제시합니다.
+    const systemPrompt = `당신은 Flutter 앱의 접근성 전문가입니다. WCAG 2.2 기준과 실제 데이터에서 추출한 규칙을 기반으로 분석하고 개선 방안을 제시합니다.
 
-현재 프로젝트 구조:
+## 🎯 주요 분석 목표
+1. **VoiceOver 지원을 위한 Semantics 태그 자동 추가**
+2. **사용자 저니 기반 접근성 개선**
+3. **구체적인 코드 수정 제안**
+
+## 📊 현재 프로젝트 구조:
 ${this.context.projectStructure}
 
-발견된 컴포넌트들:
+## 🔍 발견된 컴포넌트들:
 ${this.context.components.map(c => 
   `- ${c.name} (${c.file}:${c.line}): 점수 ${c.accessibilityScore}/100, 이슈: ${c.issues.join(', ')}`
 ).join('\n')}
 
 ${fileContext}
 
-이전 대화 기록:
-${this.context.chatHistory.slice(-5).map(msg => 
-  `${msg.type === 'user' ? '사용자' : 'AI'}: ${msg.content}`
-).join('\n')}
+## 🎨 접근성 개선 규칙 (실제 데이터 기반)
 
-분석 규칙:
-1. WCAG 2.2 기준 준수
-2. 구체적인 파일명과 라인 번호 제시
-3. 수정 가능한 코드 예시 제공
-4. 우선순위 기반 개선 제안
-5. 한국어로 응답
-6. Flutter 위젯의 접근성 특성 고려
-7. Semantics, ExcludeSemantics, MergeSemantics 등 접근성 위젯 활용
+### 1. Semantics 태그 우선순위
+- **높은 우선순위**: 버튼, 이미지, 입력 필드
+- **중간 우선순위**: 텍스트, 컨테이너
+- **낮은 우선순위**: 장식용 요소
 
-사용자 메시지: ${userMessage}
+### 2. VoiceOver 최적화 규칙
+\`\`\`dart
+// 버튼 예시
+Semantics(
+  label: '명확한 액션 설명',
+  hint: '추가 컨텍스트 정보',
+  button: true,
+  child: ElevatedButton(...),
+)
 
-응답 형식:
+// 이미지 예시
+Semantics(
+  label: '이미지 내용 설명',
+  image: true,
+  child: Image.asset(...),
+)
+
+// 입력 필드 예시
+Semantics(
+  label: '입력 필드 목적',
+  hint: '입력 형식 안내',
+  textField: true,
+  child: TextField(...),
+)
+\`\`\`
+
+### 3. 사용자 저니 기반 접근성
+- **주요 사용 시나리오 3가지 식별**
+- **각 시나리오별 필수 접근성 요소 확인**
+- **시나리오별 Semantics 태그 최적화**
+
+### 4. 실제 데이터 기반 개선 패턴
+- **버튼**: "뒤로", "검색", "설정", "메뉴" 등 명확한 액션
+- **탭**: "활동 탭", "아티스트 탭", "카메라 탭" 등 컨텍스트 제공
+- **아이콘**: "나침반", "별표", "위치" 등 기능 설명
+- **입력**: "검색어 입력", "전화번호 입력" 등 목적 명시
+
+## 🔧 분석 규칙:
+1. **WCAG 2.2 기준 준수**
+2. **구체적인 파일명과 라인 번호 제시**
+3. **수정 가능한 코드 예시 제공**
+4. **우선순위 기반 개선 제안**
+5. **한국어로 응답**
+6. **Flutter 위젯의 접근성 특성 고려**
+7. **Semantics, ExcludeSemantics, MergeSemantics 등 접근성 위젯 활용**
+8. **사용자 저니 기반 접근성 검증**
+
+## 📝 응답 형식:
 {
   "content": "분석 결과 및 제안사항",
   "highlightedElement": "파일명:라인번호",
   "pumlHighlight": "PlantUML에서 하이라이트할 플로우",
   "suggestions": ["구체적인 수정 제안들"],
   "codeSuggestion": "수정된 코드 예시",
-  "fileReference": "관련 파일명"
-}`;
+  "fileReference": "관련 파일명",
+  "userJourney": {
+    "mainScenarios": ["주요 사용 시나리오 3가지"],
+    "accessibilityGaps": ["각 시나리오별 접근성 격차"],
+    "semanticsImprovements": ["Semantics 태그 개선 방안"]
+  }
+}
+
+## 🎯 특별 지시사항:
+- **모든 UI 요소에 적절한 Semantics 태그 추가**
+- **VoiceOver 사용자가 앱을 완전히 사용할 수 있도록 개선**
+- **사용자 저니와 실제 구현 간의 일치성 검증**
+- **구체적이고 실행 가능한 코드 제안**
+
+사용자 메시지: ${userMessage}
+
+이전 대화 기록:
+${this.context.chatHistory.slice(-5).map(msg => 
+  `${msg.type === 'user' ? '사용자' : 'AI'}: ${msg.content}`
+).join('\n')}`;
 
     return systemPrompt;
   }
@@ -294,13 +391,18 @@ ${this.context.chatHistory.slice(-5).map(msg =>
   }
 
   private async callOpenAI(prompt: string): Promise<string> {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${this.config!.apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+    const apiKey = this.config!.apiKey || this.getApiKeyFromEnv('openai');
+    if (!apiKey) {
+      throw new Error('OpenAI API 키가 설정되지 않았습니다. 환경변수 REACT_APP_OPENAI_API_KEY를 설정하거나 API 키를 입력해주세요.');
+    }
+
+    try {
+      const openai = new OpenAI({
+        apiKey: apiKey,
+        dangerouslyAllowBrowser: true // 브라우저에서 사용하기 위해 필요
+      });
+
+      const completion = await openai.chat.completions.create({
         model: 'gpt-4',
         messages: [
           { role: 'system', content: '당신은 Flutter 접근성 전문가입니다.' },
@@ -308,22 +410,25 @@ ${this.context.chatHistory.slice(-5).map(msg =>
         ],
         temperature: 0.7,
         max_tokens: 1500
-      })
-    });
+      });
 
-    if (!response.ok) {
-      throw new Error('OpenAI API 호출 실패');
+      return completion.choices[0].message.content || '';
+    } catch (error) {
+      console.error('OpenAI API 호출 오류:', error);
+      throw new Error('OpenAI API 호출 실패: ' + (error as Error).message);
     }
-
-    const data = await response.json();
-    return data.choices[0].message.content;
   }
 
   private async callClaude(prompt: string): Promise<string> {
+    const apiKey = this.config!.apiKey || this.getApiKeyFromEnv('anthropic');
+    if (!apiKey) {
+      throw new Error('Anthropic API 키가 설정되지 않았습니다. 환경변수 REACT_APP_ANTHROPIC_API_KEY를 설정하거나 API 키를 입력해주세요.');
+    }
+
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
-        'x-api-key': this.config!.apiKey,
+        'x-api-key': apiKey,
         'Content-Type': 'application/json',
         'anthropic-version': '2023-06-01'
       },
@@ -343,7 +448,12 @@ ${this.context.chatHistory.slice(-5).map(msg =>
   }
 
   private async callGemini(prompt: string): Promise<string> {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${this.config!.apiKey}`, {
+    const apiKey = this.config!.apiKey || this.getApiKeyFromEnv('google');
+    if (!apiKey) {
+      throw new Error('Google API 키가 설정되지 않았습니다. 환경변수 REACT_APP_GOOGLE_API_KEY를 설정하거나 API 키를 입력해주세요.');
+    }
+
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -368,12 +478,32 @@ ${this.context.chatHistory.slice(-5).map(msg =>
     suggestions?: string[];
     codeSuggestion?: string;
     fileReference?: string;
+    userJourney?: {
+      mainScenarios: string[];
+      accessibilityGaps: string[];
+      semanticsImprovements: string[];
+    };
   } {
     try {
       // JSON 응답 파싱 시도
       const jsonMatch = response.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
-        return JSON.parse(jsonMatch[0]);
+        const parsed = JSON.parse(jsonMatch[0]);
+        
+        // userJourney가 있으면 추가
+        if (parsed.userJourney) {
+          return {
+            content: parsed.content || response,
+            highlightedElement: parsed.highlightedElement,
+            pumlHighlight: parsed.pumlHighlight || this.extractPumlHighlight(response),
+            suggestions: parsed.suggestions,
+            codeSuggestion: parsed.codeSuggestion,
+            fileReference: parsed.fileReference,
+            userJourney: parsed.userJourney
+          };
+        }
+        
+        return parsed;
       }
     } catch {
       // JSON 파싱 실패 시 텍스트 분석
@@ -386,12 +516,63 @@ ${this.context.chatHistory.slice(-5).map(msg =>
     const codeMatch = response.match(/```dart\s*([\s\S]*?)```/);
     const codeSuggestion = codeMatch ? codeMatch[1].trim() : undefined;
 
+    // 사용자 저니 추출
+    const userJourney = this.extractUserJourney(response);
+
     return {
       content: response,
       highlightedElement,
       pumlHighlight: this.extractPumlHighlight(response),
-      codeSuggestion
+      codeSuggestion,
+      userJourney
     };
+  }
+
+  private extractUserJourney(response: string): {
+    mainScenarios: string[];
+    accessibilityGaps: string[];
+    semanticsImprovements: string[];
+  } | undefined {
+    const scenarios: string[] = [];
+    const gaps: string[] = [];
+    const improvements: string[] = [];
+
+    // 사용자 저니 패턴 추출
+    const scenarioMatches = response.match(/시나리오[:\s]*([^\n]+)/g);
+    if (scenarioMatches) {
+      scenarioMatches.forEach(match => {
+        const scenario = match.replace(/시나리오[:\s]*/, '').trim();
+        if (scenario) scenarios.push(scenario);
+      });
+    }
+
+    // 접근성 격차 패턴 추출
+    const gapMatches = response.match(/접근성[:\s]*([^\n]+)/g);
+    if (gapMatches) {
+      gapMatches.forEach(match => {
+        const gap = match.replace(/접근성[:\s]*/, '').trim();
+        if (gap) gaps.push(gap);
+      });
+    }
+
+    // Semantics 개선 패턴 추출
+    const improvementMatches = response.match(/Semantics[:\s]*([^\n]+)/g);
+    if (improvementMatches) {
+      improvementMatches.forEach(match => {
+        const improvement = match.replace(/Semantics[:\s]*/, '').trim();
+        if (improvement) improvements.push(improvement);
+      });
+    }
+
+    if (scenarios.length > 0 || gaps.length > 0 || improvements.length > 0) {
+      return {
+        mainScenarios: scenarios.slice(0, 3), // 최대 3개
+        accessibilityGaps: gaps.slice(0, 5), // 최대 5개
+        semanticsImprovements: improvements.slice(0, 5) // 최대 5개
+      };
+    }
+
+    return undefined;
   }
 
   private extractPumlHighlight(response: string): string | undefined {
@@ -440,32 +621,31 @@ ${this.context.chatHistory.slice(-5).map(msg =>
   }
 
   async generateUMLDiagram(type: 'user-journey' | 'class' | 'sequence' | 'activity'): Promise<string> {
-    const basePuml = `@startuml
-!theme plain
-skinparam backgroundColor transparent
-skinparam defaultFontName Arial
-skinparam defaultFontSize 12
-
-title Flutter App ${type.charAt(0).toUpperCase() + type.slice(1)} Diagram
-
-`;
+    const title = `title Flutter App ${type.charAt(0).toUpperCase() + type.slice(1)} Diagram`;
 
     switch (type) {
       case 'user-journey':
-        return basePuml + this.generateUserJourneyPuml();
+        return `@startuml\n${title}\n${this.generateUserJourneyPuml()}\n@enduml`;
       case 'class':
-        return basePuml + this.generateClassDiagramPuml();
+        return `@startuml\n${title}\n${this.generateClassDiagramPuml()}\n@enduml`;
       case 'sequence':
-        return basePuml + this.generateSequenceDiagramPuml();
+        return `@startuml\n${title}\n${this.generateSequenceDiagramPuml()}\n@enduml`;
       case 'activity':
-        return basePuml + this.generateActivityDiagramPuml();
+        return `@startuml\n${title}\n${this.generateActivityDiagramPuml()}\n@enduml`;
       default:
-        return basePuml;
+        return `@startuml\n${title}\n@enduml`;
     }
   }
 
   private generateUserJourneyPuml(): string {
     return `
+!theme plain
+skinparam backgroundColor transparent
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam roundcorner 5
+skinparam shadowing false
+
 start
 :사용자 앱 실행;
 :온보딩 화면 표시;
@@ -487,8 +667,7 @@ else (없음)
   :정상 화면 표시;
 endif
 
-stop
-@enduml`;
+stop`;
   }
 
   private generateClassDiagramPuml(): string {
@@ -507,11 +686,27 @@ class ${comp.name} {
           .join('\n')
       ).join('\n');
 
-    return classDefinitions + '\n' + relationships + '\n@enduml';
+    return `
+!theme plain
+skinparam backgroundColor transparent
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam roundcorner 5
+skinparam shadowing false
+
+${classDefinitions}
+${relationships}`;
   }
 
   private generateSequenceDiagramPuml(): string {
     return `
+!theme plain
+skinparam backgroundColor transparent
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam roundcorner 5
+skinparam shadowing false
+
 actor User
 participant "HomeScreen" as HS
 participant "CustomButton" as CB
@@ -524,12 +719,18 @@ User -> CB: 버튼 클릭
 CB -> HS: 이벤트 전달
 HS -> AS: 인증 확인
 AS -> HS: 인증 결과
-HS -> User: 화면 업데이트
-@enduml`;
+HS -> User: 화면 업데이트`;
   }
 
   private generateActivityDiagramPuml(): string {
     return `
+!theme plain
+skinparam backgroundColor transparent
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam roundcorner 5
+skinparam shadowing false
+
 start
 :앱 시작;
 :메인 화면 로드;
@@ -549,7 +750,6 @@ else (정상)
   :정상 동작;
 endif
 
-stop
-@enduml`;
+stop`;
   }
 } 

@@ -6,6 +6,9 @@ interface FlutterComponent {
   accessibilityScore: number;
   issues: string[];
   content?: string;
+  dependencies?: string[];
+  methods?: string[];
+  properties?: string[];
 }
 
 interface ProjectStructure {
@@ -119,7 +122,10 @@ export class ProjectAnalyzer {
         type: 'screen',
         accessibilityScore: 75,
         issues: ['버튼 터치 영역 부족', '색상 대비 개선 필요'],
-        content: 'class HomeScreen extends StatelessWidget { ... }'
+        content: 'class HomeScreen extends StatelessWidget { ... }',
+        dependencies: ['flutter/material.dart', '../widgets/custom_button.dart'],
+        methods: ['build', '_handleButtonPress', '_checkAccessibility'],
+        properties: ['title', 'theme']
       },
       {
         name: 'OnboardingScreen',
@@ -128,7 +134,10 @@ export class ProjectAnalyzer {
         type: 'screen',
         accessibilityScore: 60,
         issues: ['이미지 대체 텍스트 누락'],
-        content: 'class OnboardingScreen extends StatefulWidget { ... }'
+        content: 'class OnboardingScreen extends StatefulWidget { ... }',
+        dependencies: ['flutter/material.dart', '../widgets/custom_button.dart'],
+        methods: ['build', '_nextStep', '_skipOnboarding'],
+        properties: ['currentStep', 'totalSteps']
       },
       {
         name: 'CustomButton',
@@ -137,7 +146,10 @@ export class ProjectAnalyzer {
         type: 'widget',
         accessibilityScore: 80,
         issues: ['Semantics 래퍼 누락'],
-        content: 'class CustomButton extends StatelessWidget { ... }'
+        content: 'class CustomButton extends StatelessWidget { ... }',
+        dependencies: ['flutter/material.dart'],
+        methods: ['build', '_onPressed'],
+        properties: ['text', 'onPressed', 'style']
       },
       {
         name: 'AuthService',
@@ -146,7 +158,10 @@ export class ProjectAnalyzer {
         type: 'service',
         accessibilityScore: 90,
         issues: [],
-        content: 'class AuthService { ... }'
+        content: 'class AuthService { ... }',
+        dependencies: ['dart:async', 'package:http/http.dart'],
+        methods: ['login', 'logout', 'isLoggedIn'],
+        properties: ['currentUser', 'isAuthenticated']
       }
     ];
   }
@@ -246,7 +261,10 @@ export class ProjectAnalyzer {
           type: 'screen',
           accessibilityScore: 75,
           issues: ['버튼 터치 영역 부족', '색상 대비 개선 필요'],
-          content: 'class HomeScreen extends StatelessWidget { ... }'
+          content: 'class HomeScreen extends StatelessWidget { ... }',
+          dependencies: ['flutter/material.dart', '../widgets/custom_button.dart'],
+          methods: ['build', '_handleButtonPress', '_checkAccessibility'],
+          properties: ['title', 'theme']
         },
         {
           name: 'OnboardingScreen',
@@ -255,7 +273,10 @@ export class ProjectAnalyzer {
           type: 'screen',
           accessibilityScore: 60,
           issues: ['이미지 대체 텍스트 누락'],
-          content: 'class OnboardingScreen extends StatefulWidget { ... }'
+          content: 'class OnboardingScreen extends StatefulWidget { ... }',
+          dependencies: ['flutter/material.dart', '../widgets/custom_button.dart'],
+          methods: ['build', '_nextStep', '_skipOnboarding'],
+          properties: ['currentStep', 'totalSteps']
         },
         {
           name: 'CustomButton',
@@ -264,7 +285,10 @@ export class ProjectAnalyzer {
           type: 'widget',
           accessibilityScore: 80,
           issues: ['Semantics 래퍼 누락'],
-          content: 'class CustomButton extends StatelessWidget { ... }'
+          content: 'class CustomButton extends StatelessWidget { ... }',
+          dependencies: ['flutter/material.dart'],
+          methods: ['build', '_onPressed'],
+          properties: ['text', 'onPressed', 'style']
         },
         {
           name: 'AuthService',
@@ -273,7 +297,10 @@ export class ProjectAnalyzer {
           type: 'service',
           accessibilityScore: 90,
           issues: [],
-          content: 'class AuthService { ... }'
+          content: 'class AuthService { ... }',
+          dependencies: ['dart:async', 'package:http/http.dart'],
+          methods: ['login', 'logout', 'isLoggedIn'],
+          properties: ['currentUser', 'isAuthenticated']
         }
       ],
       dartFiles: [
@@ -326,5 +353,20 @@ export class ProjectAnalyzer {
     }
 
     return '// 파일 내용을 읽을 수 없습니다.';
+  }
+
+  // 새로운 Flutter 프로젝트 자동 분석
+  async analyzeNewProject(projectPath: string): Promise<ProjectStructure> {
+    this.projectPath = projectPath;
+    console.log('새로운 Flutter 프로젝트 분석 시작:', projectPath);
+    
+    try {
+      const structure = await this.analyzeProject();
+      console.log('프로젝트 분석 완료:', structure);
+      return structure;
+    } catch (error) {
+      console.error('새 프로젝트 분석 실패:', error);
+      return this.getFallbackStructure();
+    }
   }
 } 

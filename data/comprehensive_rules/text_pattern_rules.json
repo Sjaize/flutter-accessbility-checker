@@ -1,0 +1,67 @@
+{
+  "search": [
+    "search",
+    "search bar",
+    "search button"
+  ],
+  "confirmation": [
+    "login with facebook",
+    "save",
+    "share on facebook"
+  ],
+  "navigation": [
+    "go back",
+    "next page",
+    "go forward"
+  ],
+  "settings": [
+    "settings",
+    "more options",
+    "go to settings"
+  ],
+  "creation": [
+    "enter email address",
+    "add to favorites",
+    "add contact"
+  ],
+  "input": [
+    "enter password",
+    "enter last name",
+    "enter email address"
+  ],
+  "communication": [
+    "enter email address",
+    "send message",
+    "enter email"
+  ],
+  "cancellation": [
+    "close page",
+    "close",
+    "close window"
+  ],
+  "media": [
+    "play video",
+    "profile picture",
+    "enlarge image"
+  ],
+  "social": [
+    "share",
+    "add to favorites",
+    "favorite"
+  ],
+  "deletion": [
+    "delete",
+    "remove person",
+    "clear text"
+  ],
+  "action": [
+    "select option",
+    "select item",
+    "selection button"
+  ],
+  "modification": [
+    "new updates",
+    "click to edit and write",
+    "change page"
+  ]
+}

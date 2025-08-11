@@ -21,12 +21,26 @@ export default function Dashboard({ isOpen, onClose }: DashboardProps) {
   const [issues, setIssues] = useState<AccessibilityIssue[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [userJourney, setUserJourney] = useState<any>(null);
 
   useEffect(() => {
     if (isOpen) {
       generateAccessibilityReport();
+      loadUserJourney();
     }
   }, [isOpen]);
+
+  const loadUserJourney = () => {
+    const savedJourney = localStorage.getItem('dashboard-user-journey');
+    if (savedJourney) {
+      try {
+        const journey = JSON.parse(savedJourney);
+        setUserJourney(journey);
+      } catch (error) {
+        console.error('사용자 저니 로드 실패:', error);
+      }
+    }
+  };
 
   const generateAccessibilityReport = async () => {
     setIsGenerating(true);
@@ -273,6 +287,53 @@ ${issue.suggestion}
               </p>
             </div>
           </div>
+
+          {/* 사용자 저니 정보 */}
+          {userJourney && (
+            <div className="mb-8">
+              <h3 className="text-xl font-semibold mb-4">🎯 AI 분석 사용자 저니</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* 주요 시나리오 */}
+                <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+                  <h4 className="text-lg font-semibold text-green-800 mb-3">주요 사용 시나리오</h4>
+                  <ul className="space-y-2">
+                    {userJourney.mainScenarios.map((scenario: string, index: number) => (
+                      <li key={index} className="text-sm text-green-700 flex items-start">
+                        <span className="mr-2">•</span>
+                        <span>{scenario}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* 접근성 격차 */}
+                <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+                  <h4 className="text-lg font-semibold text-red-800 mb-3">접근성 격차</h4>
+                  <ul className="space-y-2">
+                    {userJourney.accessibilityGaps.map((gap: string, index: number) => (
+                      <li key={index} className="text-sm text-red-700 flex items-start">
+                        <span className="mr-2">⚠️</span>
+                        <span>{gap}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Semantics 개선 */}
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                  <h4 className="text-lg font-semibold text-blue-800 mb-3">Semantics 개선</h4>
+                  <ul className="space-y-2">
+                    {userJourney.semanticsImprovements.map((improvement: string, index: number) => (
+                      <li key={index} className="text-sm text-blue-700 flex items-start">
+                        <span className="mr-2">🏷️</span>
+                        <span>{improvement}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* 이슈 목록 */}
           <div className="space-y-4">

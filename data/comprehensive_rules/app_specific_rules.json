@@ -1,0 +1,695 @@
+{
+  "com.ak.app.firehouse.activity.Tabbars": [
+    "go back",
+    "previous",
+    "see previous searches",
+    "select favorite locations with dropdown menu",
+    "open referral link"
+  ],
+  "com.cardfree.blimpandroid.locator.LocatorActivity": [
+    "search",
+    "search option",
+    "location toggle",
+    "open navigation",
+    "display time"
+  ],
+  "com.windalert.android.activity.StartActivity": [
+    "open menu",
+    "search",
+    "open settings",
+    "refresh",
+    "menu"
+  ],
+  "org.plantnet.MainActivity": [
+    "edit",
+    "edit option",
+    "edit the plant name",
+    "write in",
+    "edit the name of the plant"
+  ],
+  "com.avantar.yp.ui.main.MainActivity": [
+    "sign in",
+    "distance by car",
+    "add to favorites",
+    "go to profile",
+    "save as favorite"
+  ],
+  "com.hltcorp.platform.core.MainActivity": [
+    "go back",
+    "unlock special feature",
+    "upgrade profile to pro option",
+    "upgrade to pro",
+    "go to next"
+  ],
+  "com.camerasideas.instagramfit.ImageEditActivity": [
+    "select emoji",
+    "smiley",
+    "go back",
+    "select an emoji",
+    "insert emoji"
+  ],
+  "com.geomobile.tiendeo.ui.RetailersActivity": [
+    "favorite",
+    "star",
+    "bookmark",
+    "favorite the shop",
+    "click to indicate to mark target as a favorite"
+  ],
+  "com.global.foodpanda.android.activities.HomeActivity": [
+    "go to menu",
+    "display the menu",
+    "menu options",
+    "opens menu",
+    "open main menu"
+  ],
+  "com.yidio.android.view.MainActivity": [
+    "go home",
+    "go to home",
+    "view favorites",
+    "home page",
+    "favourites"
+  ],
+  "com.zihua.android.mytracks.MainActivity3": [
+    "open menu",
+    "play",
+    "stop",
+    "detect location",
+    "more options"
+  ],
+  "com.ayce.playcast.MainActivity": [
+    "download",
+    "record",
+    "shows exit option",
+    "remove clock app",
+    "download dubai drift 2"
+  ],
+  "com.wsi.android.weather.ui.MasterActivity": [
+    "go back",
+    "share the article",
+    "scroll left",
+    "go to previous",
+    "next option"
+  ],
+  "com.amikulich.babysleep.MainActivity": [
+    "go back",
+    "play cradle carousel",
+    "sleep noise option",
+    "white noise",
+    "cleaning"
+  ],
+  "com.groceryking.MainActivity": [
+    "add card",
+    "open menu",
+    "add stock",
+    "open category",
+    "show more"
+  ],
+  "com.skout.android.activities.FlirtBuzz": [
+    "camera option",
+    "click camera icon",
+    "take photo to diplay",
+    "click profile picture option",
+    "click to view profile"
+  ],
+  "com.tiendeo.offers.view.activity.MainCatalogsActivity": [
+    "select coupon",
+    "set favorite",
+    "share button",
+    "share the data",
+    "share the deal"
+  ],
+  "empire.trinity.bibleapp.MainActivity": [
+    "go back",
+    "go to previous",
+    "go to settings",
+    "go home",
+    "go to home page"
+  ],
+  "com.zalebox.wall.decorating.ideas.s1.WallDecoratingIdeasGal1": [
+    "go back",
+    "goes to the previous image",
+    "previous",
+    "download",
+    "download option"
+  ],
+  "com.planetromeo.android.app.activities.ProfileActivity": [
+    "send message",
+    "go to profile",
+    "see profile",
+    "open chat",
+    "comments option"
+  ],
+  "kr.co.vcnc.android.couple.feature.register.RegisterActivity": [
+    "go back",
+    "refresh",
+    "go to next",
+    "turn back",
+    "refresh the page"
+  ],
+  "org.wikipedia.main.MainActivity": [
+    "open options menu",
+    "select more options",
+    "more options",
+    "additional information for chosen subject",
+    "select entry"
+  ],
+  "com.mediabay.MediabayActivity": [
+    "go back",
+    "go to menu",
+    "go to menu button",
+    "initiate drop down menu",
+    "menu"
+  ],
+  "com.mres.schedule.MainActivity": [
+    "help button",
+    "ask a question",
+    "faq section",
+    "how to button",
+    "open settings"
+  ],
+  "king.james.bible.android.activity.MainFragmentActivity": [
+    "go back",
+    "back button",
+    "drop down menu",
+    "go to main menu",
+    "open menu"
+  ],
+  "tursky.jan.nauc.sa.html5.activities.SandboxActivity": [
+    "play button",
+    "copy button",
+    "copy selected",
+    "open new sheet",
+    "open document"
+  ],
+  "org.stocktwits.android.activity.WatchlistTrendingActivity": [
+    "more options",
+    "expand options",
+    "trending menu",
+    "expand the menu options for the stock",
+    "settings button for stock"
+  ],
+  "com.emusic.android.EMusicHomeActivity": [
+    "go back",
+    "go to next",
+    "play",
+    "fast rewind",
+    "play button"
+  ],
+  "com.livelovely.android.activity.LovelyActivity": [
+    "detect location",
+    "go to my location",
+    "toggle crosshair",
+    "switch current location option on google map",
+    "use satellite location"
+  ],
+  "com.tabletcalling.ui.CountryCodeTab": [
+    "select country",
+    "pick country",
+    "select angola",
+    "choose the country",
+    "select flag afghanistan"
+  ],
+  "com.mysms.android.lib.activity.ProductTourActivity": [
+    "go back",
+    "go to next page",
+    "next screen",
+    "go to previous",
+    "go forward"
+  ],
+  "com.mobisystems.msdict.viewer.MainActivity": [
+    "close popup",
+    "exit share menu",
+    "adjust volume level",
+    "listen",
+    "volume control"
+  ],
+  "com.emf.klove.MainActivity": [
+    "more options",
+    "more information",
+    "copy and share link",
+    "get link",
+    "get/copy link"
+  ],
+  "fr.vestiairecollective.activity.HomeActivity": [
+    "menu",
+    "share",
+    "go to profile",
+    "go back",
+    "favorite"
+  ],
+  "tursky.jan.nauc.sa.html5.activities.QuizActivity": [
+    "open page",
+    "add light",
+    "dollars",
+    "enter funds or payment option",
+    "show total balance"
+  ],
+  "com.jeevansathi.android.activities.RegistrationActivity": [
+    "enter height",
+    "edit height",
+    "accede a tus redes sociales",
+    "go to option",
+    "next option"
+  ],
+  "com.mobisystems.msdict.viewer.WordDayActivity": [
+    "favorite",
+    "press message icon",
+    "show info",
+    "view info on page",
+    "go back"
+  ],
+  "com.shane.littlecartoonist.activity.compose.ComposeActivity": [
+    "go back",
+    "select brush tool",
+    "add prop",
+    "add props",
+    "check role"
+  ],
+  "ptv.apps.foxsoccer2go.ui.HomeFragmentActivity": [
+    "refresh",
+    "go to settings",
+    "refresh page",
+    "settings",
+    "go back"
+  ],
+  "com.namshi.android.main.BaseMainActivity": [
+    "add to favorites",
+    "favorite item",
+    "mark as favorite",
+    "toggle favorite",
+    "add to favorite"
+  ],
+  "com.jwork.spycamera.SpyCamActivity": [
+    "the button is used to set the camera 's flash mode",
+    "toggle flash",
+    "toggle flash option",
+    "make camera face other direction",
+    "rotate to front/back camera"
+  ],
+  "com.androidloard.optimizemaster.MainActivity": [
+    "press refresh",
+    "refresh the page",
+    "refreshes current screen",
+    "stops activity",
+    "uninstall button"
+  ],
+  "o.kj": [
+    "darken image colors",
+    "set color",
+    "set contrast black",
+    "a place to darken the image",
+    "change the color"
+  ],
+  "com.famousbluemedia.yokee.ui.videoplayer.VideoPlayerActivity": [
+    "play",
+    "play song",
+    "play the video",
+    "go to the next page",
+    "scroll right"
+  ],
+  "com.lockermaster.scene.frame.patternphoto.activity.MainActivity": [
+    "select style",
+    "advertisement label",
+    "view advertisement",
+    "select wallpaper",
+    "wallpaper"
+  ],
+  "kr.eggbun.eggconvo.activities.MainActivity": [
+    "play sound",
+    "listen",
+    "listen to this sound",
+    "add to favorites",
+    "favorite"
+  ],
+  "com.newsfusion.CoverageVideoFeedActivity": [
+    "share the article",
+    "bookmark article",
+    "bookmark the article",
+    "close button",
+    "exit area"
+  ],
+  "md537873c46c2109499ad2d73f3c5ae3af1.MainActivity": [
+    "more options",
+    "show more options",
+    "it will tell more about that channel",
+    "show details",
+    "view link"
+  ],
+  "com.youversion.ui.moments.MomentsActivity": [
+    "go back",
+    "share verse",
+    "back",
+    "add a photo",
+    "add image"
+  ],
+  "com.zalebox.wall.decorating.ideas.s1.WallDecoratingIdeasGal2": [
+    "go back",
+    "move to left in image",
+    "download image",
+    "edit option",
+    "go to previous"
+  ],
+  "com.pk.ui.activity.MainActivity": [
+    "open the menu",
+    "show menu options",
+    "side bar",
+    "get menu",
+    "menu button"
+  ],
+  "com.wildec.meet4u.UserActivity": [
+    "add a text",
+    "add image gifs emojis etc",
+    "to send sticker",
+    "add emoji",
+    "it has smileys to chat"
+  ],
+  "com.v5.kissanime.gogoanime.animania.animetv.MainActivity": [
+    "play episode",
+    "download option",
+    "download episode",
+    "play video",
+    "download"
+  ],
+  "com.ninegag.android.chat.component.group.comment.SwipableCommentListActivity": [
+    "dislike comment",
+    "insert photo",
+    "upload photo",
+    "like button",
+    "thumbs-up comment"
+  ],
+  "com.gi.playingteddybearcore.Playing": [
+    "play horn",
+    "go back",
+    "go to profile",
+    "check user account",
+    "profile button"
+  ],
+  "sanity.freeaudiobooks.activity.BookActivity": [
+    "download",
+    "go to download",
+    "menu",
+    "show album details",
+    "download audio"
+  ],
+  "md54062d0bd47f8e0586581ac936d0e6e00.HomeScreenActivity": [
+    "menu",
+    "lower volume",
+    "volume down",
+    "volume option",
+    "full volume indication"
+  ],
+  "com.cupid.ui.MainActivity": [
+    "open menu",
+    "go back",
+    "see more",
+    "show more options",
+    "menu button"
+  ],
+  "cat.ereza.sounds.cats.activities.MainActivity": [
+    "add to favorites",
+    "favorite audio track",
+    "toggle favorite",
+    "favorite button",
+    "give star rating"
+  ],
+  "com.appspot.HelloListView.StopActivity": [
+    "first page",
+    "open selected window",
+    "commute location option",
+    "select 2",
+    "go to step 3"
+  ],
+  "com.zalebox.bedroom.decorating.ideas.p1.BedroomDecoratingIdeasG1": [
+    "go back",
+    "go back one page or screen",
+    "open image in new window",
+    "save this file",
+    "save decoration"
+  ],
+  "com.everycircuit.Explorer": [
+    "view more options",
+    "more option",
+    "menu icon",
+    "expand view",
+    "see options"
+  ],
+  "com.zalebox.wall.decorating.ideas.s1.WallDecoratingIdeasGal3": [
+    "go back",
+    "save file",
+    "go back to previous screen/picture",
+    "set image as wallpaper",
+    "share"
+  ],
+  "com.bpmobile.common.impl.activity.MainActivity": [
+    "go to search",
+    "share pdf",
+    "upload",
+    "go to sd card",
+    "next page"
+  ],
+  "com.doodlewishes.first": [
+    "undo",
+    "zoom in",
+    "go back",
+    "create a picture",
+    "create image"
+  ],
+  "com.zalebox.apartment.decorating.ideas.h1.ApartmentDecoratingIdeasG1": [
+    "go to next",
+    "go to previous",
+    "go to previous image",
+    "go to previous page",
+    "redo"
+  ],
+  "luk.mal.covergrabber.detail_album.ArtChooserActivity": [
+    "select album",
+    "choose album art",
+    "select album art",
+    "share the article",
+    "select image"
+  ],
+  "com.zalebox.apartment.decorating.ideas.h1.ApartmentDecoratingIdeasG4": [
+    "go back",
+    "go to previous",
+    "previous image",
+    "download picture",
+    "view full screen"
+  ],
+  "net.traveldeals24.deal.search.DealSearchFormActivity": [
+    "cancel",
+    "clears the search area",
+    "click on cross button where korea is written",
+    "clear the selection",
+    "close botton"
+  ],
+  "com.tanmay.simpleweather.Activities.TutorialActivity": [
+    "go back",
+    "go to previous",
+    "advance forward",
+    "go to next page",
+    "next arrow"
+  ],
+  "com.ibolt.carhome.MainActivity": [
+    "go back",
+    "settings menu",
+    "go forward",
+    "next",
+    "skip track"
+  ],
+  "com.handyapps.tipandsplit.TipAndSplitActivity": [
+    "delete bill amount",
+    "minus amount button",
+    "minus value",
+    "add to bill",
+    "increase the bill amount"
+  ],
+  "digiMobile.FullMenu.HomePage": [
+    "menu button",
+    "menu option",
+    "open menu",
+    "app logo",
+    "go to homepage"
+  ],
+  "com.metrocket.iexitandroidbase.dataactivities.AroundMePOIsActivity": [
+    "call business",
+    "call",
+    "call location",
+    "make call",
+    "call company described"
+  ],
+  "com.lwallpaperseries.rosary_audio_old_style.MainActivity": [
+    "select the image for the song",
+    "switch to item",
+    "pause",
+    "pause audio",
+    "open this image"
+  ],
+  "com.spinrilla.spinrilla_android_app.MainActivityNew": [
+    "pause",
+    "go back",
+    "next song",
+    "submit comment",
+    "go to previous"
+  ],
+  "net.eclerstudios.thewhipsoundapp.ChooseWhipActivity": [
+    "select whip",
+    "an option to pick a whip",
+    "choose the whip",
+    "select item",
+    "choose that whip sound"
+  ],
+  "sanity.freeaudiobooks.activity.AudiobookListActiviy": [
+    "download this item",
+    "more options",
+    "download audiobook",
+    "options",
+    "click to more option"
+  ],
+  "pt.ptinovacao.iad.meoremote.presentation.Remote5": [
+    "go up",
+    "volume up",
+    "go down",
+    "use video clube",
+    "video cube button"
+  ],
+  "com.newsfusion.ManageTopicsActivity": [
+    "likes",
+    "dislike",
+    "dislike topic",
+    "like",
+    "thumbs down"
+  ],
+  "com.avantar.yp.ui.listing.SERPActivity": [
+    "call number",
+    "call",
+    "go back",
+    "call hotel",
+    "sort"
+  ],
+  "com.keerby.videotomp3.VideoCutter": [
+    "decrease volume",
+    "reduce option",
+    "volume low",
+    "location",
+    "pause video"
+  ],
+  "com.mrgreensoft.nrg.player.playback.ui.PlaybackActivity": [
+    "repeat song",
+    "switch repeat option",
+    "toggle loop option",
+    "shuffle music",
+    "toggle shuffle"
+  ],
+  "com.team48dreams.player.Main": [
+    "go to previous",
+    "radio",
+    "go to shuffle",
+    "randomize music",
+    "toggle shuffle"
+  ],
+  "com.planetromeo.android.app.activities.FootprintActivity": [
+    "share the article",
+    "gorgeous face",
+    "hot stuff option",
+    "opo para muito quente",
+    "choose really sweet"
+  ],
+  "llc.auroraappdesign.votd.MainActivity": [
+    "mark as favorite",
+    "bookmark",
+    "back to bible",
+    "switch to read the news",
+    "open youtube"
+  ],
+  "com.newsfusion.ItemViewActivity": [
+    "view profile",
+    "profile image",
+    "post comment",
+    "post it",
+    "send comment"
+  ],
+  "com.boatgo.browser.DFBookmarksPage": [
+    "add folder",
+    "add new folder",
+    "add remainders",
+    "create document",
+    "edit"
+  ],
+  "com.surfcityapps.painrelief.HomeActivity": [
+    "open settings",
+    "change settings",
+    "interact",
+    "open interact tab",
+    "talk option"
+  ],
+  "gifs.para.whatsapp.ActivityPrincipal": [
+    "share",
+    "images",
+    "more images",
+    "share options",
+    "share the photo"
+  ],
+  "org.mickyappz.animalsounds.Herbivorous": [
+    "play sound",
+    "go to previous",
+    "go to previous animal",
+    "sweeping",
+    "gallery option"
+  ],
+  "com.canvsly.android.app.activities.ArtistEditionActivity": [
+    "go to activity tab",
+    "view activity",
+    "highlight artist",
+    "select different artists",
+    "view the artist"
+  ],
+  "com.shane.littlecartoonist.activity.album.AlbumPreviewActivity": [
+    "go back",
+    "return to previous screen",
+    "go to the next page",
+    "next",
+    "share the article"
+  ],
+  "com.fatowl.audiobible.activities.PlayingActivity": [
+    "go to share",
+    "share the article",
+    "share the chapter",
+    "share content",
+    "favourite"
+  ],
+  "is.abide.ui.PlayerActivity": [
+    "rewind 15 seconds",
+    "close",
+    "close app",
+    "share to various sources",
+    "share with media"
+  ],
+  "com.didirelease.view.profile.Profile": [
+    "like button",
+    "add image",
+    "go to profile picture",
+    "go to user 's profile",
+    "owner of the page"
+  ],
+  "com.fw.tonos.Main": [
+    "play ringtone",
+    "mark as favorite",
+    "add to favorites",
+    "play song",
+    "add to favorite"
+  ],
+  "com.zalebox.bedroom.decorating.ideas.p1.BedroomDecoratingIdeasG6": [
+    "go back",
+    "moo",
+    "export image",
+    "refresh the page",
+    "share the image"
+  ],
+  "com.scdgroup.app.englishspeakvocal.activity.MainActivity": [
+    "go back",
+    "toggle audio",
+    "speaker on",
+    "play audio",
+    "play this clip"
+  ]
+}

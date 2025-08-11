@@ -16,15 +16,62 @@ export default function UMLDiagramViewer({
   const [diagramType, setDiagramType] = useState<'user-journey' | 'class' | 'sequence' | 'activity'>('user-journey');
   const [zoom, setZoom] = useState(100);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPumlCode, setCurrentPumlCode] = useState(pumlCode);
+  const [error, setError] = useState<string | null>(null);
 
-  const encodedPuml = encodeURIComponent(pumlCode);
-  const diagramUrl = `http://www.plantuml.com/plantuml/png/${encodedPuml}`;
+  // PlantUML 인코딩 함수
+  const encodePlantUML = (code: string): string => {
+    // PlantUML 압축 알고리즘 (PlantUML 공식 문서 기반)
+    const compress = (s: string): string => {
+      const encode6bit = (b: number): string => {
+        if (b < 10) return String.fromCharCode(48 + b);
+        b -= 10;
+        if (b < 26) return String.fromCharCode(65 + b);
+        b -= 26;
+        if (b < 26) return String.fromCharCode(97 + b);
+        b -= 26;
+        if (b === 0) return '-';
+        if (b === 1) return '_';
+        return '?';
+      };
+
+      let r = '';
+      let i = 0;
+      while (i < s.length) {
+        const c1 = s.charCodeAt(i++);
+        r += encode6bit(c1 & 0x3f);
+        if (i < s.length) {
+          const c2 = s.charCodeAt(i++);
+          r += encode6bit((c1 >> 6) & 0x3f | (c2 & 0xf) << 2);
+          if (i < s.length) {
+            const c3 = s.charCodeAt(i++);
+            r += encode6bit((c2 >> 4) & 0x3f | (c3 & 0x3) << 4);
+            if (i < s.length) {
+              r += encode6bit((c3 >> 2) & 0x3f);
+            }
+          }
+        }
+      }
+      return r;
+    };
+
+    return compress(code);
+  };
+
+  const encodedPuml = encodePlantUML(currentPumlCode);
+  // 여러 PlantUML 서버 URL을 시도
+  const diagramUrls = [
+    `https://www.plantuml.com/plantuml/png/${encodedPuml}`,
+    `https://plantuml.com/plantuml/png/${encodedPuml}`,
+    `https://www.plantuml.com/plantuml/svg/${encodedPuml}`,
+    `https://plantuml.com/plantuml/svg/${encodedPuml}`
+  ];
 
   useEffect(() => {
     if (pumlCode) {
+      setCurrentPumlCode(pumlCode);
       setIsLoading(true);
-      const timer = setTimeout(() => setIsLoading(false), 1000);
-      return () => clearTimeout(timer);
+      setError(null);
     }
   }, [pumlCode]);
 
@@ -36,6 +83,8 @@ export default function UMLDiagramViewer({
 skinparam backgroundColor transparent
 skinparam defaultFontName Arial
 skinparam defaultFontSize 12
+skinparam roundcorner 5
+skinparam shadowing false
 
 title Flutter App User Journey
 
@@ -69,6 +118,8 @@ stop
 skinparam backgroundColor transparent
 skinparam defaultFontName Arial
 skinparam defaultFontSize 12
+skinparam roundcorner 5
+skinparam shadowing false
 
 title Flutter App Class Structure
 
@@ -106,6 +157,8 @@ HomeScreen --> AuthService
 skinparam backgroundColor transparent
 skinparam defaultFontName Arial
 skinparam defaultFontSize 12
+skinparam roundcorner 5
+skinparam shadowing false
 
 title Flutter App Sequence Flow
 
@@ -130,6 +183,8 @@ HS -> User: 화면 업데이트
 skinparam backgroundColor transparent
 skinparam defaultFontName Arial
 skinparam defaultFontSize 12
+skinparam roundcorner 5
+skinparam shadowing false
 
 title Flutter App Activity Flow
 
@@ -162,7 +217,20 @@ stop
 
   const handleDiagramTypeChange = (type: typeof diagramType) => {
     setDiagramType(type);
-    // 여기서 실제 다이어그램 생성 로직을 호출할 수 있습니다
+    const newPumlCode = getDiagramTemplates();
+    setCurrentPumlCode(newPumlCode);
+    setIsLoading(true);
+    setError(null);
+  };
+
+  const handleImageError = () => {
+    setError('다이어그램을 불러올 수 없습니다. PlantUML 서버를 확인해주세요.');
+    setIsLoading(false);
+  };
+
+  const handleImageLoad = () => {
+    setIsLoading(false);
+    setError(null);
   };
 
   if (!isOpen) return null;
@@ -229,17 +297,28 @@ stop
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
                 <p className="text-gray-600">다이어그램을 생성하는 중...</p>
               </div>
+            ) : error ? (
+              <div className="text-center">
+                <div className="text-red-500 mb-4">⚠️</div>
+                <p className="text-red-600 mb-4">{error}</p>
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-600">PlantUML 코드:</p>
+                  <pre className="bg-gray-100 p-4 rounded text-xs overflow-auto max-w-2xl max-h-64">
+                    {currentPumlCode}
+                  </pre>
+                </div>
+              </div>
             ) : (
               <div 
                 className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-auto"
                 style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'center top' }}
               >
                 <img
-                  src={diagramUrl}
+                  src={diagramUrls[0]}
                   alt="UML Diagram"
                   className="max-w-none"
-                  onLoad={() => setIsLoading(false)}
-                  onError={() => setIsLoading(false)}
+                  onLoad={handleImageLoad}
+                  onError={handleImageError}
                 />
               </div>
             )}
@@ -258,7 +337,7 @@ stop
               <button
                 onClick={() => {
                   const link = document.createElement('a');
-                  link.href = diagramUrl;
+                  link.href = diagramUrls[0];
                   link.download = `${diagramType}-diagram.png`;
                   link.click();
                 }}
@@ -268,7 +347,7 @@ stop
               </button>
               <button
                 onClick={() => {
-                  navigator.clipboard.writeText(pumlCode);
+                  navigator.clipboard.writeText(currentPumlCode);
                   alert('PlantUML 코드가 클립보드에 복사되었습니다.');
                 }}
                 className="px-3 py-1 text-sm bg-gray-500 text-white rounded hover:bg-gray-600"

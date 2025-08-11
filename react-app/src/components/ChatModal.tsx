@@ -10,6 +10,11 @@ interface ChatMessage {
   pumlHighlight?: string;
   codeSuggestion?: string;
   fileReference?: string;
+  userJourney?: {
+    mainScenarios: string[];
+    accessibilityGaps: string[];
+    semanticsImprovements: string[];
+  };
 }
 
 interface ChatModalProps {
@@ -127,7 +132,8 @@ stop
         highlightedElement: response.highlightedElement,
         pumlHighlight: response.pumlHighlight,
         codeSuggestion: response.codeSuggestion,
-        fileReference: response.fileReference
+        fileReference: response.fileReference,
+        userJourney: response.userJourney
       };
 
       setMessages(prev => [...prev, assistantMessage]);
@@ -288,6 +294,47 @@ stop
                       <pre className="text-xs overflow-x-auto whitespace-pre-wrap">
                         {message.codeSuggestion}
                       </pre>
+                    </div>
+                  )}
+
+                  {/* 사용자 저니 정보 표시 */}
+                  {message.userJourney && (
+                    <div className="mt-3 space-y-2">
+                      {/* 주요 시나리오 */}
+                      {message.userJourney.mainScenarios.length > 0 && (
+                        <div className="p-2 bg-blue-50 rounded text-xs border border-blue-200">
+                          <div className="font-medium mb-1 text-blue-700">🎯 주요 사용 시나리오:</div>
+                          <ul className="space-y-1">
+                            {message.userJourney.mainScenarios.map((scenario, index) => (
+                              <li key={index} className="text-blue-600">• {scenario}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* 접근성 격차 */}
+                      {message.userJourney.accessibilityGaps.length > 0 && (
+                        <div className="p-2 bg-red-50 rounded text-xs border border-red-200">
+                          <div className="font-medium mb-1 text-red-700">⚠️ 접근성 격차:</div>
+                          <ul className="space-y-1">
+                            {message.userJourney.accessibilityGaps.map((gap, index) => (
+                              <li key={index} className="text-red-600">• {gap}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* Semantics 개선 */}
+                      {message.userJourney.semanticsImprovements.length > 0 && (
+                        <div className="p-2 bg-green-50 rounded text-xs border border-green-200">
+                          <div className="font-medium mb-1 text-green-700">🏷️ Semantics 개선:</div>
+                          <ul className="space-y-1">
+                            {message.userJourney.semanticsImprovements.map((improvement, index) => (
+                              <li key={index} className="text-green-600">• {improvement}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
                   )}
                   

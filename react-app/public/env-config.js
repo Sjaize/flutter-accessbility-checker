@@ -1,0 +1,6 @@
+// 환경변수 설정 - 빌드 시점에 자동으로 주입됨
+window._env_ = {
+  "REACT_APP_OPENAI_API_KEY": "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",
+  "REACT_APP_ANTHROPIC_API_KEY": "",
+  "REACT_APP_GOOGLE_API_KEY": ""
+};
