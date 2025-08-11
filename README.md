@@ -1,6 +1,53 @@
-# flutter-accessibility-checker README
+# Flutter Accessibility Checker
 
-This is the README for your extension "flutter-accessibility-checker". After writing up a brief description, we recommend including the following sections.
+Flutter 개발자를 위한 접근성 검사 VS Code 확장입니다. Flutter 웹 앱의 접근성 이슈를 실시간으로 감지하고 수정 제안을 제공합니다.
+
+## 주요 기능
+
+- 🔍 **실시간 접근성 검사**: Flutter 웹 앱의 접근성 이슈를 자동으로 감지
+- 💡 **스마트 수정 제안**: 감지된 이슈에 대한 구체적인 코드 수정 제안
+- 🎯 **시각적 피드백**: 앱 화면에 직접 오버레이로 이슈 위치 표시
+- 🔄 **원클릭 적용**: 제안된 수정사항을 VS Code에서 바로 적용
+- 🌐 **브라우저 연동**: React 웹 인터페이스를 통한 직관적인 사용자 경험
+
+## 설치 및 실행
+
+### 1. 의존성 설치
+```bash
+npm install
+cd react-app && npm install
+cd ..
+```
+
+### 2. TypeScript 컴파일
+```bash
+npm run compile
+```
+
+### 3. VS Code에서 실행
+1. **F5 키**를 눌러 디버그 모드로 실행
+2. 새 VS Code 창에서 `Cmd+Shift+P` (또는 `Ctrl+Shift+P`)를 눌러 명령 팔레트 열기
+3. `"Flutter Accessibility Checker: Open Panel"` 입력 후 실행
+4. `🌐 외부 브라우저에서 열기 (Recommended)` 선택
+
+### 4. 사용법
+- Flutter 앱이 워크스페이스에 있어야 합니다
+- 확장 실행 시 Flutter 서버(포트 60778)와 React 앱(포트 3000)이 자동으로 시작됩니다
+- 브라우저에서 접근성 이슈를 확인하고 수정 제안을 적용할 수 있습니다
+
+## 시스템 요구사항
+
+- VS Code 1.80.0 이상
+- Node.js 16.0.0 이상
+- Flutter SDK (Flutter 앱 개발용)
+- npm 또는 yarn
+
+## 포트 사용
+
+- **Flutter 서버**: 60778
+- **React 앱**: 3000
+
+포트가 이미 사용 중인 경우 충돌이 발생할 수 있습니다.
 
 ## Features
 
