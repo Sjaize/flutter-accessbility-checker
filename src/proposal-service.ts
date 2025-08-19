@@ -17,7 +17,7 @@ import {
 import { LocationResolver } from './location-resolver';
 
 // 환경 변수 로드
-dotenv.config({ path: '/Users/sjaize/Desktop/extension/flutter-accessibility-checker/src/.env' });
+dotenv.config({ path: '/Users/sjaize/Desktop/extension/flutter-accessibility-checker/.env' });
 
 export class ProposalService {
   private locationResolver: LocationResolver;
@@ -80,13 +80,26 @@ export class ProposalService {
         language: this.locationResolver.guessLanguage(file),
         file, scope, issue, a11yMeta
       });
-      const { diff, a11yDelta, rationale } = result;
+      const { diff, startLine, endLine, a11yDelta, rationale } = result;
       
-      // 5. 제안 전송
+      // 5. 파일 경로 정리 후 제안 전송
+      let cleanFile = file;
+      if (cleanFile.includes('file:')) {
+        const fileIndex = cleanFile.lastIndexOf('file:');
+        cleanFile = cleanFile.substring(fileIndex + 5);
+        if (cleanFile.startsWith('//')) {
+          cleanFile = cleanFile.substring(2);
+        }
+      }
+      console.log(`[Proposal] Cleaned file path: ${file} → ${cleanFile}`);
+      
       this.sendProposalResponse(ws, {
-        issueId: issue.id, file,
+        issueId: issue.id, 
+        file: cleanFile,
         range: scope.range,
         diff,
+        startLine,
+        endLine,
         a11yDelta, rationale,
       });
       
@@ -287,10 +300,10 @@ export class ProposalService {
       const targetLineText = lines[targetLine] || '';
       console.log(`[Scope] Target line content: ${targetLineText.trim()}`);
       
-      // M5 위치를 중심으로 충분한 컨텍스트 제공 (±15줄)
-      // LLM이 정확한 수정을 위해 주변 구조를 파악할 수 있도록
-      start = Math.max(0, targetLine - 15);
-      end = Math.min(lines.length - 1, targetLine + 15);
+      // M5 위치에서 충분한 컨텍스트 제공 (±10줄)
+      // LLM이 전체 위젯 블록을 파악하고 정확한 수정 범위를 결정할 수 있도록
+      start = Math.max(0, targetLine - 10);
+      end = Math.min(lines.length - 1, targetLine + 10);
       
       console.log(`[Scope] Using M5-centered context: lines ${start + 1}-${end + 1} (M5 at ${targetLine + 1})`);
       
@@ -395,13 +408,16 @@ export class ProposalService {
 - M5 매칭이 정확히 찾아낸 위치: Line ${issue.m5Location?.line || 'unknown'}, Column ${issue.m5Location?.column || 'unknown'}
 - 이 위치에 있는 위젯에 접근성 개선이 필요합니다.
 
-수정 규칙 (매우 중요):
-- 오직 M5 위치의 위젯에만 Semantics를 추가하세요.
-- 기존 코드의 줄바꿈, 들여쓰기, 공백을 절대 변경하지 마세요.
-- 기존 위젯 구조를 재배치하거나 변경하지 마세요.
-- 오직 Semantics() 위젯으로 감싸는 것만 하세요.
-- 최소한의 변경만 하세요 - 접근성 개선에 필요한 것만!
-- unified diff 형식으로 출력하세요.
+수정 규칙:
+- 제공된 코드 범위를 보고 M5 위치의 위젯 블록을 파악하세요.
+- 해당 위젯 블록의 스크린 리더 접근성을 개선하세요.
+- 접근성 개선 방법은 상황에 따라 다를 수 있습니다:
+  * 라벨이 없는 경우: 적절한 라벨 추가
+  * 힌트가 필요한 경우: 힌트 추가
+  * 의미가 명확하지 않은 경우: 설명 추가
+- 기존 위젯 구조와 내용은 그대로 유지하되, 접근성만 개선하세요.
+- 들여쓰기는 기존 코드와 정확히 일치해야 합니다.
+- 반드시 아래 JSON 형식으로만 응답하세요.
 
 언어: ${language}
 파일: ${file}
@@ -416,72 +432,110 @@ ${scope.code}
 접근성 이슈:
 ${meta}
 
-수정 예시 (정확히 이렇게만 하세요):
-기존:
+응답 형식 (반드시 이 JSON 형식으로만 응답):
+{
+  "newCode": "수정된 코드 전체 (들여쓰기 포함, 줄바꿈은 \\n으로 표현)",
+  "startLine": 수정 시작 줄 번호,
+  "endLine": 수정 끝 줄 번호,
+  "beforeA11y": "개선 전 스크린 리더 발화",
+  "afterA11y": "개선 후 스크린 리더 발화"
+}
+
+중요: newCode에서 줄바꿈은 반드시 \\n으로 표현하고, 따옴표는 \\"로 이스케이프하세요.
+
+수정 예시:
+기존 코드:
   Image.asset('assets/images/onboarding.png'),
 
-수정:
-  Semantics(
-    label: '온보딩 이미지',
-    child: Image.asset('assets/images/onboarding.png'),
-  ),
+예시:
+{
+  "newCode": "  Center(\\n    child: Semantics(\\n      label: \\"한국어 사용 능력을 묻는 이미지\\",\\n      child: Image.asset(\\"assets/images/onboarding.png\\"),\\n    ),\\n  ),",
+  "startLine": 23,
+  "endLine": 25,
+  "beforeA11y": "이미지 (설명 없음)",
+  "afterA11y": "한국어 사용 능력을 묻는 이미지"
+}
 
-주의사항:
-- 기존 들여쓰기와 정확히 같은 스타일 유지
-- 다른 라인은 절대 건드리지 말 것
-- 오직 Semantics 감싸기만 할 것
+참고: startLine은 위젯 블록의 시작(Center()부터), endLine은 위젯 블록의 끝(),까지)입니다.
 
-다음을 제공해주세요:
-1. 변경사항을 보여주는 unified diff
-2. 접근성 개선에 대한 간단한 설명
-3. 변경 전후 스크린 리더 동작 예상
+핵심:
+- M5 위치는 위젯의 중간 부분일 수 있습니다 (예: child: 속성)
+- 제공된 코드 범위를 보고 M5 위치 근처의 위젯 블록 전체를 정확히 파악하세요
+- 위젯 블록의 시작(예: Center()부터 끝(예: ),까지)을 찾아서 정확한 수정 범위를 제안하세요
+- M5가 가리키는 요소가 속성이라도, 해당 요소를 포함하는 위젯 전체를 수정해야 합니다
+- 반드시 M5 위치가 포함되는 범위를 제안해야 합니다
+- 해당 위젯 블록의 시작 줄과 끝 줄을 명시하고, 그 범위를 새로운 코드로 대체하세요
+- 기존 위젯 구조를 그대로 유지하면서 접근성만 개선하세요
+- 중복된 위젯을 생성하지 마세요
 
 응답 형식:
-\`\`\`diff
-[unified diff here]
-\`\`\`
-
 \`\`\`json
 {
-  "a11yDelta": {
-    "before": "현재 스크린 리더 동작",
-    "after": "개선된 스크린 리더 동작"
-  },
-  "rationale": "변경 사유"
+  "newCode": "수정된 코드 전체 (들여쓰기 포함, 줄바꿈은 \\n으로 표현)",
+  "startLine": 수정 시작 줄 번호,
+  "endLine": 수정 끝 줄 번호,
+  "beforeA11y": "개선 전 스크린 리더 발화",
+  "afterA11y": "개선 후 스크린 리더 발화"
 }
-\`\`\``;
+\`\`\`
+
+중요: newCode에서 줄바꿈은 반드시 \\n으로 표현하고, 따옴표는 \\"로 이스케이프하세요.`;
   }
 
-  // ── LLM 응답 파싱 ──
+  // ── LLM 응답 파싱 (JSON 형태) ──
   private parseLLMResponse(content: string, input: LLMInput): LLMOutput {
-    console.log('[Parse] Parsing LLM response...');
+    console.log('[Parse] Parsing LLM JSON response...');
     console.log('[Parse] Full content:', content);
     
-    // diff 추출
-    const diffMatch = content.match(/```diff\n([\s\S]*?)\n```/);
-    if (!diffMatch) {
-      console.error('[Parse] No diff block found in response');
-      throw new Error('Failed to extract diff from OpenAI response');
+    try {
+      // JSON 블록 추출 시도
+      let jsonText = content;
+      const jsonMatch = content.match(/```json\n([\s\S]*?)\n```/);
+      if (jsonMatch) {
+        jsonText = jsonMatch[1];
+      } else if (content.includes('{') && content.includes('}')) {
+        // JSON 블록 없이 직접 JSON이 온 경우
+        const startIdx = content.indexOf('{');
+        const endIdx = content.lastIndexOf('}') + 1;
+        jsonText = content.substring(startIdx, endIdx);
+      }
+      
+      console.log('[Parse] Extracted JSON text:', jsonText);
+      const jsonData = JSON.parse(jsonText);
+      
+      // JSON에서 필요한 데이터 추출
+      const newCode = jsonData.newCode || '';
+      const startLine = jsonData.startLine || 0;
+      const endLine = jsonData.endLine || 0;
+      const beforeA11y = jsonData.beforeA11y || '라벨 없음';
+      const afterA11y = jsonData.afterA11y || '개선된 라벨';
+      
+      console.log('[Parse] Parsed JSON:', { 
+        newCodeLength: newCode.length, 
+        startLine, 
+        endLine, 
+        beforeA11y, 
+        afterA11y 
+      });
+      
+      const a11yDelta = { before: beforeA11y, after: afterA11y };
+      
+      // diff 필드에는 newCode만 포함 (React에서 코드 미리보기용)
+      return { diff: newCode, startLine, endLine, a11yDelta, rationale: '접근성 개선' };
+      
+    } catch (error) {
+      console.error('[Parse] JSON parsing failed:', error);
+      console.log('[Parse] Falling back to original content as newCode');
+      
+      // fallback: 전체 내용을 newCode로 사용
+      return { 
+        diff: content,
+        startLine: 0,
+        endLine: 0,
+        a11yDelta: { before: '라벨 없음', after: '개선된 라벨' },
+        rationale: '접근성 개선'
+      };
     }
-    const diff = diffMatch[1].trim();
-    console.log('[Parse] Extracted diff:', diff);
-    console.log('[Parse] Diff length:', diff.length);
-    
-    // JSON 추출
-    const jsonMatch = content.match(/```json\n([\s\S]*?)\n```/);
-    if (!jsonMatch) {
-      console.error('[Parse] No JSON block found in response');
-      throw new Error('Failed to extract JSON from OpenAI response');
-    }
-    
-    console.log('[Parse] Raw JSON:', jsonMatch[1]);
-    const jsonData = JSON.parse(jsonMatch[1]);
-    const a11yDelta = jsonData.a11yDelta || { before: '라벨 없음', after: '개선된 라벨' };
-    const rationale = jsonData.rationale || '접근성 개선';
-    
-    console.log('[Parse] Parsed result:', { diffLength: diff.length, a11yDelta, rationale });
-    
-    return { diff, a11yDelta, rationale };
   }
 
   // ── 편집 적용 ──

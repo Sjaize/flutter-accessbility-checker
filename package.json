@@ -1,4 +1,5 @@
 {
+  "publisher": "my-publisher",
   "name": "flutter-accessibility-checker",
   "displayName": "Flutter Accessibility Checker",
   "description": "A VS Code extension that provides accessibility feedback and suggestions for Flutter web applications.",
@@ -6,13 +7,23 @@
   "engines": {
     "vscode": "^1.80.0"
   },
-  "categories": ["Other"],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onUri"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "flutter-accessibility-checker.openPanel",
-        "title": "Open Panel",
+        "title": "Open Flutter Accessibility Checker",
+        "category": "Flutter Accessibility"
+      },
+      {
+        "command": "flutter-accessibility-checker.connectDebugSession",
+        "title": "Connect Flutter Debug Session (Widget Inspection)",
         "category": "Flutter Accessibility"
       }
     ],
@@ -21,9 +32,18 @@
         {
           "command": "flutter-accessibility-checker.openPanel",
           "when": "true"
+        },
+        {
+          "command": "flutter-accessibility-checker.connectDebugSession",
+          "when": "true"
         }
       ]
     }
+  },
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "openai": "^5.12.2",
+    "ws": "^8.14.2"
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -31,13 +51,15 @@
     "watch": "tsc -w -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/vscode": "^1.80.0",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^20.0.0",
+    "@types/vscode": "^1.80.0",
+    "@types/ws": "^8.5.5",
+    "@vscode/test-electron": "^2.3.4",
     "eslint": "^8.0.0",
-    "typescript": "^5.0.0",
-    "vscode-test": "^1.8.0"
+    "typescript": "^5.0.0"
   }
 }

@@ -27,8 +27,10 @@ export interface ProposalResponse {
   file: string;
   range?: { start: { line: number; col: number }; end: { line: number; col: number } };
   diff?: string;
+  startLine?: number;
+  endLine?: number;
   edits?: Array<{ file: string; start: { line: number; col: number }; end: { line: number; col: number }; newText: string }>;
-  a11yDelta?: { before?: string; after?: string };
+  a11yDelta?: { before?: string; after: string };
   rationale?: string;
 }
 
@@ -69,6 +71,8 @@ export interface LLMInput {
 
 export interface LLMOutput {
   diff: string;
+  startLine: number;
+  endLine: number;
   a11yDelta: { before: string; after: string };
   rationale: string;
 }
