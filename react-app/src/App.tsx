@@ -1,32 +1,12 @@
 // react-app/src/App.tsx
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Issue, AccessibilityIssue, Suggestion, ChatMessage, FlutterComponent, SourceLoc } from './lib/types';
+import { ProjectAnalyzer } from './services/ProjectAnalyzer';
+import { ReportGenerator } from './services/ReportGenerator';
+import { ChatService } from './services/ChatService';
+import ChatModal from './components/ChatModal';
 
 type Severity = 'error' | 'warning' | 'info';
-
-interface SourceLoc {
-  file: string;
-  line: number;
-  column: number;
-}
-
-interface Issue {
-  id: string | number;
-  severity: Severity;
-  label?: string;
-  description?: string;
-  elementType?: 'button' | 'textfield' | 'image' | 'text' | 'link' | string;
-
-  // 퍼센트 좌표(백엔드가 rectPct로 내려줌)
-  rectPct?: { left: number; top: number; width: number; height: number };
-
-  // 절대 좌표가 올 수도 있으나, 여기선 rectPct만 사용
-  rect?: { left: number; top: number; width: number; height: number };
-
-  source?: SourceLoc; // creationLocation
-  
-  // M5 매칭으로 찾은 정확한 코드 위치
-  m5Location?: SourceLoc;
-}
 
 // LLM 제안 타입 (백엔드 타입과 동기화)
 interface Proposal {
@@ -79,6 +59,7 @@ function typeLabel(t?: Issue['elementType']) {
 
 // ---- 컴포넌트 ----------------------------------------------------
 export default function App() {
+  // 통합된 상태 관리
   const [frame, setFrame] = useState<FramePayload | null>(null);
   const [issues, setIssues] = useState<Issue[]>([]);
   const [conn, setConn] = useState<Conn>('connecting');
@@ -88,8 +69,36 @@ export default function App() {
   const [activeFile, setActiveFile] = useState<string | null>(null);
   const [proposal, setProposal] = useState<Proposal | null>(null);
   const [applying, setApplying] = useState(false);
+  const [showCodePreview, setShowCodePreview] = useState(false);
+  const [previewIssue, setPreviewIssue] = useState<Issue | null>(null);
 
-  // state 근처에 추가
+  // AI 채팅 기능 상태
+  const [ready, setReady] = useState(false);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [selectedIssue, setSelectedIssue] = useState<string | null>(null);
+  const [components, setComponents] = useState<FlutterComponent[]>([]);
+  const [accessibilityScore, setAccessibilityScore] = useState(0);
+  const [isChatModalOpen, setIsChatModalOpen] = useState(false);
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  const [acceptedIssues, setAcceptedIssues] = useState<string[]>([]);
+  const [toastMessage, setToastMessage] = useState<string>('');
+  const [userJourney, setUserJourney] = useState<string>('');
+  const [activityJourney, setActivityJourney] = useState<string>('');
+  
+  // 서비스 인스턴스들
+  const projectAnalyzer = useMemo(() => new ProjectAnalyzer(), []);
+  const reportGenerator = useMemo(() => new ReportGenerator(), []);
+  const chatService = useMemo(() => new ChatService(), []);
+
+  // 서비스 초기화 및 API 연결 상태 확인
+  useEffect(() => {
+    // ChatService API 연결 상태 확인 (한 번만)
+    chatService.checkApiConnection();
+    // ProjectAnalyzer API 연결 상태 확인 (한 번만)
+    projectAnalyzer.checkApiConnection();
+  }, [chatService, projectAnalyzer]);
+
+  // refs for synchronization
   const issuesRef = useRef<Issue[]>([]);
   const pendingRef = useRef<{ issueId: string | number; label: string } | null>(null);
   const activeFileRef = useRef<string | null>(null);
@@ -101,9 +110,7 @@ export default function App() {
   
   // proposal 상태 디버깅
   useEffect(() => {
-    console.log('[React] Proposal state changed:', proposal);
-    console.log('[React] Proposal startLine:', proposal?.startLine);
-    console.log('[React] Proposal endLine:', proposal?.endLine);
+    // proposal 상태 변경 로그 제거
   }, [proposal]);
 
   // 디바이스 틀 크기 (UI 레이아웃만)
@@ -117,149 +124,116 @@ export default function App() {
   // 웹소켓 연결 ----------------------------------------------------
   useEffect(() => {
     let ws: WebSocket | null = null;
+    let reconnectAttempts = 0;
+    const maxReconnectAttempts = 5;
+    const baseReconnectDelay = 1000;
 
     const connect = () => {
       try {
         ws = new WebSocket(WS_URL);
 
         ws.onopen = () => {
-          console.log('[React] WebSocket connected to:', WS_URL);
+          console.log('[React] WebSocket connected');
           setConn('connected');
           setWs(ws);
+          reconnectAttempts = 0; // 연결 성공 시 재시도 카운트 리셋
+          
           if (reconnectTimer.current) {
             window.clearTimeout(reconnectTimer.current);
             reconnectTimer.current = null;
           }
         };
 
-        ws.onclose = () => {
-          console.log('[React] WebSocket disconnected');
+        ws.onclose = (event) => {
+          console.log('[React] WebSocket disconnected:', event.code, event.reason);
           setConn('disconnected');
-          scheduleReconnect();
+          
+          // 정상적인 종료가 아닌 경우에만 재연결 시도
+          if (event.code !== 1000) {
+            scheduleReconnect();
+          }
         };
 
         ws.onerror = (error) => {
           console.error('[React] WebSocket error:', error);
           setConn('disconnected');
+          // 에러 발생 시에도 재연결 시도
           scheduleReconnect();
         };
 
         ws.onmessage = (event) => {
-          const msg = JSON.parse(event.data);
-          if (msg.type === 'snapshot') {
-            const { frame: newFrame, issues: newIssues } = msg.data || {};
-            setFrame(newFrame || null);
-            setIssues(normalizeIssues(newIssues || []));
-          } else if (msg.type === 'selection') {
-            // Selection 이벤트 처리 (Inspector에서 위젯 선택 시)
-            console.log('[React] Selection event received:', msg.data);
-            const { file } = msg.data || {};
-            if (file) {
-              setActiveFile(file);
-              console.log('[React] Active file updated:', file);
-            }
-          } else if (msg.type === 'activeScope') {
-            // Backend가 active scope 파일을 브로드캐스트하는 경우
-            const { file } = msg.data || {};
-            if (file) {
-              setActiveFile(file);
-              console.log('[React] Active scope updated:', file);
-            }
-          } else if (msg.type === 'navigateComplete') {
-            // navigateIssue 완료 시 로딩 상태 해제
-            console.log('[React] Navigate operation completed');
-            if (pendingRef.current) {
-              console.log('[React] Clearing pendingSelection after navigation');
+          try {
+            const msg = JSON.parse(event.data);
+            
+            if (msg.type === 'snapshot') {
+              const { frame: newFrame, issues: newIssues } = msg.data || {};
+              
+              // 프레임 데이터 설정
+              if (newFrame && newFrame.imageBase64) {
+                setFrame(newFrame);
+              }
+              
+              // 이슈 데이터 설정
+              if (newIssues) {
+                setIssues(normalizeIssues(newIssues));
+              }
+              
+            } else if (msg.type === 'selection') {
+              // Selection 이벤트 처리 (Inspector에서 위젯 선택 시)
+              const { file } = msg.data || {};
+              if (file) {
+                setActiveFile(file);
+              }
+            } else if (msg.type === 'activeScope') {
+              // Backend가 active scope 파일을 브로드캐스트하는 경우
+              const { file } = msg.data || {};
+              if (file) {
+                setActiveFile(file);
+              }
+            } else if (msg.type === 'navigateComplete') {
+              // navigateIssue 완료 시 로딩 상태 해제
+              if (pendingRef.current) {
+                setPendingSelection(null);
+                pendingRef.current = null;
+              }
+            } else if (msg.type === 'proposal') {
+              setProposal(msg.data);
               setPendingSelection(null);
-              pendingRef.current = null;
-            }
-          } else if (msg.type === 'proposal') {
-            // LLM 제안 수신
-            console.log('[React] Proposal received:', msg.data);
-            console.log('[React] Proposal startLine:', msg.data?.startLine);
-            console.log('[React] Proposal endLine:', msg.data?.endLine);
-            setProposal(msg.data);
-            setPendingSelection(null);
-            pendingRef.current = null;
-          } else if (msg.type === 'applyResult') {
-            // 제안 적용 결과 수신
-            console.log('[React] Apply result received:', msg.data);
-            setApplying(false);
-            if (msg.data?.ok) {
-              // 토스트 등
+            } else if (msg.type === 'applyComplete') {
+              setApplying(false);
               setProposal(null);
-            } else {
-              alert(`적용 실패: ${msg.data?.error || '알 수 없는 오류'}`);
+            } else if (msg.type === 'userJourney') {
+              setUserJourney(msg.data.userJourney);
+              setActivityJourney(msg.data.activityJourney);
             }
-          } else if (msg.type === 'exactLocation') {
-            // Selection 결과 처리
-            console.log('[React] Exact location received:', msg.data);
-            const { location } = msg.data || {};
-            
-            // 최신 상태는 ref에서 읽는다
-            const pending = pendingRef.current;
-            const currIssues = issuesRef.current;
-            const currActiveFile = activeFileRef.current;
-            
-            console.log('[React] Active scope (ref):', activeFileRef.current);
-            console.log('[React] Issues count (ref):', issuesRef.current.length);
-            
-            console.log('[React] Extracted location:', location);
-            console.log('[React] Pending selection (ref):', pending);
-            
-            if (location) {
-              console.log('[React] Location found, opening in VS Code:', location);
-              setActiveFile(location.file); // 활성 파일 업데이트
-              openInVSCode(location, '');
-              if (pending) {
-                console.log('[React] Clearing pending selection');
-                setPendingSelection(null);
-                pendingRef.current = null;
-              }
-              return;
-            } else {
-              console.log('[React] No exact location found, using scope-aware fallback');
-              const issue = currIssues.find(i => i.id === pending?.issueId);
-              
-              // 1) activeFile(스코프) 우선
-              if (currActiveFile) {
-                console.log('[React] Using active scope file:', currActiveFile);
-                openInVSCode({ file: currActiveFile, line: 1, column: 1}, '');
-              }
-              // 2) 없으면 issue.source
-              else if (issue?.source) {
-                console.log('[React] Using fallback source:', issue.source);
-                setActiveFile(issue.source.file);
-                openInVSCode(issue.source, '');
-              }
-              // 3) 아무것도 없으면
-              else {
-                console.log('[React] No scope or source available for fallback');
-              }
-              
-              if (pending) {
-                setPendingSelection(null);
-                pendingRef.current = null;
-              }
-            }
+          } catch (error) {
+            console.error('[React] Failed to parse WebSocket message:', error);
           }
         };
-      } catch {
+      } catch (error) {
+        console.error('[React] WebSocket connection error:', error);
         setConn('disconnected');
         scheduleReconnect();
       }
     };
 
     const scheduleReconnect = () => {
-      if (reconnectTimer.current) return;
+      if (reconnectTimer.current || reconnectAttempts >= maxReconnectAttempts) {
+        if (reconnectAttempts >= maxReconnectAttempts) {
+          console.log('[React] Max reconnection attempts reached');
+          setConn('disconnected');
+        }
+        return;
+      }
+      
+      reconnectAttempts++;
+      const delay = baseReconnectDelay * Math.pow(2, reconnectAttempts - 1); // 지수 백오프
+      
       reconnectTimer.current = window.setTimeout(() => {
-        reconnectTimer.current = null;
-        setConn('connecting');
         connect();
-      }, 3000);
+      }, delay);
     };
 
-    // 첫 연결
     connect();
 
     return () => {
@@ -267,30 +241,60 @@ export default function App() {
         window.clearTimeout(reconnectTimer.current);
         reconnectTimer.current = null;
       }
-      if (ws) ws.close();
+      if (ws) {
+        ws.close(1000, 'Component unmounting'); // 정상적인 종료 코드
+      }
     };
   }, []);
 
-  function normalizeIssues(input: Issue[]): Issue[] {
-    return (input ?? []).map((i, idx) => ({
+  // ProjectAnalyzer 업데이트
+  useEffect(() => {
+    if (ws && issues.length > 0) {
+      projectAnalyzer.setWebSocketData({ frame, issues });
+    }
+  }, [ws, issues, frame, projectAnalyzer]);
+
+  function normalizeIssues(input: any[]): Issue[] {
+    return (input ?? []).map((i: any, idx: number) => ({
       id: i.id ?? String(idx),
-      severity: i.severity ?? 'info',
+      type: i.type || i.severity || 'info',
+      severity: i.severity || i.type || 'info',
       label: i.label,
       description: i.description,
       elementType: i.elementType,
       rectPct: i.rectPct,
       rect: i.rect,
       source: i.source,
-      m5Location: i.m5Location, // ← 이게 빠져있었음!
+      m5Location: i.m5Location,
     }));
   }
 
-  // 접근성 요소만 필터링 (텍스트 제외)
+  // 통합된 이슈 필터링 (텍스트 제외)
   const accessibilityIssues = useMemo(
-    () => issues.filter(i => i.elementType && i.elementType !== 'text'),
+    () => issues.filter((i: Issue) => i.elementType && i.elementType !== 'text'),
     [issues]
   );
   const displayIssues = accessibilityIssues;
+
+  // 접근성 점수 계산
+  const calculatedAccessibilityScore = useMemo(() => {
+    if (accessibilityIssues.length === 0) return 100;
+    
+    const errorCount = accessibilityIssues.filter(i => i.severity === 'error').length;
+    const warningCount = accessibilityIssues.filter(i => i.severity === 'warning').length;
+    const infoCount = accessibilityIssues.filter(i => i.severity === 'info').length;
+    
+    // 점수 계산: 에러는 -10점, 경고는 -5점, 정보는 -2점
+    const totalDeduction = (errorCount * 10) + (warningCount * 5) + (infoCount * 2);
+    const score = Math.max(0, 100 - totalDeduction);
+    
+    return score;
+  }, [accessibilityIssues]);
+
+  // 접근성 점수 상태 업데이트
+  useEffect(() => {
+    setAccessibilityScore(calculatedAccessibilityScore);
+  }, [calculatedAccessibilityScore]);
 
   // VS Code URI 열기 ----------------------------------------------
   const openInVSCode = (src: SourceLoc, suggestedText = '') => {
@@ -303,50 +307,254 @@ export default function App() {
       ...(proposal?.startLine && { startLine: String(proposal.startLine) }),
       ...(proposal?.endLine && { endLine: String(proposal.endLine) }),
     });
-    
-    console.log('[React] openInVSCode - proposal:', proposal);
-    console.log('[React] openInVSCode - proposal.startLine:', proposal?.startLine);
-    console.log('[React] openInVSCode - proposal.endLine:', proposal?.endLine);
-    console.log('[React] openInVSCode - params:', Object.fromEntries(params.entries()));
-    const uri = `vscode://${EXTENSION_ID}/previewSuggestion?${params.toString()}`;
-    console.log('[React] Generated URI:', uri);
-    console.log('[React] Calling window.open...');
-    
-    // URL handler 호출 시도
-    try {
-      window.open(uri, '_blank', 'noopener');
-      console.log('[React] window.open called successfully');
-    } catch (error) {
-      console.error('[React] window.open failed:', error);
-      // 폴백: location.href 사용
-      try {
-        window.location.href = uri;
-        console.log('[React] location.href fallback used');
-      } catch (fallbackError) {
-        console.error('[React] location.href fallback also failed:', fallbackError);
-      }
-    }
-  };
+    window.open(`vscode://my.publisher.myExtension/applySuggestion?${params}`);
+  }
 
-  // LLM 제안 요청 함수
-  const requestProposal = (issue: Issue) => {
-    if (!ws || ws.readyState !== WebSocket.OPEN) return;
-    console.log('[React] requestProposal called for issue:', issue.id);
-    console.log('[React] Issue M5 location:', issue.m5Location);
-    console.log('[React] Issue source location:', issue.source);
-    console.log('[React] Full issue object:', issue);
-    
-    setPendingSelection({ issueId: issue.id, label: issue.label || '' });
-    ws.send(JSON.stringify({ type: 'generateProposal', data: { issue } }));
-  };
+  function onDiscuss(sug: Suggestion) {
+    // 채팅 모달 열기
+    setIsChatModalOpen(true);
+  }
 
   // navigateToIssue 함수 제거됨 (미사용)
 
   // 툴팁 앵커 좌표 계산 -------------------------------------------
   const hoveredIssue = useMemo(
-    () => (hoveredId ? accessibilityIssues.find(i => String(i.id) === hoveredId) : undefined),
+    () => (hoveredId ? accessibilityIssues.find((i: Issue) => String(i.id) === hoveredId) : undefined),
     [hoveredId, accessibilityIssues]
   );
+
+  // 누락된 함수들 추가
+  function handleGenerateReport(newChatHistory: ChatMessage[]) {
+    setChatHistory(newChatHistory);
+    
+    // 리포트 생성
+    reportGenerator.setAcceptedIssues(acceptedIssues);
+    reportGenerator.setChatHistory(newChatHistory);
+    const reportData = reportGenerator.generateReport(accessibilityIssues, acceptedIssues, newChatHistory);
+    
+    // HTML 리포트 다운로드
+    reportGenerator.downloadHTMLReport(reportData);
+  }
+
+  function handleRefreshAnalysis() {
+    // 분석 새로고침 로직
+    console.log('[React] Refreshing analysis...');
+    // 여기에 실제 분석 새로고침 로직 추가
+  }
+
+  // LLM 제안 요청 함수
+  const requestProposal = (issue: Issue) => {
+    if (!ws || ws.readyState !== WebSocket.OPEN) {
+      console.log('[React] WebSocket not connected, using direct VS Code URI');
+      // WebSocket이 연결되지 않은 경우 직접 VS Code URI 호출
+      openInVSCodeDirectly(issue);
+      return;
+    }
+    
+    setPendingSelection({ issueId: issue.id, label: issue.label || '' });
+    ws.send(JSON.stringify({ type: 'generateProposal', data: { issue } }));
+  };
+
+  // WebSocket 없이 직접 VS Code URI 호출
+  const openInVSCodeDirectly = (issue: Issue) => {
+    console.log('[React] Opening VS Code directly for issue:', issue);
+    
+    // 이슈의 소스 위치 정보 사용
+    const sourceLocation = issue.source || issue.m5Location;
+    if (!sourceLocation) {
+      console.log('[React] No source location found for issue');
+      return;
+    }
+
+    const params = new URLSearchParams({
+      file: sourceLocation.file,
+      line: String(sourceLocation.line),
+      column: String(sourceLocation.column),
+      text: JSON.stringify({
+        issueId: issue.id,
+        label: issue.label,
+        description: issue.description,
+        elementType: issue.elementType,
+        severity: issue.severity
+      })
+    });
+
+    // VS Code URI 호출
+    const vscodeUri = `vscode://file/${encodeURIComponent(sourceLocation.file)}:${sourceLocation.line}:${sourceLocation.column}`;
+    console.log('[React] Opening VS Code URI:', vscodeUri);
+    
+    // 브라우저에서 VS Code 프로토콜 호출
+    window.open(vscodeUri, '_blank');
+    
+    // 추가로 VS Code 명령 실행을 위한 URI도 시도
+    const commandUri = `vscode://vscode-remote/extension/my-publisher.flutter-accessibility-checker/openPanel`;
+    window.open(commandUri, '_blank');
+  };
+
+  // 직접 코드 수정 적용
+  const applyProposalDirectly = (issue: Issue) => {
+    console.log('[React] Applying proposal directly for issue:', issue);
+    
+    // 이슈 타입에 따른 기본 수정 코드 생성
+    const fixCode = generateFixCode(issue);
+    
+    // 이슈의 소스 위치 정보 사용
+    const sourceLocation = issue.source || issue.m5Location;
+    if (!sourceLocation) {
+      console.log('[React] No source location found for issue');
+      return;
+    }
+
+    const params = new URLSearchParams({
+      file: sourceLocation.file,
+      line: String(sourceLocation.line),
+      column: String(sourceLocation.column),
+      text: JSON.stringify({
+        newCode: fixCode,
+        startLine: sourceLocation.line,
+        endLine: sourceLocation.line,
+        beforeA11y: issue.description || '접근성 이슈',
+        afterA11y: '개선된 접근성'
+      }),
+      startLine: String(sourceLocation.line),
+      endLine: String(sourceLocation.line)
+    });
+
+    // VS Code URI 호출 (적용)
+    // 확장 프로그램 ID를 올바르게 설정
+    const vscodeUri = `vscode://file/${encodeURIComponent(sourceLocation.file)}:${sourceLocation.line}:${sourceLocation.column}`;
+    console.log('[React] Opening VS Code URI:', vscodeUri);
+    
+    // 브라우저에서 VS Code 프로토콜 호출
+    window.open(vscodeUri, '_blank');
+    
+    // 추가로 확장 프로그램 명령 실행
+    setTimeout(() => {
+      const commandUri = `vscode://my-publisher.flutter-accessibility-checker/applySuggestion?${params.toString()}`;
+      console.log('[React] Applying VS Code command URI:', commandUri);
+      window.open(commandUri, '_blank');
+    }, 1000);
+  };
+
+  // 이슈 타입에 따른 수정 코드 생성
+  const generateFixCode = (issue: Issue): string => {
+    const elementType = issue.elementType || '';
+    const label = issue.label || '';
+    
+    switch (elementType) {
+      case 'image':
+        return `Semantics(
+  label: "${label} 이미지",
+  image: true,
+  child: Image.asset('assets/image.png'),
+)`;
+      
+      case 'button':
+        return `Container(
+  constraints: BoxConstraints(
+    minWidth: 44.0,
+    minHeight: 44.0,
+  ),
+  child: ElevatedButton(
+    onPressed: () {},
+    child: Text("${label}"),
+  ),
+)`;
+      
+      case 'textfield':
+        return `TextField(
+  decoration: InputDecoration(
+    labelText: "${label}",
+    hintText: "입력해주세요",
+  ),
+  semanticsLabel: "${label} 입력 필드",
+)`;
+      
+      case 'text':
+        return `Text(
+  "${label}",
+  style: TextStyle(
+    color: Colors.black87,
+    fontSize: 16.0,
+  ),
+)`;
+      
+      default:
+        return `Semantics(
+  label: "${label}",
+  child: Container(
+    child: Text("${label}"),
+  ),
+)`;
+    }
+  };
+
+  // 이슈 타입에 따른 기존 코드 (잘못된 예시) 생성
+  const generateOriginalCode = (issue: Issue): string => {
+    const elementType = issue.elementType || '';
+    const label = issue.label || '';
+    
+    switch (elementType) {
+      case 'image':
+        return `// 접근성 이슈: 이미지에 대체 텍스트 없음
+Image.asset('assets/image.png'),
+
+// 문제점: 스크린 리더가 이미지 내용을 알 수 없음`;
+      
+      case 'button':
+        return `// 접근성 이슈: 터치 영역이 너무 작음
+TextButton(
+  onPressed: () {},
+  child: Text("${label}"),
+),
+
+// 문제점: 최소 터치 영역(44x44dp) 미달`;
+      
+      case 'textfield':
+        return `// 접근성 이슈: 입력 필드에 라벨 없음
+TextField(
+  decoration: InputDecoration(
+    hintText: "입력해주세요",
+  ),
+),
+
+// 문제점: 사용자가 무엇을 입력해야 하는지 모름`;
+      
+      case 'text':
+        return `// 접근성 이슈: 색상 대비 부족
+Text(
+  "${label}",
+  style: TextStyle(
+    color: Colors.grey[600],  // 낮은 대비
+  ),
+),
+
+// 문제점: 저시력 사용자가 읽기 어려움`;
+      
+      default:
+        return `// 접근성 이슈: 시맨틱 정보 없음
+Container(
+  child: Text("${label}"),
+),
+
+// 문제점: 스크린 리더가 요소의 역할을 알 수 없음`;
+    }
+  };
+
+  // 채팅 응답 생성 함수 (사용자 저니 포함)
+  const generateChatResponse = async (message: string) => {
+    try {
+      const response = await chatService.generateResponse(message, {
+        issues: accessibilityIssues,
+        components: [],
+        userJourney: userJourney
+      });
+      return response;
+    } catch (error) {
+      console.error('[React] Chat response generation failed:', error);
+      return null;
+    }
+  };
 
   // 렌더 -----------------------------------------------------------
   return (
@@ -376,17 +584,50 @@ export default function App() {
                   src={`data:image/png;base64,${frame.imageBase64}`}
                 />
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center bg-white text-gray-500">
-                  {conn === 'connected' ? '첫 프레임 대기 중…' : conn === 'connecting' ? '서버 연결 중…' : '연결 끊김'}
+                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 text-white">
+                  <div className="text-center">
+                    <div className="text-4xl mb-4">📱</div>
+                    <div className="text-lg font-semibold mb-2">
+                      {conn === 'connected' ? '스크린샷 로딩 중...' : conn === 'connecting' ? '서버 연결 중...' : '연결 끊김'}
+                    </div>
+                    <div className="text-sm opacity-75">
+                      {conn === 'connected' ? 'Flutter 앱에서 스크린샷을 캡처하고 있습니다.' : 'WebSocket 연결을 확인해주세요.'}
+                    </div>
+                  </div>
                 </div>
               )}
 
               {/* 오버레이 박스 */}
               {accessibilityIssues.map((issue) => {
-                if (!issue.rectPct) return null;
-                const color = issue.severity === 'warning'
+                // 바운딩 박스 좌표 결정 (rectPct 우선, position 기반 계산 폴백)
+                let boundingBox = null;
+                
+                if (issue.rectPct) {
+                  // rectPct가 있으면 퍼센트 좌표 사용
+                  boundingBox = {
+                    left: `${issue.rectPct.left}%`,
+                    top: `${issue.rectPct.top}%`,
+                    width: `${issue.rectPct.width}%`,
+                    height: `${issue.rectPct.height}%`
+                  };
+                } else if (issue.position) {
+                  // position이 있으면 절대 좌표를 퍼센트로 변환
+                  const deviceWidth = DEVICE_W;
+                  const deviceHeight = DEVICE_H;
+                  boundingBox = {
+                    left: `${(issue.position.x / deviceWidth) * 100}%`,
+                    top: `${(issue.position.y / deviceHeight) * 100}%`,
+                    width: '20px', // 기본 크기
+                    height: '20px'
+                  };
+                } else {
+                  // 좌표 정보가 없으면 렌더링하지 않음
+                  return null;
+                }
+
+                const color = issue.type === 'warning' || issue.severity === 'warning'
                   ? '#eab308'
-                  : issue.severity === 'error'
+                  : issue.type === 'error' || issue.severity === 'error'
                   ? '#ef4444'
                   : '#22c55e';
                 const isHovered = hoveredId === String(issue.id);
@@ -396,18 +637,20 @@ export default function App() {
                     key={issue.id}
                     className="absolute"
                     style={{
-                      left: `${issue.rectPct.left}%`,
-                      top: `${issue.rectPct.top}%`,
-                      width: `${issue.rectPct.width}%`,
-                      height: `${issue.rectPct.height}%`,
+                      left: boundingBox.left,
+                      top: boundingBox.top,
+                      width: boundingBox.width,
+                      height: boundingBox.height,
                       border: `2px solid ${color}`,
                       backgroundColor: isHovered ? `${color}1A` : 'transparent',
                       transition: 'all .2s ease',
                       pointerEvents: 'auto',
+                      borderRadius: '2px',
+                      boxShadow: isHovered ? `0 0 8px ${color}40` : 'none',
                     }}
                     onMouseEnter={() => setHoveredId(String(issue.id))}
                     onMouseLeave={() => setHoveredId(null)}
-                    title={issue.label || issue.description || ''}
+                    title={`${issue.label || issue.title || '접근성 이슈'}\n${issue.description || ''}`}
                   />
                 );
               })}
@@ -416,226 +659,204 @@ export default function App() {
         </div>
       </div>
 
-      {/* 오른쪽: 리포트 패널 */}
-      <div className="w-80 bg-white rounded-2xl shadow p-6 space-y-4 max-h-screen overflow-y-auto flex-shrink-0">
+      {/* 오른쪽 보고서 영역 - 줄어든 크기 */}
+      <div className="w-80 bg-white rounded-2xl shadow p-6 space-y-4 max-h-screen overflow-y-auto">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">접근성 평가 정보</h2>
-          <div
-            className={`flex items-center gap-2 text-xs ${
-              conn === 'connected' ? 'text-green-600' : conn === 'connecting' ? 'text-yellow-600' : 'text-red-600'
-            }`}
-          >
-            <div
-              className={`w-2 h-2 rounded-full ${
-                conn === 'connected' ? 'bg-green-500' : conn === 'connecting' ? 'bg-yellow-500' : 'bg-red-500'
-              }`}
-            />
-            {conn === 'connected' ? '실시간' : conn === 'connecting' ? '연결 중…' : '끊김'}
-          </div>
-        </div>
-
-        {/* 탭 */}
-        <div className="flex border-b">
           <button
-            onClick={() => {}}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-              true // Always active for accessibility
-                ? 'border-blue-500 text-blue-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700'
-            }`}
+            onClick={handleRefreshAnalysis}
+            className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+            title="새로고침"
           >
-            🔍 접근성 요소 ({accessibilityIssues.length})
+            🔄
           </button>
         </div>
-
-        {/* 리스트 */}
-        {displayIssues.length === 0 ? (
-          <div className="border-l-4 p-3 rounded bg-green-50 border-green-500 text-green-800 text-sm">
-            현재 화면에서 접근성 검사가 필요한 요소가 없습니다.
+        
+        {/* 접근성 점수 */}
+        <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-xl border border-blue-200">
+          <div className="text-center">
+            <div className="text-2xl font-bold text-blue-600">{accessibilityScore}</div>
+            <div className="text-sm text-gray-600">접근성 점수</div>
           </div>
-        ) : (
-          <div className="space-y-2">
-            {displayIssues.map((issue) => {
-              const isHovered = hoveredId === String(issue.id);
-              return (
+        </div>
+        
+        {/* 접근성 이슈 목록 */}
+        <div className="space-y-3">
+          <h3 className="text-sm font-medium text-gray-700">발견된 이슈 ({displayIssues.length}개)</h3>
+          
+          {displayIssues.length === 0 ? (
+            <div className="text-center py-8 text-gray-500">
+              <div className="text-2xl mb-2">✅</div>
+              <div className="text-sm">접근성 이슈가 발견되지 않았습니다</div>
+            </div>
+          ) : (
+            <div className="space-y-2 max-h-96 overflow-y-auto">
+              {displayIssues.map((issue) => (
                 <div
                   key={issue.id}
-                  className={`border-l-4 p-3 rounded transition-all duration-200 cursor-default ${
-                    issue.elementType === 'text'
-                      ? 'bg-blue-100 border-blue-500'
-                      : issue.severity === 'warning'
-                      ? 'bg-yellow-100 border-yellow-500'
-                      : issue.severity === 'error'
-                      ? 'bg-red-100 border-red-500'
-                      : 'bg-green-100 border-green-500'
-                  } ${isHovered ? 'ring-2 ring-blue-300 scale-[1.01]' : ''}`}
+                  className={`p-3 rounded-lg border cursor-pointer transition-all hover:shadow-md ${
+                    hoveredId === String(issue.id) 
+                      ? 'border-blue-300 bg-blue-50' 
+                      : 'border-gray-200 bg-gray-50'
+                  }`}
                   onMouseEnter={() => setHoveredId(String(issue.id))}
                   onMouseLeave={() => setHoveredId(null)}
                 >
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span
-                      className={`font-medium text-sm ${
-                        issue.elementType === 'text'
-                          ? 'text-blue-800'
-                          : issue.severity === 'warning'
-                          ? 'text-yellow-800'
-                          : issue.severity === 'error'
-                          ? 'text-red-800'
-                          : 'text-green-800'
-                      }`}
-                    >
-                      {issue.label?.trim() || '⚠️ 레이블 누락'}
-                    </span>
-
-                    {/* 유형/심각도 필 */}
-                    <span className={`text-[10px] px-2 py-1 rounded ${pillClassByType(issue.elementType)}`}>
-                      {typeLabel(issue.elementType)}
-                    </span>
-                    <span className={`text-[10px] px-2 py-1 rounded ${pillClassBySeverity(issue.severity)}`}>
-                      {issue.severity === 'warning'
-                        ? '경고'
-                        : issue.severity === 'error'
-                        ? '오류'
-                        : '정상'}
-                    </span>
-
-                    {/* Flutter에서 온 노드 표식 */}
-                    {String(issue.id).startsWith('flutter-') && (
-                      <span className="text-[10px] px-2 py-1 rounded bg-purple-100 text-purple-800">Flutter</span>
-                    )}
-                  </div>
-
-                  {issue.description && (
-                    <p className="text-xs text-gray-700 mt-1">{issue.description}</p>
-                  )}
-
-                  <div className="mt-2 flex items-center gap-2 flex-wrap">
-                    {/* M5 매칭 위치 (우선 표시) */}
-                    {(() => {
-                      console.log('Issue debug:', issue.id, 'has m5Location:', !!issue.m5Location, issue.m5Location);
-                      return null;
-                    })()}
-                    {issue.m5Location && (
-                      <div className="flex flex-col gap-1">
-                        <p className="text-[11px] text-green-600 font-medium">
-                          🎯 M5 매칭: {issue.m5Location.file.split('/').pop()}:{issue.m5Location.line}:{issue.m5Location.column}
-                        </p>
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className={`text-xs px-2 py-1 rounded ${pillClassBySeverity(issue.severity || 'info')}`}>
+                          {issue.severity === 'error' ? '오류' : issue.severity === 'warning' ? '경고' : '정보'}
+                        </span>
+                        <span className={`text-xs px-2 py-1 rounded ${pillClassByType(issue.elementType)}`}>
+                          {typeLabel(issue.elementType)}
+                        </span>
                       </div>
-                    )}
-                    
-                    {/* 기본 소스 위치 */}
-                    {issue.source ? (
-                      <p className={`text-[11px] ${issue.m5Location ? 'text-gray-400' : 'text-gray-500'}`}>
-                        📍 기본: {issue.source.file.split('/').pop()}:{issue.source.line}:{issue.source.column}
-                      </p>
-                    ) : null}
+                      <div className="text-sm font-medium text-gray-900 mb-1">
+                        {issue.label || '접근성 이슈'}
+                      </div>
+                      <div className="text-xs text-gray-600 line-clamp-2">
+                        {issue.description || '설명 없음'}
+                      </div>
+                    </div>
                     <button
-                      className={`text-[11px] px-2 py-1 rounded ${
-                        pendingSelection?.issueId === issue.id 
-                          ? 'bg-gray-400 text-white cursor-not-allowed' 
-                          : conn !== 'connected' || !ws || ws.readyState !== WebSocket.OPEN
-                          ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
-                          : 'bg-green-600 text-white hover:bg-green-700'
-                      }`}
                       onClick={() => {
-                        const isBusy = pendingSelection?.issueId === issue.id;
-                        const disabled = isBusy || conn !== 'connected' || !ws || ws.readyState !== WebSocket.OPEN;
-                        if (disabled || isBusy) return;
-                        console.log('[React] 개선하기 button clicked for issue:', issue);
-                        requestProposal(issue);
+                        setPreviewIssue(issue);
+                        setShowCodePreview(true);
                       }}
-                      disabled={pendingSelection?.issueId === issue.id || conn !== 'connected' || !ws || ws.readyState !== WebSocket.OPEN}
-                      title={`${
-                        pendingSelection?.issueId === issue.id 
-                          ? '제안 생성 중...' 
-                          : conn !== 'connected' 
-                          ? '서버에 연결되지 않았습니다'
-                          : 'LLM이 접근성 개선 제안을 생성합니다'
-                      }\n${activeFile ? `활성 파일: ${activeFile.split('/').pop()}` : ''}`}
+                      className="ml-2 px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+                      disabled={pendingSelection?.issueId === issue.id}
                     >
-                      {pendingSelection?.issueId === issue.id ? '🔍 제안 생성 중...' : '✨ 개선하기'}
+                      {pendingSelection?.issueId === issue.id ? '처리중...' : '개선하기'}
                     </button>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
+        </div>
+        
+        <p className="text-gray-600 text-xs">
+          이 앱에 대한 접근성 평가 결과입니다.
+        </p>
       </div>
+      
+      {/* ChatModal */}
+      <ChatModal
+        isOpen={isChatModalOpen}
+        onClose={() => setIsChatModalOpen(false)}
+        issues={accessibilityIssues}
+        onGenerateReport={handleGenerateReport}
+        activityJourney={activityJourney}
+      />
+      
+      {/* 플로팅 채팅 버튼 */}
+      <button
+        onClick={() => setIsChatModalOpen(true)}
+        className="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group z-40"
+        title="AI 접근성 분석과 대화하기"
+      >
+        <div className="text-xl">💬</div>
+        <div className="absolute right-16 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+          AI와 대화하기
+        </div>
+      </button>
 
-      {/* 왼쪽 말풍선 & 점선: 호버된 이슈가 있고, 장치 셸 ref가 있을 때만 */}
-      {hoveredIssue && hoveredIssue.rectPct && deviceShellRef.current && (
-        <FloatingBalloon
-          containerEl={deviceShellRef.current}
-          rectPct={hoveredIssue.rectPct}
-          color={
-            hoveredIssue.severity === 'warning'
-              ? '#eab308'
-              : hoveredIssue.severity === 'error'
-              ? '#ef4444'
-              : '#22c55e'
-          }
-          title={hoveredIssue.label?.trim() || '⚠️ 레이블 누락'}
-          subtitle={typeLabel(hoveredIssue.elementType)}
-          severity={hoveredIssue.severity}
-          description={hoveredIssue.description}
-        />
-      )}
+      {/* 코드 미리보기 모달 */}
+      {showCodePreview && previewIssue && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+            {/* 헤더 */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <div>
+                <h2 className="text-xl font-semibold text-gray-800">접근성 개선 제안</h2>
+                <p className="text-sm text-gray-600 mt-1">
+                  {previewIssue.label} - {previewIssue.source ? `${previewIssue.source.file.split('/').pop()}:${previewIssue.source.line}` : '위치 정보 없음'}
+                </p>
+              </div>
+              <button
+                onClick={() => setShowCodePreview(false)}
+                className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                ✕
+              </button>
+            </div>
 
-      {/* LLM 제안 오버레이 */}
-      {proposal && (
-        <div className="fixed inset-0 z-[9999] bg-black/40 flex items-center justify-center">
-          <ProposalSheet
-            proposal={proposal}
-            applying={applying}
-            onClose={() => setProposal(null)}
-            onApply={() => {
-              console.log('Apply button clicked, opening VS Code diff...');
-              
-              // proposal 정보를 미리 추출
-              const { startLine, endLine, diff, file } = proposal;
-              const selectedIssue = issues.find(i => i.id === proposal.issueId);
-              const m5Location = selectedIssue?.m5Location;
-              
-              if (diff && m5Location && startLine && endLine) {
-                console.log('Full diff content:', diff);
-                console.log('Using startLine:', startLine, 'endLine:', endLine);
-                
-                // JSON에서 newCode만 추출해서 VS Code로 전송
-                const newText = extractNewCode(diff);
-                
-                console.log('Extracted newCode for VS Code:', { 
-                  originalLength: diff.length,
-                  extractedLength: newText.length,
-                  extractedPreview: newText.substring(0, 100)
-                });
-                
-                // VS Code URI 생성 (startLine, endLine 포함)
-                const params = new URLSearchParams({
-                  file: file,
-                  line: String(m5Location.line),
-                  column: String(m5Location.column),
-                  text: newText,
-                  startLine: String(startLine),
-                  endLine: String(endLine)
-                });
-                
-                const vscodeUri = `vscode://my-publisher.flutter-accessibility-checker/previewSuggestion?${params}`;
-                console.log('Opening VS Code preview URI:', vscodeUri);
-                
-                // 브라우저에서 VS Code 열기 (고유 scheme 사용)
-                window.open(vscodeUri);
-                
-                // fallback
-                setTimeout(() => {
-                  window.location.href = vscodeUri;
-                }, 500);
-              }
-              
-              setApplying(false);
-              setProposal(null);
-            }}
-          />
+            {/* 내용 */}
+            <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(90vh-140px)]">
+              {/* 이슈 정보 */}
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className={`text-xs px-2 py-1 rounded ${
+                    previewIssue.severity === 'error' ? 'bg-red-200 text-red-800' : 
+                    previewIssue.severity === 'warning' ? 'bg-yellow-200 text-yellow-800' : 
+                    'bg-green-200 text-green-800'
+                  }`}>
+                    {previewIssue.severity === 'error' ? '오류' : previewIssue.severity === 'warning' ? '경고' : '정보'}
+                  </span>
+                  <span className="text-sm font-medium text-red-800">{previewIssue.label}</span>
+                </div>
+                <p className="text-sm text-red-700">{previewIssue.description}</p>
+              </div>
+
+              {/* 코드 비교 */}
+              <div className="grid grid-cols-2 gap-4">
+                {/* 기존 코드 (잘못된 예시) */}
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 mb-2">기존 코드 (문제가 있는 코드)</h3>
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <pre className="text-xs text-red-800 font-mono overflow-x-auto whitespace-pre-wrap">
+                      {generateOriginalCode(previewIssue)}
+                    </pre>
+                  </div>
+                </div>
+
+                {/* 개선된 코드 */}
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 mb-2">개선된 코드</h3>
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <pre className="text-xs text-green-800 font-mono overflow-x-auto whitespace-pre-wrap">
+                      {generateFixCode(previewIssue)}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+
+              {/* 접근성 개선 효과 */}
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h3 className="text-sm font-medium text-blue-800 mb-2">접근성 개선 효과</h3>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <p className="text-red-700 font-medium">개선 전</p>
+                    <p className="text-red-600">{previewIssue.description || '접근성 이슈'}</p>
+                  </div>
+                  <div>
+                    <p className="text-green-700 font-medium">개선 후</p>
+                    <p className="text-green-600">스크린 리더가 명확한 정보를 제공</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 액션 버튼 */}
+            <div className="flex gap-3 p-6 border-t border-gray-200">
+              <button
+                onClick={() => setShowCodePreview(false)}
+                className="flex-1 px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                취소
+              </button>
+              <button
+                onClick={() => {
+                  applyProposalDirectly(previewIssue);
+                  setShowCodePreview(false);
+                }}
+                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                코드 적용하기
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

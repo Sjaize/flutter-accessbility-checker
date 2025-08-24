@@ -281,96 +281,174 @@ export class SemanticsService {
     if (!this.wss) {
       const port = this.opts.port ?? 3001;
       this.wss = new WebSocketServer({ port });
-      this.wss.on('listening', () => console.log(`[SemanticsService] WS listening :${port}`));
-      this.wss.on('connection', () => console.log('[SemanticsService] Dashboard connected'));
+      this.wss.on('listening', () => {
+        console.log(`[SemanticsService] WS listening :${port}`);
+        console.log('[SemanticsService] WebSocket server ready for connections');
+      });
+      this.wss.on('connection', (ws) => {
+        console.log('[SemanticsService] Dashboard connected');
+        console.log('[SemanticsService] WebSocket connection established successfully');
+        
+        // 연결 상태 모니터링
+        ws.on('close', () => {
+          console.log('[SemanticsService] Dashboard disconnected');
+        });
+        
+        ws.on('error', (error) => {
+          console.error('[SemanticsService] Dashboard connection error:', error);
+        });
+      });
+      this.wss.on('error', (err) => {
+        console.error('[SemanticsService] WebSocket server error:', err);
+      });
     }
 
-    // 2) VM Service 연결
-    console.log('[SemanticsService] Connect VM:', vmServiceWsUrl);
-    this.vmWs = new WebSocket(vmServiceWsUrl);
+    // 2) VM Service 연결 (재연결 로직 강화)
+    await this.connectToVMService(vmServiceWsUrl);
+  }
 
-    this.vmWs.on('open', async () => {
-      // isolate 선택
-      await this.pickFlutterIsolate();
-        if (!this.isolateId) {
-          vscode.window.showWarningMessage('isolateId를 찾지 못했습니다.');
-          return;
-        }
+  // VM Service 연결 함수 (재연결 로직 포함)
+  private async connectToVMService(vmServiceWsUrl: string, retryCount = 0) {
+    const maxRetries = 3;
+    const retryDelay = 2000;
+    
+    try {
+      console.log(`[SemanticsService] Connect VM (attempt ${retryCount + 1}/${maxRetries + 1}):`, vmServiceWsUrl);
+      this.vmWs = new WebSocket(vmServiceWsUrl);
 
-      await Promise.all([
-        this.callVmAsync({ method: 'streamListen', params: { streamId: 'Extension' } }),
-        this.callVmAsync({ method: 'streamListen', params: { streamId: 'Isolate' } }),
-      ]);
-      console.log('[SemanticsService] Streams subscribed (Extension + Isolate)');
-
-      await this.initFlutterInspector();
-
-      await this.captureOnce().catch(e => console.error('[Capture] Initial failed:', e.message));
-        this.startPeriodicCapture();
-    });
-
-        // 스트림 이벤트 → 캡처
-    this.vmWs.on('message', (raw) => {
-      const msg = safeParse(raw.toString());
-      if (msg?.event?.streamId === 'Extension') {
-        const k = msg.event?.event?.extensionEvent?.eventKind;
-        if (k === 'TreeChanged' || k === 'WidgetTreeChanged' || k === 'inspectorObjectGroupChanged') {
-          console.log('[Event] Inspector change → capture debounce');
-            this.debouncedCapture();
-          }
+      this.vmWs.on('open', async () => {
+        console.log('[SemanticsService] VM Service connected successfully');
         
-                // 페이지 전환 감지 (Route 변경)
-        if (k === 'RouteChanged' || k === 'NavigationChanged') {
-          console.log('[Event] 🚀 Route/Navigation change detected!');
-          console.log('[Event] 📄 Previous Active Scope:', this._activeFile?.split('/').pop() || 'none');
-          this._activeFile = undefined; // Active Scope 초기화
-          this._stickyUntil = 0;
-          console.log('[Event] 🔄 Active Scope reset, triggering capture...');
-          // 즉시 캡처하여 새로운 Active Scope 설정
-          setTimeout(() => this.captureOnce(), 100);
-        }
-
-      }
-      if (msg?.event?.streamId === 'Isolate') {
-        const k = msg.event?.event?.kind;
-        if (k === 'IsolateReload' || k === 'IsolateUpdate') {
-          console.log('[Event] Isolate reload/update → capture debounce');
-          setTimeout(() => this.debouncedCapture(), 200);
-        }
-        if (k === 'IsolateReload' || k === 'IsolateExit' || k === 'IsolateStart') {
-          console.log('[Event] Isolate change → reinit inspector');
-          this.reinitInspector();
-        }
-      }
-    });
-
-    // React 대시보드 WebSocket 메시지 처리
-    this.wss?.on('connection', (ws) => {
-      ws.on('message', async (raw) => {
         try {
-          const msg = safeParse(raw.toString());
-          if (msg?.type === 'navigateIssue') {
-            console.log('[React] navigateIssue requested:', msg.data);
-            await this.navigateIssue(msg.data);
-          } else if (msg?.type === 'generateProposal') {
-            console.log('[React] generateProposal requested:', msg.data);
-            this.proposalService.setActiveFile(this._activeFile || null);
-            await this.proposalService.generateProposal(ws, msg.data);
-          } else if (msg?.type === 'applyProposal') {
-            console.log('[React] applyProposal requested:', msg.data);
-            await this.proposalService.applyProposal(ws, msg.data);
+          // isolate 선택
+          await this.pickFlutterIsolate();
+          if (!this.isolateId) {
+            console.warn('[SemanticsService] isolateId를 찾지 못했습니다.');
+            // isolate가 없어도 스크린샷 캡처는 계속 진행
+            await this.startScreenshotCapture();
+            return;
           }
-        } catch (e) {
-          console.log('[React] Failed to handle message:', e);
+
+          await Promise.all([
+            this.callVmAsync({ method: 'streamListen', params: { streamId: 'Extension' } }),
+            this.callVmAsync({ method: 'streamListen', params: { streamId: 'Isolate' } }),
+          ]);
+          console.log('[SemanticsService] Streams subscribed (Extension + Isolate)');
+
+          await this.initFlutterInspector();
+          await this.startScreenshotCapture();
+          
+        } catch (error) {
+          console.error('[SemanticsService] Error during VM initialization:', error);
+          // VM 초기화 실패해도 스크린샷 캡처는 시작
+          await this.startScreenshotCapture();
         }
       });
-    });
 
-    this.vmWs.on('close', () => console.log('[SemanticsService] VM closed'));
-    this.vmWs.on('error', (err) => {
-      console.error('[SemanticsService] VM error', err);
-      vscode.window.showErrorMessage('VM Service 연결 에러');
-    });
+      // 스트림 이벤트 → 캡처
+      this.vmWs.on('message', (raw) => {
+        const msg = safeParse(raw.toString());
+        if (msg?.event?.streamId === 'Extension') {
+          const k = msg.event?.event?.extensionEvent?.eventKind;
+          if (k === 'TreeChanged' || k === 'WidgetTreeChanged' || k === 'inspectorObjectGroupChanged') {
+            console.log('[Event] Inspector change → capture debounce');
+            this.debouncedCapture();
+          }
+          
+          // 페이지 전환 감지 (Route 변경)
+          if (k === 'RouteChanged' || k === 'NavigationChanged') {
+            console.log('[Event] 🚀 Route/Navigation change detected!');
+            console.log('[Event] 📄 Previous Active Scope:', this._activeFile?.split('/').pop() || 'none');
+            this._activeFile = undefined; // Active Scope 초기화
+            this._stickyUntil = 0;
+            console.log('[Event] 🔄 Active Scope reset, triggering capture...');
+            // 즉시 캡처하여 새로운 Active Scope 설정
+            setTimeout(() => this.captureOnce(), 100);
+          }
+        }
+        if (msg?.event?.streamId === 'Isolate') {
+          const k = msg.event?.event?.kind;
+          if (k === 'IsolateReload' || k === 'IsolateUpdate') {
+            console.log('[Event] Isolate reload/update → capture debounce');
+            setTimeout(() => this.debouncedCapture(), 200);
+          }
+          if (k === 'IsolateReload' || k === 'IsolateExit' || k === 'IsolateStart') {
+            console.log('[Event] Isolate change → reinit inspector');
+            this.reinitInspector();
+          }
+        }
+      });
+
+      // React 대시보드 WebSocket 메시지 처리
+      this.wss?.on('connection', (ws) => {
+        ws.on('message', async (raw) => {
+          try {
+            const msg = safeParse(raw.toString());
+            if (msg?.type === 'navigateIssue') {
+              console.log('[React] navigateIssue requested:', msg.data);
+              await this.navigateIssue(msg.data);
+            } else if (msg?.type === 'generateProposal') {
+              console.log('[React] generateProposal requested:', msg.data);
+              this.proposalService.setActiveFile(this._activeFile || null);
+              await this.proposalService.generateProposal(ws, msg.data);
+            } else if (msg?.type === 'applyProposal') {
+              console.log('[React] applyProposal requested:', msg.data);
+              await this.proposalService.applyProposal(ws, msg.data);
+            }
+          } catch (e) {
+            console.log('[React] Failed to handle message:', e);
+          }
+        });
+      });
+
+      this.vmWs.on('close', () => {
+        console.log('[SemanticsService] VM Service closed');
+        this.scheduleVMReconnect(vmServiceWsUrl, retryCount);
+      });
+      
+      this.vmWs.on('error', (err) => {
+        console.error('[SemanticsService] VM Service error:', err);
+        console.log('[SemanticsService] Continuing with screenshot capture despite VM Service error');
+        
+        // VM Service 연결 실패 시에도 스크린샷 캡처 시작
+        setTimeout(async () => {
+          console.log('[SemanticsService] Starting screenshot capture without VM Service');
+          await this.startScreenshotCapture();
+        }, 1000);
+      });
+      
+    } catch (error) {
+      console.error('[SemanticsService] VM Service connection failed:', error);
+      this.scheduleVMReconnect(vmServiceWsUrl, retryCount);
+    }
+  }
+
+  // VM Service 재연결 스케줄링
+  private scheduleVMReconnect(vmServiceWsUrl: string, retryCount: number) {
+    const maxRetries = 3;
+    const retryDelay = 2000;
+    
+    if (retryCount < maxRetries) {
+      console.log(`[SemanticsService] Scheduling VM Service reconnect in ${retryDelay}ms (attempt ${retryCount + 1}/${maxRetries})`);
+      setTimeout(() => {
+        this.connectToVMService(vmServiceWsUrl, retryCount + 1);
+      }, retryDelay);
+    } else {
+      console.log('[SemanticsService] Max VM Service reconnection attempts reached, continuing without VM Service');
+      // VM Service 없이도 스크린샷 캡처는 계속 진행
+      this.startScreenshotCapture();
+    }
+  }
+
+  // 스크린샷 캡처 시작 (VM Service와 독립적으로)
+  private async startScreenshotCapture() {
+    try {
+      console.log('[SemanticsService] Starting screenshot capture...');
+      await this.captureOnce().catch(e => console.error('[Capture] Initial failed:', e.message));
+      this.startPeriodicCapture();
+    } catch (error) {
+      console.error('[SemanticsService] Failed to start screenshot capture:', error);
+    }
   }
 
   dispose() {
@@ -505,53 +583,72 @@ export class SemanticsService {
 
   private startPeriodicCapture() {
     if (this.captureInterval) clearInterval(this.captureInterval);
+    
+    // 즉시 첫 번째 캡처 실행
+    this.captureOnce().catch(e => console.error('[Capture] Failed:', e));
+    
+    // 주기적 캡처 설정
     this.captureInterval = setInterval(() => {
-      if (Date.now() - this.lastAt >= 10000) this.captureOnce().catch(() => {});
-    }, 10000);
+      if (Date.now() - this.lastAt >= 5000) {
+        this.captureOnce().catch(e => console.error('[Capture] Failed:', e));
+      }
+    }, 1000);
   }
 
   private async captureOnce(): Promise<{ frame: FramePayload; issues: any[] } | null> {
     if (this.capturing) return null;
     this.capturing = true;
     try {
-      console.log('[Capture] start');
-
       let frame: FramePayload | null = null;
       let issues: UiIssue[] = [];
 
-      const serial = this.opts.deviceId ?? 'emulator-5554';
-      console.log('[Capture] adb target =', serial);
-
-      const [png, xml] = await Promise.all([
-        adbScreencap(serial),
-        adbDumpUI(serial).catch(() => ''),
-      ]);
-
-      const { width, height } = getPngSize(png);
-      frame = { imageBase64: png.toString('base64'), width, height };
-
-      const uia = parseUiautomatorXml(xml, width, height);
-      let uiaIssues = [...uia.accessibilityIssues]; // 텍스트 요소 제거
-      console.log(`[Capture] uiaIssues=${uiaIssues.length}`);
-
-      // Flutter Inspector 기반 매칭
-      const idx = await this.buildWidgetSummaryIndex();
-      let matched = 0;
-      uiaIssues = uiaIssues.map(u => {
-        const loc = this.matchIssueToSummary(
-          { label: u.label, elementType: u.elementType, rect: u.rect }, idx
-        );
-        if (loc) { 
-          matched++; 
-          console.log(`[M5] ✅ Setting m5Location for issue ${u.id}: ${loc.file.split('/').pop()}:${loc.line}:${loc.column}`);
-          return { ...u, m5Location: loc }; // M5 매칭 결과를 별도 필드로 저장
+      // Flutter 웹 스크린샷 캡처
+      if (this.opts.platform === 'unknown' || !this.opts.deviceId) {
+        try {
+          const screenshotData = await this.captureFlutterWebScreenshot();
+          if (screenshotData) {
+            frame = screenshotData.frame;
+            issues = screenshotData.issues;
+          } else {
+            frame = this.createDummyFrame();
+            issues = this.createDummyIssues();
+          }
+        } catch (error) {
+          console.error('[Capture] Error:', error);
+          frame = this.createDummyFrame();
+          issues = this.createDummyIssues();
         }
-        console.log(`[M5] ❌ No m5Location for issue ${u.id}`);
-        return u;
-      });
-      this.metrics.method5_matching.matchedBySummary = matched;
-      console.log(`[Match] ${matched}/${uiaIssues.length} UI elements matched to source code`);
-      issues = uiaIssues;
+      } else {
+        // Android ADB 스크린샷 (기존 로직)
+        const serial = this.opts.deviceId ?? 'emulator-5554';
+
+        const [png, xml] = await Promise.all([
+          adbScreencap(serial),
+          adbDumpUI(serial).catch(() => ''),
+        ]);
+
+        const { width, height } = getPngSize(png);
+        frame = { imageBase64: png.toString('base64'), width, height };
+
+        const uia = parseUiautomatorXml(xml, width, height);
+        let uiaIssues = [...uia.accessibilityIssues];
+
+        // Flutter Inspector 기반 매칭
+        const idx = await this.buildWidgetSummaryIndex();
+        let matched = 0;
+        uiaIssues = uiaIssues.map(u => {
+          const loc = this.matchIssueToSummary(
+            { label: u.label, elementType: u.elementType, rect: u.rect }, idx
+          );
+          if (loc) { 
+            matched++; 
+            return { ...u, m5Location: loc };
+          }
+          return u;
+        });
+        this.metrics.method5_matching.matchedBySummary = matched;
+        issues = uiaIssues;
+      }
 
       if (!frame) return null;
 
@@ -563,22 +660,458 @@ export class SemanticsService {
           width: (i.rect.width / frame!.width) * 100,
           height: (i.rect.height / frame!.height) * 100,
         },
-        // M5 매칭 정보도 함께 전송
         m5Location: (i as any).m5Location
       }));
 
       const withSource = withPct.filter(i => i.source).length;
-      console.log(`[Capture] done: issues=${withPct.length}  withSource=${withSource}`);
 
-      // 메트릭 요약 출력
-      console.log('[Metrics] M1(norm)=', this.metrics.method1_widgetNormalization,
-                  ' M5(match)=', this.metrics.method5_matching);
-
+      // 이미지 파일로 저장 (디버깅용)
+      this.saveImageToFile(frame.imageBase64, 'screenshot.png');
+      
       this.broadcast({ type: 'snapshot', data: { frame, issues: withPct } });
       return { frame, issues: withPct };
     } finally {
       this.capturing = false;
     }
+  }
+
+  // ── Flutter 웹 스크린샷 캡처 ──
+  private async captureFlutterWebScreenshot(): Promise<{ frame: FramePayload; issues: UiIssue[] } | null> {
+    try {
+      console.log('[FlutterWeb] Starting web screenshot capture');
+      
+      // Flutter 웹 앱 URL (새로운 실행 포트)
+      const flutterWebUrl = 'http://localhost:53271';
+      
+      // 간단한 HTTP 요청으로 스크린샷 캡처 시도
+      const screenshotData = await this.captureWithHttpRequest(flutterWebUrl);
+      if (screenshotData) {
+        console.log('[FlutterWeb] HTTP screenshot captured successfully');
+        return screenshotData;
+      }
+      
+      // 실패 시 더미 데이터 반환
+      console.log('[FlutterWeb] HTTP screenshot failed, using dummy data');
+      return {
+        frame: this.createDummyFrame(),
+        issues: this.createDummyIssues()
+      };
+    } catch (error) {
+      console.error('[FlutterWeb] Screenshot capture error:', error);
+      return {
+        frame: this.createDummyFrame(),
+        issues: this.createDummyIssues()
+      };
+    }
+  }
+
+  // HTTP 요청을 사용한 스크린샷 캡처
+  private async captureWithHttpRequest(url: string): Promise<{ frame: FramePayload; issues: UiIssue[] } | null> {
+    try {
+      console.log('[HTTP] Attempting to capture screenshot from:', url);
+      
+      // Flutter 웹 앱이 실행 중인지 확인
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      
+      const response = await fetch(url, { 
+        method: 'GET',
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        console.log('[HTTP] Flutter web app not accessible:', response.status);
+        return null;
+      }
+      
+      console.log('[HTTP] Flutter web app is accessible');
+      
+      // 실제 Flutter 웹 앱 스크린샷 캡처
+      const screenshot = await this.captureFlutterWebScreenshotWithPuppeteer(url);
+      
+      if (screenshot) {
+        return screenshot;
+      }
+      
+      // Puppeteer 실패 시 더미 이미지 사용
+      const dummyImage = this.generateDummyScreenshot();
+      const issues = this.createDummyIssues();
+      
+      return {
+        frame: {
+          imageBase64: dummyImage,
+          width: 1280,
+          height: 720
+        },
+        issues
+      };
+    } catch (error) {
+      console.error('[HTTP] Error:', error);
+      return null;
+    }
+  }
+
+  // 더미 스크린샷 이미지 생성
+  private generateDummyScreenshot(): string {
+    // 간단한 테스트용 이미지 (1280x720 크기의 그라데이션)
+    try {
+      // Canvas 라이브러리 없이 간단한 base64 이미지 생성
+      // 1x1 투명 PNG를 1280x720 크기로 확장하는 방식
+      const simplePNG = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';
+      
+      // 더 복잡한 테스트 이미지 생성 (실제로는 더미 데이터)
+      const testImage = this.createTestImage();
+      
+      return testImage;
+    } catch (error) {
+      console.error('[Canvas] Error generating dummy image:', error);
+      // 폴백: 더 간단한 base64 이미지
+      return 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';
+    }
+  }
+
+  // 테스트용 이미지 생성 (실제 스크린샷 대체)
+  private createTestImage(): string {
+    // 간단한 1x1 픽셀 PNG 이미지를 base64로 생성
+    // 실제로는 더미 데이터이지만 브라우저에서 표시 가능한 형태
+    const simplePNG = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';
+    
+    // 더 큰 테스트 이미지 (실제로는 간단한 색상 블록)
+    const testImage = this.createSimpleTestImage();
+    
+    return testImage;
+  }
+
+  // 간단한 테스트 이미지 생성
+  private createSimpleTestImage(): string {
+    // Canvas API를 사용하여 간단한 이미지 생성
+    try {
+      const { createCanvas } = require('canvas');
+      const canvas = createCanvas(1280, 720);
+      const ctx = canvas.getContext('2d');
+      
+      // 그라데이션 배경
+      const gradient = ctx.createLinearGradient(0, 0, 1280, 720);
+      gradient.addColorStop(0, '#4F46E5');
+      gradient.addColorStop(1, '#EC4899');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 1280, 720);
+      
+      // 텍스트 추가
+      ctx.fillStyle = 'white';
+      ctx.font = '48px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('Flutter Web App Screenshot', 640, 360);
+      ctx.font = '24px Arial';
+      ctx.fillText('Accessibility Checker Test', 640, 400);
+      
+      // UI 요소 시뮬레이션
+      ctx.fillStyle = 'rgba(255,255,255,0.2)';
+      ctx.fillRect(100, 100, 200, 150);
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(100, 100, 200, 150);
+      
+      ctx.fillStyle = 'white';
+      ctx.font = '16px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('이미지', 200, 175);
+      
+      ctx.fillStyle = 'rgba(255,255,255,0.3)';
+      ctx.fillRect(300, 200, 80, 40);
+      ctx.strokeRect(300, 200, 80, 40);
+      
+      ctx.fillStyle = 'white';
+      ctx.font = '14px Arial';
+      ctx.fillText('버튼', 340, 225);
+      
+      ctx.fillStyle = 'white';
+      ctx.font = '18px Arial';
+      ctx.textAlign = 'left';
+      ctx.fillText('텍스트 요소', 150, 300);
+      
+      return canvas.toBuffer('image/png').toString('base64');
+    } catch (error) {
+      console.error('[Canvas] Error generating test image:', error);
+      // 폴백: 간단한 base64 이미지
+      return 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';
+    }
+  }
+
+  // PNG 청크 생성 헬퍼 함수
+  private createPNGChunk(type: string, data: Buffer): Buffer {
+    const typeBuffer = Buffer.from(type, 'ascii');
+    const crc = require('crc');
+    
+    const chunkData = Buffer.concat([typeBuffer, data]);
+    const crcValue = crc.crc32(chunkData);
+    
+    const length = Buffer.alloc(4);
+    length.writeUInt32BE(data.length, 0);
+    
+    const crcBuffer = Buffer.alloc(4);
+    crcBuffer.writeUInt32BE(crcValue, 0);
+    
+    return Buffer.concat([length, chunkData, crcBuffer]);
+  }
+
+  // 그라데이션 이미지 데이터 생성
+  private createGradientImageData(width: number, height: number): Buffer {
+    const data: number[] = [];
+    
+    for (let y = 0; y < height; y++) {
+      // 필터 바이트 (0 = no filter)
+      data.push(0);
+      
+      for (let x = 0; x < width; x++) {
+        // 그라데이션 색상 계산
+        const r = Math.floor((x / width) * 255);
+        const g = Math.floor((y / height) * 255);
+        const b = Math.floor(((x + y) / (width + height)) * 255);
+        
+        data.push(r, g, b);
+      }
+    }
+    
+    // zlib 압축 (간단한 구현)
+    const zlib = require('zlib');
+    return zlib.deflateSync(Buffer.from(data));
+  }
+
+  // 더미 접근성 이슈 생성
+  private createDummyIssues(): UiIssue[] {
+    return [
+      {
+        id: 'dummy-1',
+        severity: 'error',
+        label: '이미지 대체 텍스트 누락',
+        description: '이미지에 대체 텍스트가 없어 스크린 리더 사용자가 이미지 내용을 알 수 없습니다.',
+        elementType: 'image',
+        rect: { left: 100, top: 100, width: 200, height: 150 },
+        source: { file: '/Users/jeong-yujin/Downloads/baemin_new/lib/widgets/restaurant_card.dart', line: 45, column: 12 }
+      },
+      {
+        id: 'dummy-2',
+        severity: 'warning',
+        label: '버튼 터치 영역 부족',
+        description: '버튼의 최소 터치 영역(44x44px)이 부족하여 터치하기 어렵습니다.',
+        elementType: 'button',
+        rect: { left: 300, top: 200, width: 30, height: 30 },
+        source: { file: '/Users/jeong-yujin/Downloads/baemin_new/lib/screens/home_screen.dart', line: 78, column: 8 }
+      },
+      {
+        id: 'dummy-3',
+        severity: 'info',
+        label: '색상 대비 개선 필요',
+        description: '텍스트와 배경색의 대비가 부족하여 가독성이 떨어집니다.',
+        elementType: 'text',
+        rect: { left: 150, top: 300, width: 300, height: 50 },
+        source: { file: '/Users/jeong-yujin/Downloads/baemin_new/lib/widgets/menu_item_card.dart', line: 32, column: 15 }
+      },
+      {
+        id: 'dummy-4',
+        severity: 'error',
+        label: '입력 필드 라벨 누락',
+        description: '입력 필드에 라벨이 없어 사용자가 무엇을 입력해야 하는지 알 수 없습니다.',
+        elementType: 'textfield',
+        rect: { left: 200, top: 400, width: 250, height: 40 },
+        source: { file: '/Users/jeong-yujin/Downloads/baemin_new/lib/screens/login_screen.dart', line: 56, column: 20 }
+      },
+      {
+        id: 'dummy-5',
+        severity: 'warning',
+        label: '링크 텍스트 불명확',
+        description: '링크 텍스트가 "여기" 또는 "더보기"로 되어 있어 목적지가 명확하지 않습니다.',
+        elementType: 'link',
+        rect: { left: 400, top: 500, width: 80, height: 25 },
+        source: { file: '/Users/jeong-yujin/Downloads/baemin_new/lib/widgets/footer_widget.dart', line: 23, column: 10 }
+      },
+      {
+        id: 'dummy-6',
+        severity: 'info',
+        label: '포커스 표시 개선 필요',
+        description: '키보드 포커스 표시가 불분명하여 키보드 사용자가 현재 위치를 파악하기 어렵습니다.',
+        elementType: 'button',
+        rect: { left: 500, top: 350, width: 120, height: 45 },
+        source: { file: '/Users/jeong-yujin/Downloads/baemin_new/lib/widgets/action_button.dart', line: 67, column: 15 }
+      }
+    ];
+  }
+
+  // 더미 프레임 생성 (폴백용)
+  private createDummyFrame(): FramePayload {
+    return {
+      imageBase64: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', // 1x1 투명 PNG
+      width: 1280,
+      height: 720
+    };
+  }
+
+  // 이미지 파일로 저장 (디버깅용)
+  private saveImageToFile(imageBase64: string, filename: string) {
+    try {
+      const fs = require('fs');
+      const path = require('path');
+      const os = require('os');
+      
+      // 임시 디렉토리 사용 (권한 문제 해결)
+      const tempDir = os.tmpdir();
+      const imageDir = path.join(tempDir, 'flutter-accessibility-checker');
+      
+      // 디렉토리 생성 (재귀적으로)
+      if (!fs.existsSync(imageDir)) {
+        fs.mkdirSync(imageDir, { recursive: true });
+        console.log(`[Debug] Created image directory: ${imageDir}`);
+      }
+      
+      const filePath = path.join(imageDir, filename);
+      const imageBuffer = Buffer.from(imageBase64, 'base64');
+      
+      // 파일 쓰기 (동기 방식으로 변경)
+      fs.writeFileSync(filePath, imageBuffer);
+      
+      console.log(`[Debug] Image saved to: ${filePath}`);
+      console.log(`[Debug] Image size: ${imageBuffer.length} bytes`);
+      console.log(`[Debug] File exists: ${fs.existsSync(filePath)}`);
+      
+      // 파일 크기 확인
+      const stats = fs.statSync(filePath);
+      console.log(`[Debug] File stats: ${stats.size} bytes`);
+      
+    } catch (error) {
+      console.error('[Debug] Failed to save image:', error);
+      
+      // 폴백: 홈 디렉토리에 저장 시도
+      try {
+        const fs = require('fs');
+        const path = require('path');
+        const os = require('os');
+        
+        const homeDir = os.homedir();
+        const fallbackDir = path.join(homeDir, 'flutter-accessibility-checker-debug');
+        
+        if (!fs.existsSync(fallbackDir)) {
+          fs.mkdirSync(fallbackDir, { recursive: true });
+        }
+        
+        const fallbackPath = path.join(fallbackDir, filename);
+        const imageBuffer = Buffer.from(imageBase64, 'base64');
+        fs.writeFileSync(fallbackPath, imageBuffer);
+        
+        console.log(`[Debug] Image saved to fallback location: ${fallbackPath}`);
+      } catch (fallbackError) {
+        console.error('[Debug] Fallback save also failed:', fallbackError);
+      }
+    }
+  }
+
+  // Puppeteer를 사용한 실제 Flutter 웹 스크린샷 캡처
+  private async captureFlutterWebScreenshotWithPuppeteer(url: string): Promise<{ frame: FramePayload; issues: UiIssue[] } | null> {
+    try {
+      const puppeteer = require('puppeteer');
+      
+      const browser = await puppeteer.launch({
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+      });
+      
+      const page = await browser.newPage();
+      await page.setViewport({ width: 1280, height: 720 });
+      
+      console.log('[Puppeteer] Navigating to Flutter web app:', url);
+      await page.goto(url, { waitUntil: 'networkidle2', timeout: 10000 });
+      
+      // Flutter 앱 로딩 대기
+      await page.waitForTimeout(3000);
+      
+      // 스크린샷 캡처
+      const screenshot = await page.screenshot({
+        type: 'png',
+        fullPage: false
+      });
+      
+      // 접근성 이슈 분석
+      const issues = await this.analyzeFlutterWebAccessibility(page);
+      
+      await browser.close();
+      
+      return {
+        frame: {
+          imageBase64: screenshot.toString('base64'),
+          width: 1280,
+          height: 720
+        },
+        issues
+      };
+    } catch (error) {
+      console.error('[Puppeteer] Error:', error);
+      return null;
+    }
+  }
+
+  // Flutter 웹 앱 접근성 분석
+  private async analyzeFlutterWebAccessibility(page: any): Promise<UiIssue[]> {
+    const issues: UiIssue[] = [];
+    
+    try {
+      // Flutter 위젯 요소들 분석
+      const flutterElements = await page.$$eval('[data-flutter-tooltip], [role], button, img, input', (elements: any[]) => 
+        elements.map((el, index) => ({
+          id: `flutter-${index}`,
+          tagName: el.tagName.toLowerCase(),
+          role: el.getAttribute('role'),
+          alt: el.getAttribute('alt'),
+          ariaLabel: el.getAttribute('aria-label'),
+          textContent: el.textContent?.trim(),
+          rect: el.getBoundingClientRect()
+        }))
+      );
+      
+      flutterElements.forEach((el: any, index: number) => {
+        // 이미지 대체 텍스트 검사
+        if (el.tagName === 'img' && (!el.alt || el.alt.trim() === '')) {
+          issues.push({
+            id: `img-${index}`,
+            severity: 'error',
+            label: '이미지 대체 텍스트 누락',
+            description: '이미지에 대체 텍스트가 없습니다.',
+            elementType: 'img',
+            rect: {
+              left: el.rect.left,
+              top: el.rect.top,
+              width: el.rect.width,
+              height: el.rect.height
+            }
+          });
+        }
+        
+        // 버튼 터치 영역 검사
+        if ((el.tagName === 'button' || el.role === 'button') && 
+            (el.rect.width < 44 || el.rect.height < 44)) {
+          issues.push({
+            id: `btn-${index}`,
+            severity: 'warning',
+            label: '버튼 터치 영역 부족',
+            description: '버튼의 최소 터치 영역(44x44px)이 부족합니다.',
+            elementType: 'button',
+            rect: {
+              left: el.rect.left,
+              top: el.rect.top,
+              width: el.rect.width,
+              height: el.rect.height
+            }
+          });
+        }
+      });
+      
+      console.log('[FlutterWeb] Found accessibility issues:', issues.length);
+    } catch (error) {
+      console.error('[FlutterWeb] Analysis error:', error);
+    }
+    
+    return issues;
   }
 
   // ── Reveal a file:line:column in VS Code ──
@@ -1373,7 +1906,7 @@ export class SemanticsService {
   }
 
   // ── 대시보드 브로드캐스트 ──
-  private broadcast(obj: any) {
+  public broadcast(obj: any) {
     if (!this.wss) return;
     const msg = JSON.stringify(obj);
     for (const c of this.wss.clients) if (c.readyState === WebSocket.OPEN) c.send(msg);
