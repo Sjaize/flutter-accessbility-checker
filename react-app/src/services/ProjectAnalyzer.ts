@@ -121,6 +121,14 @@ export class ProjectAnalyzer {
     // 기본 제안 생성
     const baseSuggestion: Suggestion = {
       id: `${issue.id}-suggestion-${Date.now()}`,
+      title: `Fix for ${issue.title}`,
+      description: this.generateFixMessageForIssue(issue),
+      code: this.generateFixCodeForIssue(issue),
+      location: {
+        file: issue.source?.file || issue.m5Location?.file || 'unknown',
+        line: issue.source?.line || issue.m5Location?.line || 1,
+        column: issue.source?.column || issue.m5Location?.column || 1
+      },
       file: issue.source?.file || issue.m5Location?.file || 'unknown',
       line: issue.source?.line || issue.m5Location?.line || 1,
       column: issue.source?.column || issue.m5Location?.column || 1,
@@ -250,7 +258,7 @@ Semantics(
     try {
       // 실제 이슈들을 LLM에 전송하여 추가 분석
       const issuesSummary = this.issues.map(issue => 
-        `${issue.title}: ${issue.description} (${issue.element})`
+        `${issue.title}: ${issue.description} (${issue.element || '알 수 없음'})`
       ).join('\n');
       
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -327,6 +335,14 @@ Semantics(
       
       return [{
         id: `llm-suggestion-${Date.now()}`,
+        title: `LLM 제안: ${issue.title} 해결`,
+        description: `LLM 제안: ${issue.title} 해결`,
+        code: suggestion,
+        location: {
+          file: issue.source?.file || issue.m5Location?.file || 'unknown',
+          line: issue.source?.line || issue.m5Location?.line || 1,
+          column: issue.source?.column || issue.m5Location?.column || 1
+        },
         file: issue.source?.file || issue.m5Location?.file || 'unknown',
         line: issue.source?.line || issue.m5Location?.line || 1,
         column: issue.source?.column || issue.m5Location?.column || 1,
@@ -357,18 +373,25 @@ Semantics(
       if (pattern.test(analysis)) {
         issues.push({
           id: `llm-${Date.now()}-${Math.random()}`,
-          type: 'info',
           title: issue,
           description: `LLM 분석에서 발견된 ${issue}`,
           severity: 'info',
+          location: {
+            file: 'unknown',
+            line: 1,
+            column: 1
+          },
+          category: 'llm-analysis',
+          suggestions: [],
+          impact: 'medium',
+          userGroups: ['all'],
           position: { x: 50, y: 50 },
           element: 'LLM 분석',
           source: {
             file: 'unknown',
             line: 1,
             column: 1
-          },
-          suggestions: []
+          }
         });
       }
     }

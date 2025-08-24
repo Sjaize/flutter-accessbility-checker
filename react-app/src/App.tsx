@@ -257,10 +257,14 @@ export default function App() {
   function normalizeIssues(input: any[]): Issue[] {
     return (input ?? []).map((i: any, idx: number) => ({
       id: i.id ?? String(idx),
-      type: i.type || i.severity || 'info',
+      title: i.label || i.title || `이슈 ${idx}`,
+      description: i.description || '',
       severity: i.severity || i.type || 'info',
+      location: i.source || i.m5Location || { file: 'unknown', line: 1, column: 1 },
+      category: i.elementType || 'general',
+      suggestions: [],
+      type: i.type || i.severity || 'info',
       label: i.label,
-      description: i.description,
       elementType: i.elementType,
       rectPct: i.rectPct,
       rect: i.rect,
@@ -745,9 +749,18 @@ Container(
       <ChatModal
         isOpen={isChatModalOpen}
         onClose={() => setIsChatModalOpen(false)}
+        onSendMessage={async (message: string) => {
+          return await chatService.sendMessage(message, {
+            issues: accessibilityIssues,
+            userJourney: userJourney,
+            activityJourney: activityJourney
+          });
+        }}
+        messages={chatHistory}
         issues={accessibilityIssues}
         onGenerateReport={handleGenerateReport}
         activityJourney={activityJourney}
+        userJourney={userJourney}
       />
       
       {/* 플로팅 채팅 버튼 */}
