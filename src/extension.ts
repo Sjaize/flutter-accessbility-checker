@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as cp from 'child_process';
 import * as path from 'path';
 import * as http from 'http';
+import * as fs from 'fs';
 
 // ✅ 먼저 선언: 외부 브라우저에서 React 서버 확인용
 async function waitForReactServer(url: string, timeout = 10000): Promise<boolean> {
@@ -39,31 +40,76 @@ export function activate(context: vscode.ExtensionContext) {
         );
         panel.webview.html = getWebviewContent();
       } else if (choice === '\ud83c\udf10 \uc678\ubd80 \ube0c\ub77c\uc6b0\uc800\uc5d0\uc11c \uc5f4\uae30') {
-        const reactAppPath = path.join(context.extensionPath, 'react-app');
+        // 현재 열린 Flutter 프로젝트 경로 찾기
+        const workspaceFolders = vscode.workspace.workspaceFolders;
+        let flutterProjectPath = null;
+        
+        if (workspaceFolders && workspaceFolders.length > 0) {
+          // 첫 번째 워크스페이스에서 Flutter 프로젝트 찾기
+          for (const folder of workspaceFolders) {
+            const pubspecPath = path.join(folder.uri.fsPath, 'pubspec.yaml');
+            if (fs.existsSync(pubspecPath)) {
+              flutterProjectPath = folder.uri.fsPath;
+              break;
+            }
+          }
+        }
+        
+        if (!flutterProjectPath) {
+          vscode.window.showErrorMessage('Flutter 프로젝트를 찾을 수 없습니다. pubspec.yaml 파일이 있는 디렉토리를 열어주세요.');
+          return;
+        }
+        
+        vscode.window.showInformationMessage(`Flutter 프로젝트 발견: ${flutterProjectPath}`);
+        
+        // 백엔드 서버 시작
+        const serverPath = context.extensionPath;
         vscode.window.withProgress({
           location: vscode.ProgressLocation.Notification,
-          title: 'React UI \uc2e4\ud589 \uc911...',
+          title: '백엔드 서버 및 Flutter 앱 시작 중...',
           cancellable: false
         }, async () => {
           const isWin = process.platform === 'win32';
           const startCmd = isWin
-            ? 'set BROWSER=none && npm start'
-            : 'BROWSER=none npm start';
+            ? 'npm start'
+            : 'npm start';
 
-          const terminal = vscode.window.createTerminal({
-            name: 'React Dev Server',
-            cwd: reactAppPath,
+          // 백엔드 서버 터미널
+          const serverTerminal = vscode.window.createTerminal({
+            name: 'Backend Server',
+            cwd: serverPath,
             env: process.env
           });
 
-          terminal.sendText(startCmd);
-          terminal.show();
+          serverTerminal.sendText(startCmd);
+          serverTerminal.show();
 
-          const isReady = await waitForReactServer('http://localhost:3000');
-          if (isReady) {
-            vscode.env.openExternal(vscode.Uri.parse('http://localhost:3000'));
+          // 백엔드 서버 대기
+          const isBackendReady = await waitForReactServer('http://localhost:3001');
+          if (isBackendReady) {
+            vscode.window.showInformationMessage('✅ 백엔드 서버가 시작되었습니다.');
+            
+            // Flutter 앱 실행 터미널
+            const flutterTerminal = vscode.window.createTerminal({
+              name: 'Flutter App',
+              cwd: flutterProjectPath,
+              env: process.env
+            });
+
+            const flutterCmd = `flutter run -d web-server --web-port=60778`;
+            flutterTerminal.sendText(flutterCmd);
+            flutterTerminal.show();
+            
+            vscode.window.showInformationMessage('🚀 Flutter 앱을 시작하고 있습니다...');
+            
+            // 브라우저에서 React 앱 열기
+            setTimeout(() => {
+              vscode.env.openExternal(vscode.Uri.parse('http://localhost:3001'));
+              vscode.window.showInformationMessage('🌐 브라우저가 열렸습니다. Flutter 앱이 로드되면 자동으로 분석이 시작됩니다!');
+            }, 3000);
+            
           } else {
-            vscode.window.showErrorMessage('\u274c React \uc11c\ubc84\uac00 \uc751\ub2f5\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.');
+            vscode.window.showErrorMessage('\u274c 백엔드 서버가 응답하지 않습니다.');
           }
         });
       }

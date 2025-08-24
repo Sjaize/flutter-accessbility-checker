@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Flutter 접근성 체커",
+  "name": "Flutter 접근성 체커 - AI 기반 접근성 분석 도구",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,7 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#6366f1",
+  "background_color": "#f0f9ff",
+  "description": "Flutter 앱의 접근성을 실시간으로 분석하고 개선하는 AI 기반 도구"
 }

@@ -31,13 +31,22 @@
     "watch": "tsc -w -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "ws": "^8.14.2",
+    "cors": "^2.8.5",
+    "puppeteer": "^21.0.0",
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
     "@types/vscode": "^1.80.0",
     "@types/node": "^20.0.0",
     "eslint": "^8.0.0",
     "typescript": "^5.0.0",
-    "vscode-test": "^1.8.0"
+    "nodemon": "^3.0.1"
   }
 }
