@@ -1,34 +1,25 @@
 import React, { useEffect, useState } from 'react';
-
-interface Suggestion {
-  id: string;
-  file: string;
-  line: number;
-  column: number;
-  text: string;
-  message: string;
-  type: 'error' | 'warning' | 'info';
-  element: string;
-  position: { x: number; y: number };
-}
-
-interface AccessibilityIssue {
-  id: string;
-  type: 'error' | 'warning' | 'info';
-  title: string;
-  description: string;
-  position: { x: number; y: number };
-  element: string;
-  side: 'left' | 'right'; // 좌우 배치를 위한 속성 추가
-  bubblePosition: { x: number; y: number }; // 말풍선 위치 추가
-  suggestions: Suggestion[];
-}
+import { AccessibilityIssue, Suggestion, ChatMessage, FlutterComponent } from './lib/types';
+import { ProjectAnalyzer } from './services/ProjectAnalyzer';
+import { ReportGenerator } from './services/ReportGenerator';
+import ChatModal from './components/ChatModal';
 
 export default function App() {
   const [ready, setReady] = useState(false);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [accessibilityIssues, setAccessibilityIssues] = useState<AccessibilityIssue[]>([]);
   const [selectedIssue, setSelectedIssue] = useState<string | null>(null);
+  
+  // 새로운 상태들
+  const [components, setComponents] = useState<FlutterComponent[]>([]);
+  const [accessibilityScore, setAccessibilityScore] = useState(0);
+  const [isChatModalOpen, setIsChatModalOpen] = useState(false);
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  const [acceptedIssues, setAcceptedIssues] = useState<string[]>([]);
+  
+  // 서비스 인스턴스들
+  const projectAnalyzer = new ProjectAnalyzer();
+  const reportGenerator = new ReportGenerator();
 
   useEffect(() => {
     document.title = 'Flutter Accessibility Checker';
@@ -40,9 +31,19 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  function analyze() {
-    // 핵심적인 접근성 이슈만 선별하여 가독성 개선
-    const detectedIssues: AccessibilityIssue[] = [
+  async function analyze() {
+    try {
+      // ProjectAnalyzer를 사용한 실제 분석
+      const analysisResult = await projectAnalyzer.analyzeProject();
+      
+      setComponents(analysisResult.components);
+      setAccessibilityIssues(analysisResult.issues);
+      setAccessibilityScore(analysisResult.accessibilityScore);
+      setSuggestions(analysisResult.issues.flatMap(issue => issue.suggestions));
+    } catch (error) {
+      console.error('분석 오류:', error);
+      // 오류 발생 시 기존 Mock 데이터 사용
+      const detectedIssues: AccessibilityIssue[] = [
       {
         id: '1',
         type: 'error',
@@ -126,15 +127,37 @@ export default function App() {
       text: sug.text
     });
     window.open(`vscode://my.publisher.myExtension/applySuggestion?${params}`);
+    
+    // 수락된 이슈 추적
+    const issue = accessibilityIssues.find(i => i.suggestions.some(s => s.id === sug.id));
+    if (issue) {
+      setAcceptedIssues(prev => [...prev, issue.id]);
+    }
   }
 
   function onDiscuss(sug: Suggestion) {
-    // 논의 기능 - 예: 채팅이나 코멘트 시스템
-    alert(`"${sug.message}"에 대한 논의를 시작합니다.`);
+    // 채팅 모달 열기
+    setIsChatModalOpen(true);
   }
 
   function onIgnore(issueId: string) {
     setAccessibilityIssues(prev => prev.filter(issue => issue.id !== issueId));
+  }
+
+  function handleGenerateReport(newChatHistory: ChatMessage[]) {
+    setChatHistory(newChatHistory);
+    
+    // 리포트 생성
+    reportGenerator.setAcceptedIssues(acceptedIssues);
+    reportGenerator.setChatHistory(newChatHistory);
+    const reportData = reportGenerator.generateReport(accessibilityIssues);
+    
+    // HTML 리포트 다운로드
+    reportGenerator.downloadHTMLReport(reportData);
+  }
+
+  function handleRefreshAnalysis() {
+    analyze();
   }
 
   return (
@@ -256,7 +279,25 @@ export default function App() {
 
       {/* 오른쪽 보고서 영역 - 줄어든 크기 */}
       <div className="w-80 bg-white rounded-2xl shadow p-6 space-y-4 max-h-screen overflow-y-auto">
-        <h2 className="text-lg font-semibold">접근성 평가 정보</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold">접근성 평가 정보</h2>
+          <button
+            onClick={handleRefreshAnalysis}
+            className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+            title="새로고침"
+          >
+            🔄
+          </button>
+        </div>
+        
+        {/* 접근성 점수 */}
+        <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-xl border border-blue-200">
+          <div className="text-center">
+            <div className="text-2xl font-bold text-blue-600">{accessibilityScore}</div>
+            <div className="text-sm text-gray-600">접근성 점수</div>
+          </div>
+        </div>
+        
         <p className="text-gray-600 text-xs">
           이 앱에 대한 접근성 평가 결과입니다.
         </p>
@@ -327,6 +368,26 @@ export default function App() {
           </div>
         )}
       </div>
+      
+      {/* ChatModal */}
+      <ChatModal
+        isOpen={isChatModalOpen}
+        onClose={() => setIsChatModalOpen(false)}
+        issues={accessibilityIssues}
+        onGenerateReport={handleGenerateReport}
+      />
+      
+      {/* 플로팅 채팅 버튼 */}
+      <button
+        onClick={() => setIsChatModalOpen(true)}
+        className="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group z-40"
+        title="AI 접근성 분석과 대화하기"
+      >
+        <div className="text-xl">💬</div>
+        <div className="absolute right-16 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+          AI와 대화하기
+        </div>
+      </button>
     </div>
   );
 }
