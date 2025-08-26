@@ -39,13 +39,16 @@ export class FlutterAnalyzer {
         classes.push(...fileClasses);
       }
 
-      // 3. 접근성 이슈 분석
+      // 3. 라벨 관련 JSON 파일 생성 (새로운 기능)
+      await this.generateLabelJson(classes);
+
+      // 4. 접근성 이슈 분석
       const accessibilityIssues = await this.analyzeAccessibilityIssues(classes);
 
-      // 4. 사용자 저니 생성 (실제 LLM 사용)
+      // 5. 사용자 저니 생성 (실제 LLM 사용)
       const userJourneys = await this.generateUserJourneys(classes, personaCount);
 
-      // 5. 프로젝트 분석 결과 생성
+      // 6. 프로젝트 분석 결과 생성
       const analysis: ProjectAnalysis = {
         projectName: path.basename(this.workspaceRoot),
         totalFiles: dartFiles.length,
@@ -511,6 +514,48 @@ ${persona}가 이 앱을 사용할 때 겪을 수 있는 접근성 문제와 개
     }
 
     return journeys;
+  }
+
+  private async generateLabelJson(classes: DartClass[]): Promise<void> {
+    try {
+      const labelData = {
+        projectName: path.basename(this.workspaceRoot),
+        generatedAt: new Date().toISOString(),
+        totalClasses: classes.length,
+        totalWidgets: classes.reduce((sum, cls) => sum + cls.widgets.length, 0),
+        classes: classes.map(cls => ({
+          name: cls.name,
+          file: cls.file,
+          line: cls.line,
+          widgets: cls.widgets.map(widget => ({
+            name: widget.name,
+            line: widget.line,
+            column: widget.column,
+            hasSemanticLabel: widget.hasSemanticLabel,
+            semanticLabel: widget.semanticLabel || null,
+            hasAltText: widget.hasAltText,
+            altText: widget.altText || null,
+            suggestedLabel: this.generateSuggestedLabel(widget),
+            suggestedCode: this.generateSuggestedCode(widget)
+          }))
+        }))
+      };
+
+      const outputPath = path.join(this.workspaceRoot, 'label-analysis.json');
+      const jsonContent = JSON.stringify(labelData, null, 2);
+      
+      await vscode.workspace.fs.writeFile(
+        vscode.Uri.file(outputPath),
+        Buffer.from(jsonContent, 'utf8')
+      );
+      
+      this.log(`📄 라벨 분석 JSON 생성: ${outputPath}`);
+      this.log(`📊 총 ${classes.length}개 클래스, ${labelData.totalWidgets}개 위젯 분석 완료`);
+      
+    } catch (error) {
+      this.log(`❌ 라벨 JSON 생성 실패: ${error}`);
+      throw error;
+    }
   }
 
   private async saveAnalysisToJson(analysis: ProjectAnalysis): Promise<void> {

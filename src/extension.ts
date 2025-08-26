@@ -91,7 +91,14 @@ function registerCommands(context: vscode.ExtensionContext) {
     })
   );
 
-  // 4. React 앱 열기
+  // 4. 라벨 분석만 실행
+  context.subscriptions.push(
+    vscode.commands.registerCommand('flutter-accessibility.analyzeLabels', async () => {
+      await analyzeLabelsOnly();
+    })
+  );
+
+  // 5. React 앱 열기
   context.subscriptions.push(
     vscode.commands.registerCommand('flutter-accessibility.openReactApp', async () => {
       await openReactApp();
@@ -161,6 +168,45 @@ async function startAccessibilityAnalysis() {
       } catch (error) {
     log(`❌ 접근성 분석 시작 실패: ${error}`);
     vscode.window.showErrorMessage(`접근성 분석 시작에 실패했습니다: ${error}`);
+  }
+}
+
+async function analyzeLabelsOnly() {
+  try {
+    log('🔍 라벨 분석 시작...');
+    
+    // 1. 페르소나 수 입력받기
+    const personaCount = await getPersonaCount();
+    if (personaCount === undefined) {
+      log('❌ 페르소나 수 입력이 취소되었습니다.');
+      return;
+    }
+    
+    log(`👥 페르소나 수: ${personaCount}명`);
+    
+    // 2. 프로젝트 분석 (라벨 JSON 포함)
+    await vscode.window.withProgress({
+      location: vscode.ProgressLocation.Notification,
+      title: '라벨 분석 중...',
+      cancellable: false
+    }, async () => {
+      currentAnalysis = await flutterAnalyzer.analyzeProject(personaCount);
+    });
+
+    // 3. 분석 결과 표시
+    if (currentAnalysis) {
+      const message = `✅ 라벨 분석 완료!\n📁 label-analysis.json 파일이 생성되었습니다.\n📊 총 ${currentAnalysis.totalClasses}개 클래스, ${currentAnalysis.totalWidgets}개 위젯 분석`;
+      vscode.window.showInformationMessage(message);
+      
+      // 생성된 JSON 파일 열기
+      const labelJsonPath = path.join(vscode.workspace.workspaceFolders![0].uri.fsPath, 'label-analysis.json');
+      const document = await vscode.workspace.openTextDocument(labelJsonPath);
+      await vscode.window.showTextDocument(document);
+    }
+      
+  } catch (error) {
+    log(`❌ 라벨 분석 실패: ${error}`);
+    vscode.window.showErrorMessage(`라벨 분석에 실패했습니다: ${error}`);
   }
 }
 
