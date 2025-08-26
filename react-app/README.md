@@ -1,46 +1,41 @@
-# Getting Started with Create React App
+# Flutter Accessibility Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Flutter 접근성 체커의 React 대시보드입니다. VS Code 확장 프로그램과 연동하여 실시간으로 접근성 이슈를 시각화하고 코드 개선을 제안합니다.
 
-## Available Scripts
+## 주요 기능
 
-In the project directory, you can run:
+- **실시간 스크린샷**: Flutter 앱의 실시간 스크린샷 표시
+- **바운딩 박스**: 접근성 이슈가 있는 요소에 시각적 표시
+- **iframe 미러링**: 투명한 iframe으로 실제 앱과 상호작용
+- **코드 제안**: 접근성 개선을 위한 코드 제안 및 VS Code 연동
 
-### `npm start`
+## 설치 및 실행
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```bash
+# 의존성 설치
+npm install
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# 개발 서버 시작
+npm start
+```
 
-### `npm test`
+## 기술 스택
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- React 19
+- TypeScript
+- Tailwind CSS
+- WebSocket (VS Code 확장 프로그램과 통신)
 
-### `npm run build`
+## 포트 설정
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **React 앱**: 3000 포트
+- **WebSocket**: 3001 포트 (VS Code 확장 프로그램)
+- **Flutter 앱**: 64022 포트
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 사용 방법
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. VS Code에서 Flutter 프로젝트를 열고 접근성 분석을 시작
+2. 이 대시보드가 자동으로 브라우저에서 열림
+3. 실시간 스크린샷과 바운딩 박스 확인
+4. 이슈 클릭하여 코드 제안 요청
+5. VS Code에서 코드 적용

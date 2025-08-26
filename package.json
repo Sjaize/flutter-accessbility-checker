@@ -2,7 +2,7 @@
   "publisher": "my-publisher",
   "name": "flutter-accessibility-checker",
   "displayName": "Flutter Accessibility Checker",
-  "description": "A VS Code extension that provides accessibility feedback and suggestions for Flutter web applications.",
+  "description": "VS Code extension for Flutter accessibility analysis and code suggestions",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.80.0"
@@ -11,39 +11,57 @@
     "Other"
   ],
   "activationEvents": [
-    "onUri"
+    "onCommand:flutter-accessibility.startAnalysis"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "flutter-accessibility-checker.openPanel",
-        "title": "Open Flutter Accessibility Checker",
+        "command": "flutter-accessibility.startAnalysis",
+        "title": "Start Accessibility Analysis",
         "category": "Flutter Accessibility"
       },
       {
-        "command": "flutter-accessibility-checker.connectDebugSession",
-        "title": "Connect Flutter Debug Session (Widget Inspection)",
+        "command": "flutter-accessibility.stopAnalysis",
+        "title": "Stop Accessibility Analysis",
+        "category": "Flutter Accessibility"
+      },
+      {
+        "command": "flutter-accessibility.showReport",
+        "title": "Show Analysis Report",
+        "category": "Flutter Accessibility"
+      },
+      {
+        "command": "flutter-accessibility.openReactApp",
+        "title": "Open React Dashboard",
         "category": "Flutter Accessibility"
       }
     ],
     "menus": {
       "commandPalette": [
         {
-          "command": "flutter-accessibility-checker.openPanel",
-          "when": "true"
+          "command": "flutter-accessibility.startAnalysis",
+          "when": "workspaceFolderCount > 0"
         },
         {
-          "command": "flutter-accessibility-checker.connectDebugSession",
-          "when": "true"
+          "command": "flutter-accessibility.stopAnalysis",
+          "when": "workspaceFolderCount > 0"
+        },
+        {
+          "command": "flutter-accessibility.showReport",
+          "when": "workspaceFolderCount > 0"
+        },
+        {
+          "command": "flutter-accessibility.openReactApp",
+          "when": "workspaceFolderCount > 0"
         }
       ]
     }
   },
   "dependencies": {
-    "dotenv": "^17.2.1",
-    "openai": "^5.12.2",
-    "ws": "^8.14.2"
+    "ws": "^8.14.2",
+    "puppeteer": "^21.0.0",
+    "dotenv": "^16.3.1"
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
