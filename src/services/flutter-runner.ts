@@ -7,6 +7,7 @@ import * as path from 'path';
 const TARGET_PORT = 64022;
 const MAX_RETRY_ATTEMPTS = 3;
 const RETRY_DELAY = 2000;
+const STARTUP_TIMEOUT = 60000; // 60초로 증가
 
 export class FlutterRunner {
   private workspaceRoot: string;
@@ -231,26 +232,34 @@ export class FlutterRunner {
 
       let hasStarted = false;
       let startupTimeout: NodeJS.Timeout;
+      let outputBuffer = '';
 
-      // 시작 타임아웃 설정
+      // 시작 타임아웃 설정 (30초로 수정)
       startupTimeout = setTimeout(() => {
         if (!hasStarted) {
           this.flutterProcess?.kill();
-          reject(new Error('Flutter 앱 시작 타임아웃 (30초)'));
+          reject(new Error(`Flutter 앱 시작 타임아웃 (30초)`));
         }
       }, 30000);
 
       this.flutterProcess.stdout?.on('data', (data) => {
         const output = data.toString();
+        outputBuffer += output;
         this.outputChannel.appendLine(`[Flutter] ${output.trim()}`);
 
-        // Flutter 앱이 성공적으로 시작되었는지 확인 (다양한 패턴)
+        // Flutter 앱이 성공적으로 시작되었는지 확인 (더 정확한 패턴)
         if (output.includes('Flutter run key commands') || 
             output.includes('Running with sound null safety') ||
             output.includes('An Observatory debugger and profiler') ||
             output.includes('The Flutter DevTools debugger and profiler') ||
             output.includes('Debug service listening') ||
-            output.includes('Flutter run key commands')) {
+            output.includes('Waiting for connection from debug service') ||
+            output.includes('Flutter is taking longer than expected') ||
+            output.includes('Application finished') ||
+            output.includes('Hot reload performed') ||
+            output.includes('Hot restart performed') ||
+            output.includes('Chrome is taking longer than expected') ||
+            output.includes('Flutter is ready')) {
           hasStarted = true;
           clearTimeout(startupTimeout);
           resolve();

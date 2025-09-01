@@ -3,10 +3,14 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 import { DartClass, DartWidget, AccessibilityIssue, ProjectAnalysis, UserJourney, JourneyStep } from '../types/accessibility';
+import { AIService, AIModelConfig } from './ai-service';
+import { IconAnalyzer, IconAnalysis, ImageAnalysis } from './icon-analyzer';
 
 export class FlutterAnalyzer {
   private workspaceRoot: string;
   private outputChannel: vscode.OutputChannel;
+  private aiService: AIService;
+  private iconAnalyzer: IconAnalyzer;
   private openaiApiKey1: string;
   private openaiApiKey2: string;
   private currentKeyIndex: number = 0;
@@ -19,8 +23,24 @@ export class FlutterAnalyzer {
     this.openaiApiKey1 = process.env.OPENAI_API_KEY || '';
     this.openaiApiKey2 = process.env.OPENAI_API_KEY2 || '';
     
+    // AI 서비스 초기화
+    const aiConfig: AIModelConfig = {
+      type: 'openai',
+      model: 'gpt-3.5-turbo',
+      apiKey: this.openaiApiKey1 || this.openaiApiKey2,
+      maxTokens: 500,
+      temperature: 0.7
+    };
+    
+    this.aiService = new AIService(aiConfig, outputChannel);
+    
+    // 아이콘 분석기 초기화
+    this.iconAnalyzer = new IconAnalyzer(workspaceRoot, outputChannel, this.aiService);
+    
     if (!this.openaiApiKey1 && !this.openaiApiKey2) {
-      this.log('⚠️ OpenAI API 키가 설정되지 않았습니다. env.example 파일을 참고하여 .env 파일을 생성하세요.');
+      this.log('⚠️ OpenAI API 키가 설정되지 않았습니다. 환경변수를 확인해주세요.');
+    } else {
+      this.log('✅ OpenAI API 키가 설정되었습니다.');
     }
   }
 
@@ -39,23 +59,20 @@ export class FlutterAnalyzer {
         classes.push(...fileClasses);
       }
 
-      // 3. 라벨 관련 JSON 파일 생성 (새로운 기능)
-      await this.generateLabelJson(classes);
-
-      // 4. 접근성 이슈 분석
+      // 3. 접근성 이슈 분석 (AI 서비스 사용)
       const accessibilityIssues = await this.analyzeAccessibilityIssues(classes);
 
-      // 5. 사용자 저니 생성 (실제 LLM 사용)
-      const userJourneys = await this.generateUserJourneys(classes, personaCount);
+      // 4. 라벨 관련 JSON 파일 생성
+      await this.generateLabelJson(classes);
 
-      // 6. 프로젝트 분석 결과 생성
+      // 5. 프로젝트 분석 결과 생성
       const analysis: ProjectAnalysis = {
         projectName: path.basename(this.workspaceRoot),
         totalFiles: dartFiles.length,
         totalClasses: classes.length,
         totalWidgets: classes.reduce((sum, cls) => sum + cls.widgets.length, 0),
         accessibilityIssues,
-        userJourneys,
+        userJourneys: [], // 빈 배열로 설정 (사용하지 않음)
         analysisDate: new Date().toISOString()
       };
 
@@ -212,59 +229,52 @@ export class FlutterAnalyzer {
 
   private async analyzeAccessibilityIssues(classes: DartClass[]): Promise<AccessibilityIssue[]> {
     const issues: AccessibilityIssue[] = [];
-    let issueId = 1;
 
     for (const cls of classes) {
       for (const widget of cls.widgets) {
-        // 접근성 라벨 누락 체크
-        if (!widget.hasSemanticLabel) {
-          issues.push({
-            id: `issue_${issueId++}`,
-            severity: 'error',
-            type: 'missing_label',
-            description: `${widget.name} 위젯에 접근성 라벨이 없습니다.`,
-            elementType: widget.name,
-            file: cls.file,
-            line: widget.line,
-            column: widget.column,
-            rect: { left: 0, top: 0, width: 100, height: 50 },
-            suggestedLabel: this.generateSuggestedLabel(widget),
-            suggestedCode: this.generateSuggestedCode(widget)
-          });
+        // 실제 위젯 내용과 컨텍스트 분석
+        const context = await this.analyzeWidgetContext(widget, cls);
+        
+        // 1. 의미있는 텍스트 위젯 분석
+        if (widget.name === 'Text' && !widget.hasSemanticLabel) {
+          const textContent = this.extractTextContent(widget);
+          const issue = await this.createTextAccessibilityIssue(widget, cls, textContent, context);
+          if (issue) issues.push(issue);
         }
 
-        // 이미지 대체 텍스트 누락 체크
-        if (widget.name === 'Image' && !widget.hasAltText) {
-          issues.push({
-            id: `issue_${issueId++}`,
-            severity: 'error',
-            type: 'missing_alt_text',
-            description: '이미지에 대체 텍스트가 없습니다.',
-            elementType: 'Image',
-            file: cls.file,
-            line: widget.line,
-            column: widget.column,
-            rect: { left: 0, top: 0, width: 200, height: 150 },
-            suggestedLabel: '이미지 설명',
-            suggestedCode: this.generateImageAltText(widget)
-          });
+        // 2. 버튼 위젯 분석
+        else if (widget.name === 'Button' || widget.name === 'ElevatedButton' || widget.name === 'TextButton') {
+          const buttonContext = await this.analyzeButtonContext(widget, cls);
+          const issue = await this.createButtonAccessibilityIssue(widget, cls, buttonContext);
+          if (issue) issues.push(issue);
         }
 
-        // 부적절한 라벨 체크
-        if (widget.hasSemanticLabel && widget.semanticLabel && this.isInappropriateLabel(widget.semanticLabel)) {
-          issues.push({
-            id: `issue_${issueId++}`,
-            severity: 'warning',
-            type: 'inappropriate_label',
-            description: '부적절한 접근성 라벨입니다.',
-            elementType: widget.name,
-            file: cls.file,
-            line: widget.line,
-            column: widget.column,
-            rect: { left: 0, top: 0, width: 100, height: 50 },
-            suggestedLabel: this.generateSuggestedLabel(widget),
-            suggestedCode: this.generateSuggestedCode(widget)
-          });
+        // 3. 이미지 위젯 분석
+        else if (widget.name === 'Image' && !widget.hasAltText) {
+          const imageContext = await this.analyzeImageContext(widget, cls);
+          const issue = await this.createImageAccessibilityIssue(widget, cls, imageContext);
+          if (issue) issues.push(issue);
+        }
+
+        // 4. 아이콘 위젯 분석
+        else if (widget.name === 'Icon' && !widget.hasSemanticLabel) {
+          const iconContext = await this.analyzeIconContext(widget, cls);
+          const issue = await this.createIconAccessibilityIssue(widget, cls, iconContext);
+          if (issue) issues.push(issue);
+        }
+
+        // 5. 입력 필드 분석
+        else if (widget.name === 'TextField' || widget.name === 'TextFormField') {
+          const inputContext = await this.analyzeInputContext(widget, cls);
+          const issue = await this.createInputAccessibilityIssue(widget, cls, inputContext);
+          if (issue) issues.push(issue);
+        }
+
+        // 6. 리스트 아이템 분석
+        else if (widget.name === 'ListTile' || widget.name === 'Card') {
+          const listContext = await this.analyzeListContext(widget, cls);
+          const issue = await this.createListAccessibilityIssue(widget, cls, listContext);
+          if (issue) issues.push(issue);
         }
       }
     }
@@ -272,64 +282,446 @@ export class FlutterAnalyzer {
     return issues;
   }
 
-  private isInappropriateLabel(label: string): boolean {
-    // 부적절한 라벨 패턴들
-    const inappropriatePatterns = [
-      /^\d+$/, // 숫자만
-      /^[a-zA-Z]+$/, // 영문만
-      /^[!@#$%^&*()]+$/, // 특수문자만
-      /^(button|click|tap|press)$/i, // 일반적인 동사
-      /^(image|img|pic|photo)$/i // 일반적인 이미지 관련 단어
-    ];
+  private async analyzeWidgetContext(widget: DartWidget, cls: DartClass): Promise<string> {
+    // 위젯 주변 코드 분석하여 컨텍스트 파악
+    const surroundingCode = await this.getSurroundingCode(cls.file, widget.line);
+    const methodContext = this.getMethodContext(cls, widget.line);
+    
+    return `${methodContext} - ${surroundingCode.substring(0, 200)}...`;
+  }
 
-    return inappropriatePatterns.some(pattern => pattern.test(label.trim()));
+  private async getSurroundingCode(filePath: string, line: number): Promise<string> {
+    try {
+      const content = await vscode.workspace.fs.readFile(vscode.Uri.file(filePath));
+      const lines = content.toString().split('\n');
+      const start = Math.max(0, line - 5);
+      const end = Math.min(lines.length, line + 5);
+      return lines.slice(start, end).join('\n');
+    } catch (error) {
+      return '';
+    }
+  }
+
+  private getMethodContext(cls: DartClass, line: number): string {
+    const method = cls.methods.find(m => m.line <= line && line <= m.line + 50);
+    return method ? method.name : 'unknown_method';
+  }
+
+  private extractTextContent(widget: DartWidget): string {
+    // Text 위젯의 실제 내용 추출
+    const code = widget.code || '';
+    const textMatch = code.match(/Text\s*\(\s*['"`]([^'"`]+)['"`]/);
+    return textMatch ? textMatch[1] : '';
+  }
+
+  private async createTextAccessibilityIssue(widget: DartWidget, cls: DartClass, textContent: string, context: string): Promise<AccessibilityIssue | null> {
+    // 텍스트가 실제로 의미있는 내용인지 확인
+    if (!textContent || textContent.length < 2) return null;
+
+    const textType = this.analyzeTextType(textContent, context);
+    
+    // AI 서비스를 사용하여 구체적인 설명 생성
+    let suggestedLabel = this.generateContextualTextLabel(textContent, textType, context);
+    let impact = this.getTextImpact(textType);
+    let userJourney = this.getTextUserJourney(textType);
+    
+    try {
+      const aiDescription = await this.aiService.generateTextDescription(textContent, cls.file, widget.line);
+      if (aiDescription && aiDescription !== '텍스트 내용 설명') {
+        suggestedLabel = aiDescription;
+      }
+    } catch (error) {
+      this.log(`⚠️ AI 텍스트 설명 생성 실패: ${error}`);
+    }
+    
+    return {
+      id: `issue_${Date.now()}_${Math.random()}`,
+      severity: this.getTextSeverity(textType),
+      type: 'missing_semantic_label',
+      description: this.generateTextDescription(textContent, textType),
+      elementType: 'Text',
+      file: cls.file,
+      line: widget.line,
+      column: widget.column,
+      rect: { left: 0, top: 0, width: 100, height: 50 },
+      suggestedLabel: suggestedLabel,
+      suggestedCode: this.generateTextSemanticsCode(widget, suggestedLabel),
+      context: context,
+      impact: impact,
+      userJourney: userJourney
+    };
+  }
+
+  private analyzeTextType(textContent: string, context: string): string {
+    // 텍스트 타입 분석
+    if (textContent.match(/^\d+$/)) return 'number';
+    if (textContent.match(/^\d+원$/)) return 'price';
+    if (textContent.match(/^\d{4}-\d{2}-\d{2}$/)) return 'date';
+    if (textContent.match(/^\d{2}:\d{2}$/)) return 'time';
+    if (context.includes('error') || context.includes('Error')) return 'error';
+    if (context.includes('success') || context.includes('Success')) return 'success';
+    if (context.includes('loading') || context.includes('Loading')) return 'loading';
+    if (textContent.length < 10) return 'label';
+    return 'content';
+  }
+
+  private generateTextDescription(textContent: string, textType: string): string {
+    const descriptions: Record<string, string> = {
+      number: `숫자 "${textContent}"이지만 스크린 리더가 이를 숫자로 인식하지 못할 수 있습니다.`,
+      price: `가격 "${textContent}"이지만 스크린 리더가 이를 가격으로 인식하지 못할 수 있습니다.`,
+      date: `날짜 "${textContent}"이지만 스크린 리더가 이를 날짜로 인식하지 못할 수 있습니다.`,
+      time: `시간 "${textContent}"이지만 스크린 리더가 이를 시간으로 인식하지 못할 수 있습니다.`,
+      error: `오류 메시지 "${textContent}"이지만 스크린 리더가 이를 오류로 인식하지 못할 수 있습니다.`,
+      success: `성공 메시지 "${textContent}"이지만 스크린 리더가 이를 성공으로 인식하지 못할 수 있습니다.`,
+      loading: `로딩 메시지 "${textContent}"이지만 스크린 리더가 이를 로딩 상태로 인식하지 못할 수 있습니다.`,
+      label: `라벨 "${textContent}"이지만 스크린 리더가 이를 라벨로 인식하지 못할 수 있습니다.`,
+      content: `텍스트 "${textContent}"이지만 스크린 리더가 이를 적절히 읽지 못할 수 있습니다.`
+    };
+    return descriptions[textType] || descriptions.content;
+  }
+
+  private generateContextualTextLabel(textContent: string, textType: string, context: string): string {
+    const labels: Record<string, string> = {
+      number: `숫자: ${textContent}`,
+      price: `가격: ${textContent}`,
+      date: `날짜: ${textContent}`,
+      time: `시간: ${textContent}`,
+      error: `오류: ${textContent}`,
+      success: `성공: ${textContent}`,
+      loading: `로딩 중: ${textContent}`,
+      label: `라벨: ${textContent}`,
+      content: textContent
+    };
+    return labels[textType] || textContent;
+  }
+
+  private getTextSeverity(textType: string): 'error' | 'warning' | 'info' | 'high' | 'medium' | 'low' {
+    const severities: Record<string, 'error' | 'warning' | 'info' | 'high' | 'medium' | 'low'> = {
+      error: 'high',
+      success: 'medium',
+      loading: 'medium',
+      price: 'high',
+      date: 'high',
+      time: 'high',
+      number: 'medium',
+      label: 'low',
+      content: 'medium'
+    };
+    return severities[textType] || 'medium';
+  }
+
+  private getTextImpact(textType: string): string {
+    const impacts: Record<string, string> = {
+      error: '시각장애인이 오류 상황을 인식하지 못해 앱 사용에 어려움을 겪을 수 있습니다.',
+      success: '시각장애인이 작업 완료 여부를 확인하기 어려울 수 있습니다.',
+      loading: '시각장애인이 로딩 상태를 인식하지 못해 불안감을 느낄 수 있습니다.',
+      price: '시각장애인이 가격 정보를 정확히 파악하기 어려울 수 있습니다.',
+      date: '시각장애인이 날짜 정보를 정확히 파악하기 어려울 수 있습니다.',
+      time: '시각장애인이 시간 정보를 정확히 파악하기 어려울 수 있습니다.',
+      number: '시각장애인이 숫자 정보를 정확히 파악하기 어려울 수 있습니다.',
+      label: '시각장애인이 라벨 정보를 파악하기 어려울 수 있습니다.',
+      content: '시각장애인이 텍스트 내용을 적절히 인식하지 못할 수 있습니다.'
+    };
+    return impacts[textType] || impacts.content;
+  }
+
+  private getTextUserJourney(textType: string): string {
+    const journeys: Record<string, string> = {
+      error: '오류 발생 시 스크린 리더가 "오류"라고 명시하여 사용자가 즉시 인식할 수 있어야 합니다.',
+      success: '작업 완료 시 스크린 리더가 "성공"이라고 명시하여 사용자가 안심할 수 있어야 합니다.',
+      loading: '로딩 중일 때 스크린 리더가 "로딩 중"이라고 명시하여 사용자가 대기해야 함을 알 수 있어야 합니다.',
+      price: '가격 정보는 "가격: 10,000원"과 같이 명시하여 사용자가 정확히 파악할 수 있어야 합니다.',
+      date: '날짜 정보는 "날짜: 2024년 1월 1일"과 같이 명시하여 사용자가 정확히 파악할 수 있어야 합니다.',
+      time: '시간 정보는 "시간: 오후 2시 30분"과 같이 명시하여 사용자가 정확히 파악할 수 있어야 합니다.',
+      number: '숫자 정보는 "숫자: 42"와 같이 명시하여 사용자가 정확히 파악할 수 있어야 합니다.',
+      label: '라벨은 "라벨: 사용자 이름"과 같이 명시하여 사용자가 이해할 수 있어야 합니다.',
+      content: '텍스트 내용은 의미있는 방식으로 스크린 리더가 읽을 수 있어야 합니다.'
+    };
+    return journeys[textType] || journeys.content;
+  }
+
+  private generateTextSemanticsCode(widget: DartWidget, suggestedLabel: string): string {
+    return `Semantics(
+  label: "${suggestedLabel}",
+  child: Text("${this.extractTextContent(widget)}"),
+)`;
+  }
+ 
+  private extractIconCode(surroundingCode: string, lineNumber: number): string | null {
+    // Icon 위젯 코드 추출
+    const iconMatch = surroundingCode.match(/Icon\s*\(\s*Icons\.(\w+)/);
+    if (iconMatch) {
+      return `Icons.${iconMatch[1]}`;
+    }
+
+    // 커스텀 아이콘 파일 경로 추출
+    const customIconMatch = surroundingCode.match(/Icon\s*\(\s*['"`]([^'"`]+\.(?:png|jpg|jpeg|svg|ico))['"`]/);
+    if (customIconMatch) {
+      return customIconMatch[1];
+    }
+
+    // 이미지 아이콘 추출
+    const imageIconMatch = surroundingCode.match(/Image\.(?:asset|network)\s*\(\s*['"`]([^'"`]+)['"`]/);
+    if (imageIconMatch) {
+      return imageIconMatch[1];
+    }
+
+    return null;
+  }
+
+  private generateIconSemanticsCode(iconCode: string, suggestedLabel: string): string {
+    if (iconCode.startsWith('Icons.')) {
+      return `Icon(
+  ${iconCode},
+  semanticLabel: "${suggestedLabel}",
+)`;
+    } else if (iconCode.includes('.')) {
+      // 커스텀 아이콘 파일
+      return `Icon(
+  Icons.image,
+  semanticLabel: "${suggestedLabel}",
+)`;
+    } else {
+      return `Semantics(
+  label: "${suggestedLabel}",
+  child: Icon(${iconCode}),
+)`;
+    }
+  }
+
+  private async analyzeButtonContext(widget: DartWidget, cls: DartClass): Promise<string> {
+    const surroundingCode = await this.getSurroundingCode(cls.file, widget.line);
+    const methodContext = this.getMethodContext(cls, widget.line);
+    return `${methodContext} - ${surroundingCode.substring(0, 200)}...`;
+  }
+
+  private async createButtonAccessibilityIssue(widget: DartWidget, cls: DartClass, context: string): Promise<AccessibilityIssue | null> {
+    // AI 서비스를 사용하여 구체적인 설명 생성
+    let suggestedLabel = '버튼 기능';
+    
+    try {
+      const aiDescription = await this.aiService.generateButtonDescription(context, cls.file, widget.line);
+      if (aiDescription && aiDescription !== '버튼 기능 설명') {
+        suggestedLabel = aiDescription;
+      }
+    } catch (error) {
+      this.log(`⚠️ AI 버튼 설명 생성 실패: ${error}`);
+    }
+    
+    return {
+      id: `issue_${Date.now()}_${Math.random()}`,
+      severity: 'medium',
+      type: 'missing_semantic_label',
+      description: '버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.',
+      elementType: 'Button',
+      file: cls.file,
+      line: widget.line,
+      column: widget.column,
+      rect: { left: 0, top: 0, width: 100, height: 50 },
+      suggestedLabel: suggestedLabel,
+      suggestedCode: `Semantics(
+  label: "${suggestedLabel}",
+  child: ${widget.name}(),
+)`,
+      context: context,
+      impact: '시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.',
+      userJourney: '버튼은 명확한 라벨을 가지고 있어야 합니다.'
+    };
+  }
+
+  private async analyzeImageContext(widget: DartWidget, cls: DartClass): Promise<string> {
+    const surroundingCode = await this.getSurroundingCode(cls.file, widget.line);
+    const methodContext = this.getMethodContext(cls, widget.line);
+    return `${methodContext} - ${surroundingCode.substring(0, 200)}...`;
+  }
+
+  private async createImageAccessibilityIssue(widget: DartWidget, cls: DartClass, context: string): Promise<AccessibilityIssue | null> {
+    // AI 서비스를 사용하여 구체적인 설명 생성
+    let suggestedLabel = '이미지 설명';
+    
+    try {
+      const aiDescription = await this.aiService.generateImageDescription(context, cls.file, widget.line);
+      if (aiDescription && aiDescription !== '이미지 설명') {
+        suggestedLabel = aiDescription;
+      }
+    } catch (error) {
+      this.log(`⚠️ AI 이미지 설명 생성 실패: ${error}`);
+    }
+    
+    return {
+      id: `issue_${Date.now()}_${Math.random()}`,
+      severity: 'high',
+      type: 'missing_alt_text',
+      description: '이미지에 대체 텍스트가 없어 시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.',
+      elementType: 'Image',
+      file: cls.file,
+      line: widget.line,
+      column: widget.column,
+      rect: { left: 0, top: 0, width: 200, height: 150 },
+      suggestedLabel: suggestedLabel,
+      suggestedCode: `Image.network(
+  'image_url',
+  semanticLabel: "${suggestedLabel}",
+)`,
+      context: context,
+      impact: '시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.',
+      userJourney: '이미지는 명확한 라벨 또는 대체 텍스트를 가지고 있어야 합니다.'
+    };
+  }
+
+  private async analyzeIconContext(widget: DartWidget, cls: DartClass): Promise<string> {
+    const surroundingCode = await this.getSurroundingCode(cls.file, widget.line);
+    const methodContext = this.getMethodContext(cls, widget.line);
+    return `${methodContext} - ${surroundingCode.substring(0, 200)}...`;
+  }
+
+  private async createIconAccessibilityIssue(widget: DartWidget, cls: DartClass, context: string): Promise<AccessibilityIssue | null> {
+    try {
+      // 위젯 주변 코드에서 실제 아이콘 코드 추출
+      const surroundingCode = await this.getSurroundingCode(cls.file, widget.line);
+      const iconCode = this.extractIconCode(surroundingCode, widget.line);
+      
+      if (!iconCode) {
+        return null;
+      }
+
+      // 아이콘 분석기 사용
+      const iconAnalysis = await this.iconAnalyzer.analyzeIcon(iconCode, context, cls.file, widget.line);
+      
+      return {
+        id: `issue_${Date.now()}_${Math.random()}`,
+        severity: 'medium',
+        type: 'missing_semantic_label',
+        description: '아이콘에 의미있는 라벨이 없어 시각장애인이 아이콘의 의미를 이해하기 어려울 수 있습니다.',
+        elementType: 'Icon',
+        file: cls.file,
+        line: widget.line,
+        column: widget.column,
+        rect: { left: 0, top: 0, width: 100, height: 50 },
+        suggestedLabel: iconAnalysis.suggestedLabel,
+        suggestedCode: this.generateIconSemanticsCode(iconCode, iconAnalysis.suggestedLabel),
+        context: context,
+        impact: '시각장애인이 아이콘의 의미를 이해하기 어려울 수 있습니다.',
+        userJourney: '아이콘은 명확한 라벨을 가지고 있어야 합니다.',
+        confidence: iconAnalysis.confidence,
+        alternatives: iconAnalysis.alternatives
+      };
+    } catch (error) {
+      this.log(`⚠️ 아이콘 분석 실패: ${error}`);
+      
+      // 기본값 반환
+      return {
+        id: `issue_${Date.now()}_${Math.random()}`,
+        severity: 'medium',
+        type: 'missing_semantic_label',
+        description: '아이콘에 의미있는 라벨이 없어 시각장애인이 아이콘의 의미를 이해하기 어려울 수 있습니다.',
+        elementType: 'Icon',
+        file: cls.file,
+        line: widget.line,
+        column: widget.column,
+        rect: { left: 0, top: 0, width: 100, height: 50 },
+        suggestedLabel: '아이콘 의미',
+        suggestedCode: `Icon(
+  Icons.icon_name,
+  semanticLabel: "아이콘 의미",
+)`,
+        context: context,
+        impact: '시각장애인이 아이콘의 의미를 이해하기 어려울 수 있습니다.',
+        userJourney: '아이콘은 명확한 라벨을 가지고 있어야 합니다.'
+      };
+    }
+  }
+
+  private async analyzeInputContext(widget: DartWidget, cls: DartClass): Promise<string> {
+    const surroundingCode = await this.getSurroundingCode(cls.file, widget.line);
+    const methodContext = this.getMethodContext(cls, widget.line);
+    return `${methodContext} - ${surroundingCode.substring(0, 200)}...`;
+  }
+
+  private async createInputAccessibilityIssue(widget: DartWidget, cls: DartClass, context: string): Promise<AccessibilityIssue | null> {
+    // AI 서비스를 사용하여 구체적인 설명 생성
+    let suggestedLabel = '입력 필드 목적';
+    
+    try {
+      const aiDescription = await this.aiService.generateInputDescription(context, cls.file, widget.line);
+      if (aiDescription && aiDescription !== '입력 필드 목적') {
+        suggestedLabel = aiDescription;
+      }
+    } catch (error) {
+      this.log(`⚠️ AI 입력 필드 설명 생성 실패: ${error}`);
+    }
+    
+    return {
+      id: `issue_${Date.now()}_${Math.random()}`,
+      severity: 'medium',
+      type: 'missing_semantic_label',
+      description: '입력 필드에 의미있는 라벨이 없어 시각장애인이 입력 필드의 목적을 이해하기 어려울 수 있습니다.',
+      elementType: 'InputField',
+      file: cls.file,
+      line: widget.line,
+      column: widget.column,
+      rect: { left: 0, top: 0, width: 100, height: 50 },
+      suggestedLabel: suggestedLabel,
+      suggestedCode: `Semantics(
+  label: "${suggestedLabel}",
+  child: ${widget.name}(),
+)`,
+      context: context,
+      impact: '시각장애인이 입력 필드의 목적을 이해하기 어려울 수 있습니다.',
+      userJourney: '입력 필드는 명확한 라벨을 가지고 있어야 합니다.'
+    };
+  }
+
+  private async analyzeListContext(widget: DartWidget, cls: DartClass): Promise<string> {
+    const surroundingCode = await this.getSurroundingCode(cls.file, widget.line);
+    const methodContext = this.getMethodContext(cls, widget.line);
+    return `${methodContext} - ${surroundingCode.substring(0, 200)}...`;
+  }
+
+  private async createListAccessibilityIssue(widget: DartWidget, cls: DartClass, context: string): Promise<AccessibilityIssue | null> {
+    // AI 서비스를 사용하여 구체적인 설명 생성
+    let suggestedLabel = '리스트 아이템 내용';
+    
+    try {
+      const aiDescription = await this.aiService.generateListDescription(context, cls.file, widget.line);
+      if (aiDescription && aiDescription !== '리스트 아이템 내용') {
+        suggestedLabel = aiDescription;
+      }
+    } catch (error) {
+      this.log(`⚠️ AI 리스트 설명 생성 실패: ${error}`);
+    }
+    
+    return {
+      id: `issue_${Date.now()}_${Math.random()}`,
+      severity: 'medium',
+      type: 'missing_semantic_label',
+      description: '리스트 아이템에 의미있는 라벨이 없어 시각장애인이 리스트 아이템의 내용을 이해하기 어려울 수 있습니다.',
+      elementType: 'ListTile',
+      file: cls.file,
+      line: widget.line,
+      column: widget.column,
+      rect: { left: 0, top: 0, width: 100, height: 50 },
+      suggestedLabel: suggestedLabel,
+      suggestedCode: `Semantics(
+  label: "${suggestedLabel}",
+  child: ${widget.name}(),
+)`,
+      context: context,
+      impact: '시각장애인이 리스트 아이템의 내용을 이해하기 어려울 수 있습니다.',
+      userJourney: '리스트 아이템은 명확한 라벨을 가지고 있어야 합니다.'
+    };
   }
 
   private generateSuggestedLabel(widget: DartWidget): string {
-    switch (widget.name) {
-      case 'Text':
-        return '텍스트 내용';
-      case 'Image':
-        return '이미지 설명';
-      case 'Button':
-        return '버튼 기능';
-      case 'Icon':
-        return '아이콘 의미';
-      default:
-        return '위젯 설명';
-    }
+    // AI 서비스에서 생성된 라벨을 사용하므로 기본값만 반환
+    return 'AI 생성 라벨';
   }
 
   private generateSuggestedCode(widget: DartWidget): string {
-    switch (widget.name) {
-      case 'Image':
-        return `Image.network(
-  'image_url',
-  semanticLabel: "${this.generateSuggestedLabel(widget)}",
-)`;
-      case 'Icon':
-        return `Icon(
-  Icons.icon_name,
-  semanticLabel: "${this.generateSuggestedLabel(widget)}",
-)`;
-      case 'Button':
-        return `ElevatedButton(
-  onPressed: () {},
-  child: Text("버튼 텍스트"),
-  semanticLabel: "${this.generateSuggestedLabel(widget)}",
-)`;
-      default:
-        return `Semantics(
-  label: "${this.generateSuggestedLabel(widget)}",
+    // AI 서비스에서 생성된 코드를 사용하므로 기본값만 반환
+    return `Semantics(
+  label: "AI 생성 라벨",
   child: ${widget.name}(),
-)`;
-    }
-  }
-
-  private generateImageAltText(widget: DartWidget): string {
-    return `Image.network(
-  'image_url',
-  semanticLabel: "이미지 설명",
 )`;
   }
 

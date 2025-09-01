@@ -203,7 +203,7 @@ export class ScreenshotService {
     try {
       // 즉시 스크린샷 캡처
       const screenshot = await this.captureScreenshot();
-      // 이벤트 콜백 호출 (실제로는 WebSocket으로 전송)
+      // 이벤트 콜백 호출
       this.log('사용자 상호작용으로 인한 즉시 캡처');
       
     } catch (error) {

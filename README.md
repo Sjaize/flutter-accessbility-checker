@@ -9,6 +9,7 @@ VS Code 확장 프로그램으로 Flutter 앱의 접근성을 실시간으로 �
 - **코드 제안**: 접근성 개선을 위한 코드 제안 및 자동 적용
 - **사용자 저니 분석**: 다양한 페르소나 관점에서 접근성 검토
 - **React 대시보드**: 실시간 모니터링을 위한 웹 대시보드
+- **다중 AI 모델 지원**: OpenAI, Ollama, 로컬 모델 지원
 
 ## 📋 시스템 요구사항
 
@@ -50,6 +51,16 @@ nano .env
 OPENAI_API_KEY=your_openai_api_key_here
 OPENAI_API_KEY2=your_openai_api_key2_here
 
+# AI Model Configuration
+AI_MODEL_TYPE=openai
+AI_MODEL_NAME=gpt-3.5-turbo
+AI_MAX_TOKENS=2000
+AI_TEMPERATURE=0.7
+
+# Ollama Configuration (로컬 AI 모델)
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_MODEL=codellama:7b
+
 # Flutter App Configuration
 FLUTTER_PORT=64022
 REACT_APP_PORT=3000
@@ -61,7 +72,34 @@ SCREENSHOT_INTERVAL=5000
 MAX_RETRY_ATTEMPTS=3
 ```
 
-### 3. React 앱 설정
+### 3. AI 모델 설정
+
+#### OpenAI 사용 (기본)
+```env
+AI_MODEL_TYPE=openai
+AI_MODEL_NAME=gpt-3.5-turbo
+```
+
+#### Ollama 사용 (로컬)
+```bash
+# Ollama 설치
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# CodeLlama 모델 다운로드
+ollama pull codellama:7b
+
+# 환경 변수 설정
+AI_MODEL_TYPE=ollama
+AI_MODEL_NAME=codellama:7b
+```
+
+#### 다른 OSS 모델들
+- **Llama 2**: `llama2:7b`, `llama2:13b`, `llama2:70b`
+- **Mistral**: `mistral:7b`, `mistral:7b-instruct`
+- **CodeLlama**: `codellama:7b`, `codellama:13b`, `codellama:34b`
+- **WizardCoder**: `wizardcoder:7b`, `wizardcoder:13b`
+
+### 4. React 앱 설정
 
 ```bash
 # React 앱 디렉토리로 이동
@@ -87,101 +125,78 @@ npm install
 - **WebSocket 서버**: 포트 3001에서 실행
 - **브라우저**: React 대시보드 자동 열기
 
-### 3. 접근성 이슈 확인
+## 🤖 AI 모델 비교
 
-- React 대시보드에서 실시간 스크린샷 확인
-- 바운딩 박스로 문제 요소 시각화
-- 이슈 클릭하여 코드 제안 요청
-- VS Code에서 코드 프리뷰 및 적용
+| 모델 | 장점 | 단점 | 추천 용도 |
+|------|------|------|-----------|
+| **GPT-3.5-turbo** | 빠른 응답, 높은 품질 | 비용, 토큰 제한 | 프로덕션 환경 |
+| **GPT-4** | 최고 품질, 긴 컨텍스트 | 높은 비용 | 복잡한 분석 |
+| **CodeLlama** | 코드 특화, 무료 | 느린 추론 | 개발 환경 |
+| **Llama 2** | 무료, 긴 컨텍스트 | 설정 복잡 | 대용량 프로젝트 |
+| **Mistral** | 빠른 추론, 효율적 | 제한된 모델 | 실시간 분석 |
 
-## 📁 프로젝트 구조
+## 🔧 고급 설정
 
-```
-flutter-accessbility-checker/
-├── src/
-│   ├── extension.ts              # VS Code 확장 메인
-│   ├── services/
-│   │   ├── flutter-analyzer.ts   # Flutter 코드 분석
-│   │   ├── flutter-runner.ts     # Flutter 앱 실행 관리
-│   │   ├── screenshot-service.ts # 스크린샷 캡처
-│   │   └── websocket-service.ts  # WebSocket 통신
-│   └── types/
-│       └── accessibility.ts      # 타입 정의
-├── react-app/                    # React 대시보드
-│   ├── src/
-│   │   ├── App.tsx              # 메인 React 컴포넌트
-│   │   ├── index.tsx            # 앱 진입점
-│   │   └── types.ts             # 타입 정의
-│   └── package.json
-├── package.json                  # VS Code 확장 설정
-├── env.example                   # 환경 변수 예시
-└── README.md
+### 긴 입력 토큰 활용
+```env
+# 대용량 프로젝트 분석
+AI_MAX_TOKENS=8000
+AI_MODEL_NAME=gpt-4-32k  # 또는 codellama:34b
 ```
 
-## 🔧 설정 옵션
+### 추론 성능 최적화
+```env
+# 빠른 응답을 위한 설정
+AI_TEMPERATURE=0.3
+AI_MAX_TOKENS=1000
+```
 
-### 포트 설정
-- `FLUTTER_PORT`: Flutter 앱 실행 포트 (기본: 64022)
-- `REACT_APP_PORT`: React 대시보드 포트 (기본: 3000)
-- `WEBSOCKET_PORT`: WebSocket 서버 포트 (기본: 3001)
-
-### 분석 설정
-- `MAX_PERSONA_COUNT`: 최대 페르소나 수 (기본: 10)
-- `SCREENSHOT_INTERVAL`: 스크린샷 캡처 간격 (기본: 5000ms)
-- `MAX_RETRY_ATTEMPTS`: 재시도 횟수 (기본: 3)
-
-## 🚨 이슈 분류
-
-### 심각도별 분류
-- **Error (위험)**: 접근성 라벨 누락, 이미지 대체 텍스트 누락
-- **Warning (경고)**: 부적절한 라벨, 개선 권장사항
-- **Info (정보)**: 참고사항, 추가 정보
-
-### 이슈 타입
-- `missing_label`: 접근성 라벨 누락
-- `wrong_label`: 잘못된 라벨
-- `missing_alt_text`: 이미지 대체 텍스트 누락
-- `inappropriate_label`: 부적절한 라벨
-
-## 🔄 워크플로우
-
-1. **분석 시작**: VS Code 명령어 실행
-2. **Flutter 앱 실행**: 포트 64022에서 자동 실행
-3. **코드 분석**: Dart 파일에서 접근성 이슈 검출
-4. **사용자 저니 생성**: OpenAI API로 페르소나별 분석
-5. **실시간 모니터링**: 스크린샷 캡처 및 바운딩 박스 표시
-6. **코드 제안**: 이슈 클릭 시 VS Code에서 프리뷰
-7. **코드 적용**: 제안된 코드를 실제 파일에 적용
-
-## 🛠️ 개발
-
-### VS Code 확장 개발
+### 로컬 GPU 활용
 ```bash
-# TypeScript 컴파일
-npm run compile
+# CUDA 지원 Ollama 설치
+docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
 
-# 개발 모드 실행
-npm run watch
+# GPU 모델 사용
+ollama pull codellama:7b-instruct-q4_K_M
 ```
 
-### React 앱 개발
+## 📊 성능 최적화 팁
+
+1. **모델 선택**: 프로젝트 크기에 따라 적절한 모델 선택
+2. **토큰 관리**: 긴 코드는 청크 단위로 분할 분석
+3. **캐싱**: 동일한 분석 결과 재사용
+4. **병렬 처리**: 여러 페르소나 동시 분석
+
+## 🚨 문제 해결
+
+### Ollama 연결 실패
 ```bash
-cd react-app
-npm start
+# Ollama 서비스 상태 확인
+ollama list
+
+# 서비스 재시작
+sudo systemctl restart ollama
 ```
 
-## 📝 라이선스
+### 메모리 부족
+```bash
+# 더 작은 모델 사용
+ollama pull codellama:7b-instruct-q4_K_M
 
-MIT License
+# 환경 변수 조정
+AI_MAX_TOKENS=1000
+```
 
-## 🤝 기여
+### 느린 응답
+```env
+# 빠른 모델 사용
+AI_MODEL_NAME=codellama:7b-instruct-q4_K_M
+AI_TEMPERATURE=0.1
+```
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+## 📈 향후 계획
 
-## 📞 지원
-
-문제가 발생하거나 질문이 있으시면 이슈를 생성해주세요.
+- [ ] 더 많은 OSS 모델 지원
+- [ ] 모델 성능 비교 도구
+- [ ] 자동 모델 선택 기능
+- [ ] 분산 추론 지원

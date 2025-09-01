@@ -1,0 +1,2857 @@
+{
+  "projectName": "baemin_new",
+  "generatedAt": "2025-09-01T08:03:07.516Z",
+  "totalClasses": 22,
+  "totalWidgets": 245,
+  "classes": [
+    {
+      "name": "BaeminApp",
+      "file": "lib/main.dart",
+      "line": 13,
+      "widgets": [
+        {
+          "name": "Icon",
+          "line": 117,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 118,
+          "column": 23,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 122,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 123,
+          "column": 23,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 127,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 128,
+          "column": 23,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 132,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 133,
+          "column": 23,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 137,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 138,
+          "column": 23,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "MainScreen",
+      "file": "lib/main.dart",
+      "line": 81,
+      "widgets": [
+        {
+          "name": "Icon",
+          "line": 117,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 118,
+          "column": 23,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 122,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 123,
+          "column": 23,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 127,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 128,
+          "column": 23,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 132,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 133,
+          "column": 23,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 137,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 138,
+          "column": 23,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "CartScreen",
+      "file": "lib/screens/cart_screen.dart",
+      "line": 8,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 108,
+          "column": 14,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 192,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 220,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 229,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 249,
+          "column": 22,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 287,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 309,
+          "column": 22,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 362,
+          "column": 22,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 384,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 440,
+          "column": 32,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 462,
+          "column": 19,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 503,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 504,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 512,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 513,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 521,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 522,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 531,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 539,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 561,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 605,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 614,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 624,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 655,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 104,
+          "column": 16,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 117,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 237,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 307,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 635,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 105,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 118,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 156,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 173,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 190,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 201,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 214,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 558,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "FavoritesScreen",
+      "file": "lib/screens/favorites_screen.dart",
+      "line": 4,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 11,
+          "column": 16,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 29,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 38,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 58,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 46,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 23,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "HomeScreen",
+      "file": "lib/screens/home_screen.dart",
+      "line": 10,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 77,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 127,
+          "column": 24,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 96,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 105,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 112,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 74,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 87,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 97,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 107,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 113,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "MenuOptionScreen",
+      "file": "lib/screens/menu_option_screen.dart",
+      "line": 5,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 53,
+          "column": 31,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 134,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 145,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 211,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 231,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 247,
+          "column": 18,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 269,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 277,
+          "column": 51,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 295,
+          "column": 18,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Image",
+          "line": 106,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Image(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 89,
+          "column": 18,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 237,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 250,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 273,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 90,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 111,
+          "column": 24,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 241,
+          "column": 19,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 252,
+          "column": 19,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "OrderScreen",
+      "file": "lib/screens/order_screen.dart",
+      "line": 6,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 67,
+          "column": 14,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 140,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 148,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 183,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 198,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 205,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 242,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 252,
+          "column": 66,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 261,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 295,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 373,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 470,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 564,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 599,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 637,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 645,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 666,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 688,
+          "column": 16,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 689,
+          "column": 18,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 693,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 709,
+          "column": 16,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 714,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 716,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 723,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 734,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 783,
+          "column": 16,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 803,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 812,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 836,
+          "column": 22,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 63,
+          "column": 16,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 76,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 656,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 691,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 721,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 725,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 820,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 64,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 77,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 138,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 441,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 797,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "OrderCompleteScreen",
+      "file": "lib/screens/order_screen.dart",
+      "line": 766,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 783,
+          "column": 16,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 803,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 812,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 836,
+          "column": 22,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 820,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 797,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "OrdersScreen",
+      "file": "lib/screens/orders_screen.dart",
+      "line": 4,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 11,
+          "column": 16,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 29,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 38,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 58,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 46,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 23,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "ProfileScreen",
+      "file": "lib/screens/profile_screen.dart",
+      "line": 4,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 11,
+          "column": 16,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 50,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 59,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 39,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 69,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 116,
+          "column": 19,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "RestaurantDetailScreen",
+      "file": "lib/screens/restaurant_detail_screen.dart",
+      "line": 8,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 109,
+          "column": 26,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 189,
+          "column": 22,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 217,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 242,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 262,
+          "column": 26,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 281,
+          "column": 26,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 311,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 335,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 358,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 366,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 380,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 389,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 434,
+          "column": 14,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 440,
+          "column": 14,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 465,
+          "column": 35,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 508,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 544,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 64,
+          "column": 16,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 77,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 83,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 122,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 126,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 519,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 65,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 78,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 84,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 123,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 127,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 172,
+          "column": 22,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 240,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 309,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 320,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 356,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 378,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 413,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 542,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "SearchResultsScreen",
+      "file": "lib/screens/search_results_screen.dart",
+      "line": 7,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 110,
+          "column": 24,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 155,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 165,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 200,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 209,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 73,
+          "column": 16,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 86,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 92,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 74,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 87,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 93,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 173,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 194,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "SearchScreen",
+      "file": "lib/screens/search_screen.dart",
+      "line": 4,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 75,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 98,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 113,
+          "column": 24,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 121,
+          "column": 22,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 140,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 40,
+          "column": 23,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 128,
+          "column": 25,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 155,
+          "column": 24,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "AddressBanner",
+      "file": "lib/widgets/address_banner.dart",
+      "line": 4,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 35,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 48,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 44,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 28,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "BannerSection",
+      "file": "lib/widgets/banner_section.dart",
+      "line": 4,
+      "widgets": [
+        {
+          "name": "Icon",
+          "line": 100,
+          "column": 24,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "CartItemCard",
+      "file": "lib/widgets/cart_item_card.dart",
+      "line": 5,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 54,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 66,
+          "column": 32,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 77,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 126,
+          "column": 32,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 131,
+          "column": 24,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 162,
+          "column": 28,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Image",
+          "line": 99,
+          "column": 26,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Image(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 121,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 144,
+          "column": 19,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 171,
+          "column": 19,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 105,
+          "column": 32,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 175,
+          "column": 27,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "CategoryGrid",
+      "file": "lib/widgets/category_grid.dart",
+      "line": 5,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 18,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 28,
+          "column": 24,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 26,
+          "column": 15,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "MenuItemCard",
+      "file": "lib/widgets/menu_item_card.dart",
+      "line": 5,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 75,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 84,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Image",
+          "line": 109,
+          "column": 26,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Image(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 115,
+          "column": 32,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 145,
+          "column": 28,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "QuickAccess",
+      "file": "lib/widgets/quick_access.dart",
+      "line": 4,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 14,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "RestaurantCard",
+      "file": "lib/widgets/restaurant_card.dart",
+      "line": 6,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 93,
+          "column": 29,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 134,
+          "column": 25,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 209,
+          "column": 36,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 227,
+          "column": 36,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Image",
+          "line": 57,
+          "column": 30,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Image(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 63,
+          "column": 36,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 87,
+          "column": 29,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 128,
+          "column": 25,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 158,
+          "column": 25,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 172,
+          "column": 25,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "SearchBarWidget",
+      "file": "lib/widgets/search_bar_widget.dart",
+      "line": 5,
+      "widgets": [
+        {
+          "name": "Icon",
+          "line": 32,
+          "column": 25,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "ServiceTabs",
+      "file": "lib/widgets/service_tabs.dart",
+      "line": 4,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 35,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        }
+      ]
+    }
+  ]
+}
