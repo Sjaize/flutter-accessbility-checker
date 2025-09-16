@@ -1,8 +1,9 @@
 // src/services/flutter-runner.ts
 import * as vscode from 'vscode';
-import { spawn, ChildProcess } from 'child_process';
+import { spawn, ChildProcess, execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as os from 'os';
 
 const TARGET_PORT = 64022;
 const MAX_RETRY_ATTEMPTS = 3;
@@ -14,6 +15,7 @@ export class FlutterRunner {
   private outputChannel: vscode.OutputChannel;
   private flutterProcess: ChildProcess | null = null;
   private isRunning: boolean = false;
+  private flutterSdkPath: string | null = null;
 
   constructor(workspaceRoot: string, outputChannel: vscode.OutputChannel) {
     this.workspaceRoot = workspaceRoot;
@@ -63,8 +65,18 @@ export class FlutterRunner {
   }
 
   private async checkFlutterCommand(): Promise<void> {
+    // 먼저 Flutter SDK 경로를 찾아보기
+    this.flutterSdkPath = await this.findFlutterSdkPath();
+    
+    if (!this.flutterSdkPath) {
+      throw new Error('Flutter SDK를 찾을 수 없습니다. Flutter SDK가 설치되어 있는지 확인해주세요.');
+    }
+
+    this.outputChannel.appendLine(`✅ Flutter SDK 경로 발견: ${this.flutterSdkPath}`);
+
     return new Promise((resolve, reject) => {
-      const flutterCheck = spawn('flutter', ['--version'], {
+      const flutterExecutable = this.getFlutterExecutablePath();
+      const flutterCheck = spawn(flutterExecutable, ['--version'], {
         cwd: this.workspaceRoot,
         stdio: 'pipe'
       });
@@ -81,6 +93,150 @@ export class FlutterRunner {
         reject(new Error(`Flutter 명령어 실행 실패: ${error.message}`));
       });
     });
+  }
+
+  private async findFlutterSdkPath(): Promise<string | null> {
+    // 1. 환경 변수에서 flutter 명령어 찾기
+    let flutterPath = await this.findFlutterInPath();
+    if (flutterPath) {
+      return flutterPath;
+    }
+
+    // 2. 일반적인 설치 경로에서 찾기
+    flutterPath = this.findFlutterInCommonPaths();
+    if (flutterPath) {
+      return flutterPath;
+    }
+
+    return null;
+  }
+
+  private async findFlutterInPath(): Promise<string | null> {
+    try {
+      const platform = process.platform;
+      const command = platform === 'win32' ? 'where flutter' : 'which flutter';
+      
+      // 환경 변수를 명시적으로 설정
+      const env = { ...process.env };
+      if (platform === 'darwin') {
+        // macOS에서 일반적인 PATH 추가
+        const commonPaths = [
+          '/usr/local/bin',
+          '/usr/local/share/flutter/bin',
+          '/opt/homebrew/bin',
+          '/Users/' + os.userInfo().username + '/development/flutter/bin',
+          '/Users/' + os.userInfo().username + '/flutter/bin'
+        ];
+        env.PATH = commonPaths.join(':') + ':' + (env.PATH || '');
+      }
+      
+      const result = execSync(command, { 
+        encoding: 'utf8', 
+        timeout: 5000,
+        env: env
+      });
+      const flutterExecutable = result.trim().split('\n')[0];
+      
+      if (flutterExecutable && fs.existsSync(flutterExecutable)) {
+        this.outputChannel.appendLine(`🔍 PATH에서 Flutter 발견: ${flutterExecutable}`);
+        // flutter 실행 파일의 디렉토리에서 bin 폴더를 제거하여 SDK 루트 경로 얻기
+        const flutterDir = path.dirname(flutterExecutable);
+        if (path.basename(flutterDir) === 'bin') {
+          return path.dirname(flutterDir);
+        }
+        return flutterDir;
+      }
+    } catch (error) {
+      this.outputChannel.appendLine(`⚠️ PATH에서 Flutter 찾기 실패: ${error}`);
+    }
+    
+    return null;
+  }
+
+  private findFlutterInCommonPaths(): string | null {
+    const platform = process.platform;
+    const homeDir = os.homedir();
+    const username = os.userInfo().username;
+    
+    const commonPaths: string[] = [];
+    
+    if (platform === 'darwin') { // macOS
+      commonPaths.push(
+        path.join(homeDir, 'flutter'),
+        '/usr/local/flutter',
+        '/opt/flutter',
+        path.join(homeDir, 'development', 'flutter'),
+        path.join(homeDir, 'tools', 'flutter'),
+        '/usr/local/share/flutter', // 추가된 경로
+        '/opt/homebrew/share/flutter', // Homebrew 경로
+        path.join('/Users', username, 'development', 'flutter'),
+        path.join('/Users', username, 'flutter')
+      );
+    } else if (platform === 'win32') { // Windows
+      commonPaths.push(
+        'C:\\flutter',
+        'C:\\src\\flutter',
+        path.join(homeDir, 'flutter'),
+        path.join('C:\\', 'tools', 'flutter'),
+        path.join(homeDir, 'development', 'flutter')
+      );
+    } else { // Linux
+      commonPaths.push(
+        path.join(homeDir, 'flutter'),
+        '/usr/local/flutter',
+        '/opt/flutter',
+        path.join(homeDir, 'development', 'flutter'),
+        path.join(homeDir, 'tools', 'flutter')
+      );
+    }
+
+    this.outputChannel.appendLine(`🔍 일반적인 경로에서 Flutter SDK 검색 중...`);
+    
+    for (const flutterPath of commonPaths) {
+      this.outputChannel.appendLine(`  - 확인 중: ${flutterPath}`);
+      if (this.isValidFlutterSdkPath(flutterPath)) {
+        this.outputChannel.appendLine(`✅ Flutter SDK 발견: ${flutterPath}`);
+        return flutterPath;
+      }
+    }
+
+    this.outputChannel.appendLine(`❌ 일반적인 경로에서 Flutter SDK를 찾을 수 없습니다.`);
+    return null;
+  }
+
+  private isValidFlutterSdkPath(flutterPath: string): boolean {
+    try {
+      // Flutter SDK 루트에 있는 필수 파일/폴더들 확인
+      const requiredItems = [
+        'bin',
+        'packages',
+        'version'
+      ];
+
+      for (const item of requiredItems) {
+        const itemPath = path.join(flutterPath, item);
+        if (!fs.existsSync(itemPath)) {
+          return false;
+        }
+      }
+
+      // bin 폴더에 flutter 실행 파일이 있는지 확인
+      const flutterExecutable = this.getFlutterExecutablePath(flutterPath);
+      return fs.existsSync(flutterExecutable);
+    } catch (error) {
+      return false;
+    }
+  }
+
+  private getFlutterExecutablePath(sdkPath?: string): string {
+    const flutterSdk = sdkPath || this.flutterSdkPath;
+    if (!flutterSdk) {
+      return 'flutter'; // 기본값 (PATH에서 찾기)
+    }
+
+    const platform = process.platform;
+    const executableName = platform === 'win32' ? 'flutter.bat' : 'flutter';
+    return path.join(flutterSdk, 'bin', executableName);
   }
 
   private async killExistingProcesses(): Promise<void> {
@@ -223,9 +379,10 @@ export class FlutterRunner {
         '--web-port', TARGET_PORT.toString()
       ];
 
-      this.outputChannel.appendLine(`🚀 Flutter 명령어: flutter ${flutterArgs.join(' ')}`);
+      const flutterExecutable = this.getFlutterExecutablePath();
+      this.outputChannel.appendLine(`🚀 Flutter 명령어: ${flutterExecutable} ${flutterArgs.join(' ')}`);
 
-      this.flutterProcess = spawn('flutter', flutterArgs, {
+      this.flutterProcess = spawn(flutterExecutable, flutterArgs, {
         cwd: this.workspaceRoot,
         stdio: 'pipe'
       });

@@ -14,6 +14,8 @@ export class FlutterAnalyzer {
   private openaiApiKey1: string;
   private openaiApiKey2: string;
   private currentKeyIndex: number = 0;
+  private analysisCache: Map<string, ProjectAnalysis> = new Map();
+  private dartFileCache: Map<string, DartClass[]> = new Map();
 
   constructor(workspaceRoot: string, outputChannel: vscode.OutputChannel) {
     this.workspaceRoot = workspaceRoot;
@@ -44,23 +46,63 @@ export class FlutterAnalyzer {
     }
   }
 
+  private switchApiKey(): void {
+    if (this.openaiApiKey1 && this.openaiApiKey2) {
+      this.currentKeyIndex = (this.currentKeyIndex + 1) % 2;
+      const newApiKey = this.currentKeyIndex === 0 ? this.openaiApiKey1 : this.openaiApiKey2;
+      
+      // AI 서비스 재초기화
+      const aiConfig: AIModelConfig = {
+        type: 'openai',
+        model: 'gpt-3.5-turbo',
+        apiKey: newApiKey,
+        maxTokens: 500,
+        temperature: 0.7
+      };
+      
+      this.aiService = new AIService(aiConfig, this.outputChannel);
+      this.log(`🔄 API 키 교체: Key ${this.currentKeyIndex + 1} 사용 중`);
+    }
+  }
+
+  private getCacheKey(personaCount: number): string {
+    return `${this.workspaceRoot}_${personaCount}`;
+  }
+
+  private isAnalysisCacheValid(cacheKey: string): boolean {
+    const cached = this.analysisCache.get(cacheKey);
+    if (!cached) return false;
+    
+    // 5분 이내의 분석 결과만 유효
+    const cacheTime = new Date(cached.analysisDate).getTime();
+    const now = new Date().getTime();
+    return (now - cacheTime) < 5 * 60 * 1000;
+  }
+
   async analyzeProject(personaCount: number = 3): Promise<ProjectAnalysis> {
     this.log('🔍 Flutter 프로젝트 분석 시작...');
     
     try {
+      // 캐시 확인
+      const cacheKey = this.getCacheKey(personaCount);
+      if (this.isAnalysisCacheValid(cacheKey)) {
+        this.log('📋 캐시된 분석 결과 사용');
+        return this.analysisCache.get(cacheKey)!;
+      }
+
       // 1. Dart 파일들 찾기
       const dartFiles = await this.findDartFiles();
       this.log(`📁 발견된 Dart 파일: ${dartFiles.length}개`);
 
-      // 2. 클래스와 위젯 분석
+      // 2. 클래스와 위젯 분석 (캐싱 적용)
       const classes: DartClass[] = [];
       for (const file of dartFiles) {
-        const fileClasses = await this.analyzeDartFile(file);
+        const fileClasses = await this.analyzeDartFileWithCache(file);
         classes.push(...fileClasses);
       }
 
-      // 3. 접근성 이슈 분석 (AI 서비스 사용)
-      const accessibilityIssues = await this.analyzeAccessibilityIssues(classes);
+      // 3. 접근성 이슈 분석 (AI 서비스 사용, 재시도 로직 포함)
+      const accessibilityIssues = await this.analyzeAccessibilityIssuesWithRetry(classes);
 
       // 4. 라벨 관련 JSON 파일 생성
       await this.generateLabelJson(classes);
@@ -76,14 +118,137 @@ export class FlutterAnalyzer {
         analysisDate: new Date().toISOString()
       };
 
+      // 캐시에 저장
+      this.analysisCache.set(cacheKey, analysis);
+      
       await this.saveAnalysisToJson(analysis);
       
       this.log('✅ 프로젝트 분석 완료');
       return analysis;
 
     } catch (error) {
-      this.log(`❌ 분석 중 오류 발생: ${error}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.log(`❌ 분석 중 오류 발생: ${errorMessage}`);
+      
+      // API 키 교체 후 재시도
+      const errorStr = String(error);
+      if (errorStr.includes('rate_limit') || errorStr.includes('quota')) {
+        this.log('🔄 API 키 교체 후 재시도...');
+        this.switchApiKey();
+      }
+      
       throw error;
+    }
+  }
+
+  private async analyzeDartFileWithCache(filePath: string): Promise<DartClass[]> {
+    const fileKey = `file_${filePath}`;
+    
+    // 파일 수정 시간 확인
+    try {
+      const stat = await vscode.workspace.fs.stat(vscode.Uri.file(filePath));
+      const lastModified = stat.mtime;
+      
+      const cached = this.dartFileCache.get(fileKey);
+      if (cached && cached.length > 0) {
+        // 캐시된 데이터가 있고 파일이 변경되지 않았으면 캐시 사용
+        return cached;
+      }
+    } catch (error) {
+      this.log(`⚠️ 파일 상태 확인 실패: ${filePath}`);
+    }
+    
+    // 캐시가 없거나 파일이 변경되었으면 새로 분석
+    const classes = await this.analyzeDartFile(filePath);
+    this.dartFileCache.set(fileKey, classes);
+    return classes;
+  }
+
+  private async analyzeAccessibilityIssuesWithRetry(classes: DartClass[], maxRetries: number = 3): Promise<AccessibilityIssue[]> {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        this.log(`🤖 AI를 활용한 접근성 이슈 분석 (시도 ${attempt}/${maxRetries})`);
+        return await this.analyzeAccessibilityIssues(classes);
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        this.log(`❌ AI 분석 실패 (시도 ${attempt}): ${errorMessage}`);
+        
+        if (attempt < maxRetries) {
+          // API 키 교체 시도
+          this.switchApiKey();
+          
+          // 잠시 대기
+          await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+        } else {
+          // 최대 재시도 횟수 도달 시 기본 분석으로 대체
+          this.log('⚠️ AI 분석 실패, 기본 분석으로 대체');
+          return await this.basicAccessibilityAnalysis(classes);
+        }
+      }
+    }
+    return [];
+  }
+
+  private async basicAccessibilityAnalysis(classes: DartClass[]): Promise<AccessibilityIssue[]> {
+    const issues: AccessibilityIssue[] = [];
+    
+    for (const cls of classes) {
+      for (const widget of cls.widgets) {
+        if (!widget.hasSemanticLabel && (widget.name === 'Image' || widget.name === 'Icon' || widget.name === 'Button')) {
+          // 파일에서 주변 컨텍스트 읽기
+          const context = await this.extractContext(cls.file, widget.line);
+          
+          issues.push({
+            id: `${cls.file}_${widget.line}`,
+            severity: 'warning',
+            type: 'missing_label',
+            description: `${widget.name} 위젯에 접근성 라벨이 없습니다`,
+            elementType: widget.name,
+            file: cls.file,
+            line: widget.line,
+            column: widget.column,
+            rect: { left: 0, top: 0, width: 0, height: 0 },
+            suggestedLabel: `${widget.name}에 대한 설명`,
+            suggestedCode: this.generateBasicAccessibilityCode(widget),
+            context: context
+          });
+        }
+      }
+    }
+    
+    return issues;
+  }
+
+  private async extractContext(filePath: string, lineNumber: number): Promise<string> {
+    try {
+      const content = fs.readFileSync(filePath, 'utf8');
+      const lines = content.split('\n');
+      
+      // 주변 3줄씩 추출
+      const startLine = Math.max(0, lineNumber - 3);
+      const endLine = Math.min(lines.length, lineNumber + 3);
+      
+      const contextLines = [];
+      for (let i = startLine; i < endLine; i++) {
+        contextLines.push(`${i + 1}: ${lines[i]}`);
+      }
+      
+      return contextLines.join('\n');
+    } catch (error) {
+      return '';
+    }
+  }
+
+  private generateBasicAccessibilityCode(widget: DartWidget): string {
+    switch (widget.name) {
+      case 'Image':
+        return `semanticLabel: '이미지에 대한 설명'`;
+      case 'Icon':
+        return `semanticLabel: '아이콘에 대한 설명'`;
+      case 'Button':
+        return `semanticsLabel: '버튼 기능 설명'`;
+      default:
+        return `semanticLabel: '${widget.name}에 대한 설명'`;
     }
   }
 
