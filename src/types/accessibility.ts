@@ -13,6 +13,7 @@ export interface AccessibilityIssue {
   rect: { left: number; top: number; width: number; height: number };
   suggestedLabel?: string;
   suggestedCode?: string;
+  originalCode?: string;  // 원본 코드 추가
   context?: string;
   impact?: string;
   userJourney?: string;

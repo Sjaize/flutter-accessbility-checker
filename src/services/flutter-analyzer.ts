@@ -195,8 +195,9 @@ export class FlutterAnalyzer {
     for (const cls of classes) {
       for (const widget of cls.widgets) {
         if (!widget.hasSemanticLabel && (widget.name === 'Image' || widget.name === 'Icon' || widget.name === 'Button')) {
-          // 파일에서 주변 컨텍스트 읽기
+          // 파일에서 주변 컨텍스트와 원본 코드 읽기
           const context = await this.extractContext(cls.file, widget.line);
+          const originalCode = await this.extractOriginalCode(cls.file, widget.line);
           
           issues.push({
             id: `${cls.file}_${widget.line}`,
@@ -209,8 +210,10 @@ export class FlutterAnalyzer {
             column: widget.column,
             rect: { left: 0, top: 0, width: 0, height: 0 },
             suggestedLabel: `${widget.name}에 대한 설명`,
-            suggestedCode: this.generateBasicAccessibilityCode(widget),
-            context: context
+            suggestedCode: this.generateSmartAccessibilityCode(widget, originalCode),
+            context: context,
+            // 원본 코드 추가 (매우 중요!)
+            originalCode: originalCode
           });
         }
       }
@@ -236,6 +239,65 @@ export class FlutterAnalyzer {
       return contextLines.join('\n');
     } catch (error) {
       return '';
+    }
+  }
+
+  private async extractOriginalCode(filePath: string, lineNumber: number): Promise<string> {
+    try {
+      const content = fs.readFileSync(filePath, 'utf8');
+      const lines = content.split('\n');
+      
+      if (lineNumber > 0 && lineNumber <= lines.length) {
+        return lines[lineNumber - 1].trim();
+      }
+      
+      return '';
+    } catch (error) {
+      return '';
+    }
+  }
+
+  private generateSmartAccessibilityCode(widget: DartWidget, originalCode: string): string {
+    // 적절한 라벨 생성
+    const label = this.generateContextualLabel(widget, originalCode);
+    
+    // 원본 코드가 단순한 위젯 호출인지 확인
+    const isSimpleWidget = /^(Text|Image|Icon|Button|ElevatedButton|TextButton|IconButton)\s*\(/.test(originalCode);
+    
+    if (isSimpleWidget && !originalCode.includes('semanticLabel')) {
+      // 기존 위젯에 semanticLabel 속성 추가
+      return `semanticLabel: "${label}"`;
+    } else {
+      // Semantics 위젯으로 래핑
+      return `Semantics(\n  label: "${label}",\n  child: ${originalCode}\n)`;
+    }
+  }
+
+  private generateContextualLabel(widget: DartWidget, originalCode: string): string {
+    // 원본 코드에서 컨텍스트 힌트 추출
+    const text = originalCode.match(/['"]([^'"]+)['"]/);
+    const methodName = originalCode.match(/(\w+)\s*\(/)?.[1];
+    
+    switch (widget.name) {
+      case 'Image':
+        if (text) return `${text[1]} 이미지`;
+        return '이미지';
+      case 'Icon':
+        if (originalCode.includes('Icons.')) {
+          const iconName = originalCode.match(/Icons\.(\w+)/)?.[1];
+          if (iconName) return `${iconName} 아이콘`;
+        }
+        return '아이콘';
+      case 'Button':
+      case 'ElevatedButton':
+      case 'TextButton':
+        if (text) return `${text[1]} 버튼`;
+        if (methodName && methodName.startsWith('_')) {
+          return `${methodName.replace('_', '')} 버튼`;
+        }
+        return '버튼';
+      default:
+        return `${widget.name} 위젯`;
     }
   }
 

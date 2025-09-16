@@ -419,6 +419,8 @@ async function applyCodeSuggestion(data: any) {
     const { file, line, originalCode, suggestedCode, issueId, context } = data;
     
     log(`📝 코드 제안 적용 시작: ${file}:${line}`);
+    log(`📝 원본 코드: ${originalCode || 'not provided'}`);
+    log(`📝 제안 코드: ${suggestedCode}`);
     
     // 워크스페이스 확인
     const workspaceFolders = vscode.workspace.workspaceFolders;
@@ -501,6 +503,9 @@ async function applyCodeSuggestion(data: any) {
       }
     });
     
+    // 해결된 이슈로 마킹
+    await markIssueAsResolved(issueId);
+    
     log(`✅ 코드 수정 완료: ${file}:${actualLine}`);
     
   } catch (error) {
@@ -523,6 +528,50 @@ async function showDiffView(filePath: string, backupPath: string, lineNumber: nu
     log(`✅ diff 뷰 생성 완료: ${filePath}`);
   } catch (error) {
     log(`❌ diff 뷰 생성 실패: ${error}`);
+  }
+}
+
+async function markIssueAsResolved(issueId: string): Promise<void> {
+  try {
+    const workspaceRoot = vscode.workspace.workspaceFolders![0].uri.fsPath;
+    const resolvedIssuesPath = path.join(workspaceRoot, 'resolved-issues.json');
+    
+    let resolvedIssues: string[] = [];
+    
+    // 기존 해결된 이슈 목록 읽기
+    if (fs.existsSync(resolvedIssuesPath)) {
+      const content = fs.readFileSync(resolvedIssuesPath, 'utf8');
+      resolvedIssues = JSON.parse(content);
+    }
+    
+    // 새 이슈 ID 추가 (중복 방지)
+    if (!resolvedIssues.includes(issueId)) {
+      resolvedIssues.push(issueId);
+      
+      // 파일에 저장
+      fs.writeFileSync(resolvedIssuesPath, JSON.stringify(resolvedIssues, null, 2));
+      
+      // React 앱으로도 복사
+      await copyResolvedIssuesToReactApp(resolvedIssues);
+      
+      log(`✅ 이슈 해결됨으로 마킹: ${issueId}`);
+    }
+  } catch (error) {
+    log(`❌ 이슈 마킹 실패: ${error}`);
+  }
+}
+
+async function copyResolvedIssuesToReactApp(resolvedIssues: string[]): Promise<void> {
+  try {
+    const reactAppPublicPath = path.join(__dirname, '..', 'react-app', 'public');
+    const targetPath = path.join(reactAppPublicPath, 'resolved-issues.json');
+    
+    if (fs.existsSync(reactAppPublicPath)) {
+      fs.writeFileSync(targetPath, JSON.stringify(resolvedIssues, null, 2));
+      log(`✅ 해결된 이슈 목록을 React 앱으로 복사: ${resolvedIssues.length}개`);
+    }
+  } catch (error) {
+    log(`❌ React 앱으로 해결된 이슈 복사 실패: ${error}`);
   }
 }
 
@@ -611,74 +660,224 @@ function getWebviewContent(reactAppUrl: string): string {
 }
 
 function findActualLine(lines: string[], originalLine: number, originalCode?: string, context?: string): number {
-  // 1. 원래 라인이 그대로 있는지 확인
-  if (originalLine <= lines.length && originalCode) {
+  console.log(`🔍 라인 찾기 시작: ${originalLine}, 원본코드: ${originalCode}`);
+  
+  // 0. 원래 라인이 유효한 범위인지 확인
+  if (originalLine > 0 && originalLine <= lines.length) {
     const currentLineContent = lines[originalLine - 1].trim();
-    if (currentLineContent.includes(originalCode.trim()) || originalCode.trim().includes(currentLineContent)) {
-      return originalLine;
+    console.log(`🔍 원래 라인 ${originalLine} 내용: ${currentLineContent}`);
+    
+    // originalCode가 있으면 정확한 매칭 시도
+    if (originalCode) {
+      const originalTrimmed = originalCode.trim();
+      
+      // 정확히 일치하는지 확인
+      if (currentLineContent === originalTrimmed) {
+        console.log(`✅ 정확히 일치: ${originalLine}`);
+        return originalLine;
+      }
+      
+      // 포함 관계 확인
+      if (currentLineContent.includes(originalTrimmed) || originalTrimmed.includes(currentLineContent)) {
+        console.log(`✅ 포함 관계 일치: ${originalLine}`);
+        return originalLine;
+      }
+    } else {
+      // originalCode가 없으면 위젯 패턴으로 확인
+      const commonWidgets = ['ElevatedButton', 'TextButton', 'IconButton', 'Button', 'Image', 'Icon', 'Text'];
+      const hasWidget = commonWidgets.some(widget => currentLineContent.includes(widget));
+      
+      if (hasWidget) {
+        console.log(`✅ 위젯 패턴 발견: ${originalLine}`);
+        return originalLine;
+      }
     }
-  }
-
-  // 2. 컨텍스트 기반 검색
-  if (context) {
-    const contextLines = context.split('\n').filter(line => line.trim());
-    for (let i = 0; i < lines.length; i++) {
-      if (contextLines.some(contextLine => lines[i].includes(contextLine.trim()))) {
-        return i + 1;
+    
+    // originalCode가 있으면 유사도 확인
+    if (originalCode) {
+      const originalTrimmed = originalCode.trim();
+      const similarity = calculateSimilarity(currentLineContent, originalTrimmed);
+      console.log(`🔍 유사도: ${similarity}`);
+      if (similarity > 0.7) {
+        console.log(`✅ 유사도 일치: ${originalLine}`);
+        return originalLine;
       }
     }
   }
 
-  // 3. 원본 코드로 전체 검색
+  // 1. 원래 라인 근처에서 위젯 패턴 찾기 (±5 라인)
   if (originalCode) {
-    const trimmedOriginal = originalCode.trim();
-    for (let i = 0; i < lines.length; i++) {
-      const trimmedLine = lines[i].trim();
-      if (trimmedLine.includes(trimmedOriginal) || trimmedOriginal.includes(trimmedLine)) {
-        return i + 1;
-      }
-    }
-  }
-
-  // 4. 패턴 매칭 (위젯 타입 기반)
-  if (originalCode) {
-    const widgetPatterns = ['Text(', 'Image(', 'Icon(', 'Button(', 'Container(', 'Widget('];
-    const pattern = widgetPatterns.find(p => originalCode.includes(p));
-    if (pattern) {
-      for (let i = Math.max(0, originalLine - 10); i < Math.min(lines.length, originalLine + 10); i++) {
-        if (lines[i].includes(pattern)) {
+    const widgetPatterns = [
+      /ElevatedButton\s*\(/g,
+      /TextButton\s*\(/g,
+      /IconButton\s*\(/g,
+      /Button\s*\(/g,
+      /Image\.\w+\s*\(/g,
+      /Image\s*\(/g,
+      /Icon\s*\(/g,
+      /Text\s*\(/g,
+      /Container\s*\(/g
+    ];
+    
+    const searchRange = 5;
+    const startRange = Math.max(0, originalLine - searchRange - 1);
+    const endRange = Math.min(lines.length, originalLine + searchRange);
+    
+    for (const pattern of widgetPatterns) {
+      for (let i = startRange; i < endRange; i++) {
+        if (pattern.test(lines[i])) {
+          console.log(`✅ 위젯 패턴 발견: ${i + 1}, 패턴: ${pattern}`);
           return i + 1;
         }
       }
     }
   }
 
-  // 5. 근처 라인에서 유사한 내용 찾기 (±5 라인)
-  const searchRange = 5;
-  const startLine = Math.max(0, originalLine - searchRange - 1);
-  const endLine = Math.min(lines.length, originalLine + searchRange);
-  
-  for (let i = startLine; i < endLine; i++) {
-    if (originalCode && lines[i].includes(originalCode.split(' ')[0])) {
-      return i + 1;
+  // 2. 컨텍스트 기반 검색 (더 정교하게)
+  if (context) {
+    const contextLines = context.split('\n')
+      .filter(line => line.trim())
+      .map(line => line.replace(/^\d+:\s*/, '').trim());
+      
+    console.log(`🔍 컨텍스트 라인들:`, contextLines);
+      
+    for (let i = 0; i < lines.length; i++) {
+      const currentLine = lines[i].trim();
+      for (const contextLine of contextLines) {
+        if (contextLine.length > 5 && currentLine.includes(contextLine)) {
+          console.log(`✅ 컨텍스트 매칭: ${i + 1}, 컨텍스트: ${contextLine}`);
+          return i + 1;
+        }
+      }
     }
   }
 
+  // 3. 전체 파일에서 원본 코드 찾기
+  if (originalCode) {
+    const trimmedOriginal = originalCode.trim();
+    for (let i = 0; i < lines.length; i++) {
+      const trimmedLine = lines[i].trim();
+      if (trimmedLine.includes(trimmedOriginal) || trimmedOriginal.includes(trimmedLine)) {
+        console.log(`✅ 전체 검색에서 발견: ${i + 1}`);
+        return i + 1;
+      }
+    }
+  }
+
+  console.log(`❌ 라인을 찾을 수 없음`);
   return -1; // 찾을 수 없음
 }
 
-function smartCodeMerge(originalLine: string, suggestedCode: string): string {
-  // 기존 라인의 들여쓰기 유지
-  const indentMatch = originalLine.match(/^(\s*)/);
-  const indent = indentMatch ? indentMatch[1] : '';
+function calculateSimilarity(str1: string, str2: string): number {
+  const longer = str1.length > str2.length ? str1 : str2;
+  const shorter = str1.length > str2.length ? str2 : str1;
+  if (longer.length === 0) return 1.0;
   
-  // 제안된 코드가 이미 들여쓰기를 포함하고 있다면 그대로 사용
+  const editDistance = levenshteinDistance(longer, shorter);
+  return (longer.length - editDistance) / longer.length;
+}
+
+function levenshteinDistance(str1: string, str2: string): number {
+  const matrix = [];
+  for (let i = 0; i <= str2.length; i++) {
+    matrix[i] = [i];
+  }
+  for (let j = 0; j <= str1.length; j++) {
+    matrix[0][j] = j;
+  }
+  for (let i = 1; i <= str2.length; i++) {
+    for (let j = 1; j <= str1.length; j++) {
+      if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1,
+          matrix[i][j - 1] + 1,
+          matrix[i - 1][j] + 1
+        );
+      }
+    }
+  }
+  return matrix[str2.length][str1.length];
+}
+
+function smartCodeMerge(originalLine: string, suggestedCode: string): string {
+  const indentMatch = originalLine.match(/^(\s*)/);
+  const baseIndent = indentMatch ? indentMatch[1] : '';
+  
+  // Semantics 래핑 패턴 감지
+  if (suggestedCode.includes('Semantics(') && suggestedCode.includes('child:')) {
+    return formatSemanticsCode(originalLine, suggestedCode, baseIndent);
+  }
+  
+  // 단순한 속성 추가 (semanticLabel 등)
+  if (suggestedCode.includes('semanticLabel:') || suggestedCode.includes('semanticsLabel:')) {
+    return insertSemanticProperty(originalLine, suggestedCode, baseIndent);
+  }
+  
+  // 기본 처리
   if (suggestedCode.startsWith(' ') || suggestedCode.startsWith('\t')) {
     return suggestedCode;
   }
   
-  // 들여쓰기 추가
-  return indent + suggestedCode.trim();
+  return baseIndent + suggestedCode.trim();
+}
+
+function formatSemanticsCode(originalLine: string, suggestedCode: string, baseIndent: string): string {
+  // 원본 위젯 추출
+  const originalWidget = originalLine.trim();
+  
+  // 제안된 라벨 추출
+  const labelMatch = suggestedCode.match(/label:\s*["']([^"']+)["']/);
+  const label = labelMatch ? labelMatch[1] : '접근성 라벨';
+  
+  // 다중 라인으로 포맷팅
+  const lines = [
+    `${baseIndent}Semantics(`,
+    `${baseIndent}  label: "${label}",`,
+    `${baseIndent}  child: ${originalWidget}`,
+    `${baseIndent})`
+  ];
+  
+  return lines.join('\n');
+}
+
+function insertSemanticProperty(originalLine: string, suggestedCode: string, baseIndent: string): string {
+  // semanticLabel 속성 추출
+  const labelMatch = suggestedCode.match(/semantic(?:s)?Label:\s*['"]([^'"]+)['"]/);
+  if (!labelMatch) return originalLine;
+  
+  const label = labelMatch[1];
+  const trimmedOriginal = originalLine.trim();
+  
+  // 위젯의 여는 괄호 찾기
+  const openParenIndex = trimmedOriginal.indexOf('(');
+  if (openParenIndex === -1) return originalLine;
+  
+  // 닫는 괄호 찾기 (간단한 경우만)
+  const closeParenIndex = trimmedOriginal.lastIndexOf(')');
+  if (closeParenIndex === -1) return originalLine;
+  
+  // 기존 파라미터가 있는지 확인
+  const beforeClose = trimmedOriginal.substring(openParenIndex + 1, closeParenIndex).trim();
+  const hasParams = beforeClose.length > 0 && !beforeClose.endsWith(',');
+  
+  // semanticLabel 삽입
+  const semanticProp = `semanticLabel: "${label}"`;
+  let result;
+  
+  if (beforeClose.length === 0) {
+    // 빈 괄호인 경우
+    result = trimmedOriginal.replace('()', `(${semanticProp})`);
+  } else {
+    // 기존 파라미터가 있는 경우
+    const prefix = hasParams ? ', ' : '';
+    result = trimmedOriginal.substring(0, closeParenIndex) + 
+             prefix + semanticProp + 
+             trimmedOriginal.substring(closeParenIndex);
+  }
+  
+  return baseIndent + result;
 }
 
 function log(message: string) {
