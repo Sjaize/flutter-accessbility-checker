@@ -1,8 +1,8 @@
 {
   "projectName": "baemin_new",
-  "generatedAt": "2025-09-01T08:03:07.516Z",
-  "totalClasses": 22,
-  "totalWidgets": 245,
+  "generatedAt": "2025-09-16T03:53:48.586Z",
+  "totalClasses": 25,
+  "totalWidgets": 287,
   "classes": [
     {
       "name": "BaeminApp",
@@ -239,13 +239,507 @@
       ]
     },
     {
+      "name": "AddressEditScreen",
+      "file": "lib/screens/address_edit_screen.dart",
+      "line": 6,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 25,
+          "column": 16,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 84,
+          "column": 44,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 139,
+          "column": 34,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 162,
+          "column": 34,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 188,
+          "column": 18,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 189,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 193,
+          "column": 22,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 203,
+          "column": 22,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 21,
+          "column": 18,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 191,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 195,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 22,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "AddressModifyScreen",
+      "file": "lib/screens/address_modify_screen.dart",
+      "line": 9,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 97,
+          "column": 16,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 197,
+          "column": 19,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 218,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 268,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 399,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 426,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 430,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 453,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 532,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 574,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 600,
+          "column": 9,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 639,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 678,
+          "column": 16,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 93,
+          "column": 18,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 409,
+          "column": 18,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 655,
+          "column": 14,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 94,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 181,
+          "column": 19,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 252,
+          "column": 13,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 545,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 632,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
+      "name": "AddressSettingScreen",
+      "file": "lib/screens/address_setting_screen.dart",
+      "line": 6,
+      "widgets": [
+        {
+          "name": "Text",
+          "line": 27,
+          "column": 16,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 43,
+          "column": 20,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 93,
+          "column": 22,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 167,
+          "column": 40,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 23,
+          "column": 18,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Button",
+          "line": 36,
+          "column": 11,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Button(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 24,
+          "column": 17,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 78,
+          "column": 29,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 92,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        },
+        {
+          "name": "Icon",
+          "line": 199,
+          "column": 21,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Icon(),\n)"
+        }
+      ]
+    },
+    {
       "name": "CartScreen",
       "file": "lib/screens/cart_screen.dart",
       "line": 8,
       "widgets": [
         {
           "name": "Text",
-          "line": 108,
+          "line": 107,
           "column": 14,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -256,7 +750,7 @@
         },
         {
           "name": "Text",
-          "line": 192,
+          "line": 191,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -267,7 +761,7 @@
         },
         {
           "name": "Text",
-          "line": 220,
+          "line": 219,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -278,7 +772,7 @@
         },
         {
           "name": "Text",
-          "line": 229,
+          "line": 228,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -289,7 +783,7 @@
         },
         {
           "name": "Text",
-          "line": 249,
+          "line": 248,
           "column": 22,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -300,7 +794,7 @@
         },
         {
           "name": "Text",
-          "line": 287,
+          "line": 286,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -311,7 +805,7 @@
         },
         {
           "name": "Text",
-          "line": 309,
+          "line": 308,
           "column": 22,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -322,7 +816,7 @@
         },
         {
           "name": "Text",
-          "line": 362,
+          "line": 361,
           "column": 22,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -333,7 +827,7 @@
         },
         {
           "name": "Text",
-          "line": 384,
+          "line": 383,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -344,7 +838,7 @@
         },
         {
           "name": "Text",
-          "line": 440,
+          "line": 439,
           "column": 32,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -355,8 +849,19 @@
         },
         {
           "name": "Text",
-          "line": 462,
+          "line": 461,
           "column": 19,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 502,
+          "column": 15,
           "hasSemanticLabel": false,
           "semanticLabel": null,
           "hasAltText": false,
@@ -377,7 +882,7 @@
         },
         {
           "name": "Text",
-          "line": 504,
+          "line": 511,
           "column": 15,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -399,7 +904,7 @@
         },
         {
           "name": "Text",
-          "line": 513,
+          "line": 520,
           "column": 15,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -421,7 +926,7 @@
         },
         {
           "name": "Text",
-          "line": 522,
+          "line": 530,
           "column": 15,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -432,7 +937,7 @@
         },
         {
           "name": "Text",
-          "line": 531,
+          "line": 538,
           "column": 15,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -443,18 +948,7 @@
         },
         {
           "name": "Text",
-          "line": 539,
-          "column": 15,
-          "hasSemanticLabel": false,
-          "semanticLabel": null,
-          "hasAltText": false,
-          "altText": null,
-          "suggestedLabel": "AI 생성 라벨",
-          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
-        },
-        {
-          "name": "Text",
-          "line": 561,
+          "line": 560,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -465,7 +959,7 @@
         },
         {
           "name": "Text",
-          "line": 605,
+          "line": 604,
           "column": 21,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -476,7 +970,7 @@
         },
         {
           "name": "Text",
-          "line": 614,
+          "line": 613,
           "column": 21,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -487,7 +981,7 @@
         },
         {
           "name": "Text",
-          "line": 624,
+          "line": 623,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -498,7 +992,7 @@
         },
         {
           "name": "Text",
-          "line": 655,
+          "line": 654,
           "column": 20,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -509,7 +1003,7 @@
         },
         {
           "name": "Button",
-          "line": 104,
+          "line": 103,
           "column": 16,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -520,7 +1014,7 @@
         },
         {
           "name": "Button",
-          "line": 117,
+          "line": 116,
           "column": 9,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -531,7 +1025,7 @@
         },
         {
           "name": "Button",
-          "line": 237,
+          "line": 236,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -542,7 +1036,7 @@
         },
         {
           "name": "Button",
-          "line": 307,
+          "line": 306,
           "column": 20,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -553,7 +1047,7 @@
         },
         {
           "name": "Button",
-          "line": 635,
+          "line": 634,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -564,7 +1058,7 @@
         },
         {
           "name": "Icon",
-          "line": 105,
+          "line": 104,
           "column": 15,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -575,7 +1069,7 @@
         },
         {
           "name": "Icon",
-          "line": 118,
+          "line": 117,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -586,7 +1080,7 @@
         },
         {
           "name": "Icon",
-          "line": 156,
+          "line": 155,
           "column": 20,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -597,7 +1091,7 @@
         },
         {
           "name": "Icon",
-          "line": 173,
+          "line": 172,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -608,7 +1102,7 @@
         },
         {
           "name": "Icon",
-          "line": 190,
+          "line": 189,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -619,7 +1113,7 @@
         },
         {
           "name": "Icon",
-          "line": 201,
+          "line": 200,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -630,7 +1124,7 @@
         },
         {
           "name": "Icon",
-          "line": 214,
+          "line": 213,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -641,7 +1135,7 @@
         },
         {
           "name": "Icon",
-          "line": 558,
+          "line": 557,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -728,22 +1222,11 @@
     {
       "name": "HomeScreen",
       "file": "lib/screens/home_screen.dart",
-      "line": 10,
+      "line": 12,
       "widgets": [
         {
           "name": "Text",
-          "line": 77,
-          "column": 20,
-          "hasSemanticLabel": false,
-          "semanticLabel": null,
-          "hasAltText": false,
-          "altText": null,
-          "suggestedLabel": "AI 생성 라벨",
-          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
-        },
-        {
-          "name": "Text",
-          "line": 127,
+          "line": 132,
           "column": 24,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -754,7 +1237,7 @@
         },
         {
           "name": "Button",
-          "line": 96,
+          "line": 101,
           "column": 9,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -765,7 +1248,7 @@
         },
         {
           "name": "Button",
-          "line": 105,
+          "line": 110,
           "column": 9,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -776,7 +1259,7 @@
         },
         {
           "name": "Button",
-          "line": 112,
+          "line": 117,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -787,7 +1270,7 @@
         },
         {
           "name": "Icon",
-          "line": 74,
+          "line": 79,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -798,7 +1281,7 @@
         },
         {
           "name": "Icon",
-          "line": 87,
+          "line": 92,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -809,7 +1292,7 @@
         },
         {
           "name": "Icon",
-          "line": 97,
+          "line": 102,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -820,7 +1303,7 @@
         },
         {
           "name": "Icon",
-          "line": 107,
+          "line": 112,
           "column": 15,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -831,7 +1314,7 @@
         },
         {
           "name": "Icon",
-          "line": 113,
+          "line": 118,
           "column": 21,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1050,11 +1533,11 @@
     {
       "name": "OrderScreen",
       "file": "lib/screens/order_screen.dart",
-      "line": 6,
+      "line": 5,
       "widgets": [
         {
           "name": "Text",
-          "line": 67,
+          "line": 65,
           "column": 14,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1065,7 +1548,7 @@
         },
         {
           "name": "Text",
-          "line": 140,
+          "line": 138,
           "column": 21,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1076,7 +1559,7 @@
         },
         {
           "name": "Text",
-          "line": 148,
+          "line": 146,
           "column": 21,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1087,7 +1570,7 @@
         },
         {
           "name": "Text",
-          "line": 183,
+          "line": 181,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1098,7 +1581,7 @@
         },
         {
           "name": "Text",
-          "line": 198,
+          "line": 196,
           "column": 15,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1109,7 +1592,7 @@
         },
         {
           "name": "Text",
-          "line": 205,
+          "line": 203,
           "column": 15,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1120,7 +1603,7 @@
         },
         {
           "name": "Text",
-          "line": 242,
+          "line": 240,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1131,7 +1614,7 @@
         },
         {
           "name": "Text",
-          "line": 252,
+          "line": 250,
           "column": 66,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1142,7 +1625,7 @@
         },
         {
           "name": "Text",
-          "line": 261,
+          "line": 259,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1153,7 +1636,7 @@
         },
         {
           "name": "Text",
-          "line": 295,
+          "line": 293,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1164,7 +1647,7 @@
         },
         {
           "name": "Text",
-          "line": 373,
+          "line": 371,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1175,7 +1658,7 @@
         },
         {
           "name": "Text",
-          "line": 470,
+          "line": 468,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1186,7 +1669,7 @@
         },
         {
           "name": "Text",
-          "line": 564,
+          "line": 562,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1197,7 +1680,7 @@
         },
         {
           "name": "Text",
-          "line": 599,
+          "line": 597,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1208,7 +1691,7 @@
         },
         {
           "name": "Text",
-          "line": 637,
+          "line": 635,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1219,7 +1702,7 @@
         },
         {
           "name": "Text",
-          "line": 645,
+          "line": 643,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1230,7 +1713,7 @@
         },
         {
           "name": "Text",
-          "line": 666,
+          "line": 664,
           "column": 20,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1241,7 +1724,7 @@
         },
         {
           "name": "Text",
-          "line": 688,
+          "line": 686,
           "column": 16,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1252,7 +1735,7 @@
         },
         {
           "name": "Text",
-          "line": 689,
+          "line": 687,
           "column": 18,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1263,7 +1746,7 @@
         },
         {
           "name": "Text",
-          "line": 693,
+          "line": 691,
           "column": 20,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1274,8 +1757,19 @@
         },
         {
           "name": "Text",
-          "line": 709,
+          "line": 707,
           "column": 16,
+          "hasSemanticLabel": false,
+          "semanticLabel": null,
+          "hasAltText": false,
+          "altText": null,
+          "suggestedLabel": "AI 생성 라벨",
+          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
+        },
+        {
+          "name": "Text",
+          "line": 712,
+          "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
           "hasAltText": false,
@@ -1296,18 +1790,7 @@
         },
         {
           "name": "Text",
-          "line": 716,
-          "column": 13,
-          "hasSemanticLabel": false,
-          "semanticLabel": null,
-          "hasAltText": false,
-          "altText": null,
-          "suggestedLabel": "AI 생성 라벨",
-          "suggestedCode": "Semantics(\n  label: \"AI 생성 라벨\",\n  child: Text(),\n)"
-        },
-        {
-          "name": "Text",
-          "line": 723,
+          "line": 721,
           "column": 20,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1318,7 +1801,7 @@
         },
         {
           "name": "Text",
-          "line": 734,
+          "line": 732,
           "column": 20,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1329,7 +1812,7 @@
         },
         {
           "name": "Text",
-          "line": 783,
+          "line": 781,
           "column": 16,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1340,7 +1823,7 @@
         },
         {
           "name": "Text",
-          "line": 803,
+          "line": 801,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1351,7 +1834,7 @@
         },
         {
           "name": "Text",
-          "line": 812,
+          "line": 810,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1362,7 +1845,7 @@
         },
         {
           "name": "Text",
-          "line": 836,
+          "line": 834,
           "column": 22,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1373,7 +1856,7 @@
         },
         {
           "name": "Button",
-          "line": 63,
+          "line": 61,
           "column": 16,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1384,7 +1867,7 @@
         },
         {
           "name": "Button",
-          "line": 76,
+          "line": 74,
           "column": 9,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1395,7 +1878,7 @@
         },
         {
           "name": "Button",
-          "line": 656,
+          "line": 654,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1406,7 +1889,7 @@
         },
         {
           "name": "Button",
-          "line": 691,
+          "line": 689,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1417,7 +1900,7 @@
         },
         {
           "name": "Button",
-          "line": 721,
+          "line": 719,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1428,7 +1911,7 @@
         },
         {
           "name": "Button",
-          "line": 725,
+          "line": 723,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1439,7 +1922,7 @@
         },
         {
           "name": "Button",
-          "line": 820,
+          "line": 818,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1450,7 +1933,7 @@
         },
         {
           "name": "Icon",
-          "line": 64,
+          "line": 62,
           "column": 15,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1461,7 +1944,7 @@
         },
         {
           "name": "Icon",
-          "line": 77,
+          "line": 75,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1472,7 +1955,7 @@
         },
         {
           "name": "Icon",
-          "line": 138,
+          "line": 136,
           "column": 21,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1483,7 +1966,7 @@
         },
         {
           "name": "Icon",
-          "line": 441,
+          "line": 439,
           "column": 15,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1494,7 +1977,7 @@
         },
         {
           "name": "Icon",
-          "line": 797,
+          "line": 795,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1508,11 +1991,11 @@
     {
       "name": "OrderCompleteScreen",
       "file": "lib/screens/order_screen.dart",
-      "line": 766,
+      "line": 764,
       "widgets": [
         {
           "name": "Text",
-          "line": 783,
+          "line": 781,
           "column": 16,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1523,7 +2006,7 @@
         },
         {
           "name": "Text",
-          "line": 803,
+          "line": 801,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1534,7 +2017,7 @@
         },
         {
           "name": "Text",
-          "line": 812,
+          "line": 810,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1545,7 +2028,7 @@
         },
         {
           "name": "Text",
-          "line": 836,
+          "line": 834,
           "column": 22,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1556,7 +2039,7 @@
         },
         {
           "name": "Button",
-          "line": 820,
+          "line": 818,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1567,7 +2050,7 @@
         },
         {
           "name": "Icon",
-          "line": 797,
+          "line": 795,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1731,7 +2214,7 @@
       "widgets": [
         {
           "name": "Text",
-          "line": 109,
+          "line": 108,
           "column": 26,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1742,7 +2225,7 @@
         },
         {
           "name": "Text",
-          "line": 189,
+          "line": 188,
           "column": 22,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1753,7 +2236,7 @@
         },
         {
           "name": "Text",
-          "line": 217,
+          "line": 216,
           "column": 20,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1764,7 +2247,7 @@
         },
         {
           "name": "Text",
-          "line": 242,
+          "line": 241,
           "column": 15,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1775,7 +2258,7 @@
         },
         {
           "name": "Text",
-          "line": 262,
+          "line": 261,
           "column": 26,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1786,7 +2269,7 @@
         },
         {
           "name": "Text",
-          "line": 281,
+          "line": 280,
           "column": 26,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1797,7 +2280,7 @@
         },
         {
           "name": "Text",
-          "line": 311,
+          "line": 310,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1808,7 +2291,7 @@
         },
         {
           "name": "Text",
-          "line": 335,
+          "line": 334,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1819,7 +2302,7 @@
         },
         {
           "name": "Text",
-          "line": 358,
+          "line": 357,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1830,7 +2313,7 @@
         },
         {
           "name": "Text",
-          "line": 366,
+          "line": 365,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1841,7 +2324,7 @@
         },
         {
           "name": "Text",
-          "line": 380,
+          "line": 379,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1852,7 +2335,7 @@
         },
         {
           "name": "Text",
-          "line": 389,
+          "line": 388,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1863,7 +2346,7 @@
         },
         {
           "name": "Text",
-          "line": 434,
+          "line": 433,
           "column": 14,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1874,7 +2357,7 @@
         },
         {
           "name": "Text",
-          "line": 440,
+          "line": 439,
           "column": 14,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1885,7 +2368,7 @@
         },
         {
           "name": "Text",
-          "line": 465,
+          "line": 464,
           "column": 35,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1896,7 +2379,7 @@
         },
         {
           "name": "Text",
-          "line": 508,
+          "line": 507,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1907,7 +2390,7 @@
         },
         {
           "name": "Text",
-          "line": 544,
+          "line": 543,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1918,7 +2401,7 @@
         },
         {
           "name": "Button",
-          "line": 64,
+          "line": 63,
           "column": 16,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1929,7 +2412,7 @@
         },
         {
           "name": "Button",
-          "line": 77,
+          "line": 76,
           "column": 9,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1940,7 +2423,7 @@
         },
         {
           "name": "Button",
-          "line": 83,
+          "line": 82,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1951,7 +2434,7 @@
         },
         {
           "name": "Button",
-          "line": 122,
+          "line": 121,
           "column": 9,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1962,7 +2445,7 @@
         },
         {
           "name": "Button",
-          "line": 126,
+          "line": 125,
           "column": 9,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1973,7 +2456,7 @@
         },
         {
           "name": "Button",
-          "line": 519,
+          "line": 518,
           "column": 11,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1984,7 +2467,7 @@
         },
         {
           "name": "Icon",
-          "line": 65,
+          "line": 64,
           "column": 15,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -1995,7 +2478,7 @@
         },
         {
           "name": "Icon",
-          "line": 78,
+          "line": 77,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2006,7 +2489,7 @@
         },
         {
           "name": "Icon",
-          "line": 84,
+          "line": 83,
           "column": 21,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2017,7 +2500,7 @@
         },
         {
           "name": "Icon",
-          "line": 123,
+          "line": 122,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2028,7 +2511,7 @@
         },
         {
           "name": "Icon",
-          "line": 127,
+          "line": 126,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2039,7 +2522,7 @@
         },
         {
           "name": "Icon",
-          "line": 172,
+          "line": 171,
           "column": 22,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2050,7 +2533,7 @@
         },
         {
           "name": "Icon",
-          "line": 240,
+          "line": 239,
           "column": 15,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2061,7 +2544,7 @@
         },
         {
           "name": "Icon",
-          "line": 309,
+          "line": 308,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2072,7 +2555,7 @@
         },
         {
           "name": "Icon",
-          "line": 320,
+          "line": 319,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2083,7 +2566,7 @@
         },
         {
           "name": "Icon",
-          "line": 356,
+          "line": 355,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2094,7 +2577,7 @@
         },
         {
           "name": "Icon",
-          "line": 378,
+          "line": 377,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2105,7 +2588,7 @@
         },
         {
           "name": "Icon",
-          "line": 413,
+          "line": 412,
           "column": 21,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2116,7 +2599,7 @@
         },
         {
           "name": "Icon",
-          "line": 542,
+          "line": 541,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2134,7 +2617,7 @@
       "widgets": [
         {
           "name": "Text",
-          "line": 110,
+          "line": 109,
           "column": 24,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2145,7 +2628,7 @@
         },
         {
           "name": "Text",
-          "line": 155,
+          "line": 149,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2156,7 +2639,7 @@
         },
         {
           "name": "Text",
-          "line": 165,
+          "line": 159,
           "column": 21,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2167,7 +2650,7 @@
         },
         {
           "name": "Text",
-          "line": 200,
+          "line": 194,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2178,7 +2661,7 @@
         },
         {
           "name": "Text",
-          "line": 209,
+          "line": 203,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2189,7 +2672,7 @@
         },
         {
           "name": "Button",
-          "line": 73,
+          "line": 72,
           "column": 16,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2200,7 +2683,7 @@
         },
         {
           "name": "Button",
-          "line": 86,
+          "line": 85,
           "column": 9,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2211,7 +2694,7 @@
         },
         {
           "name": "Button",
-          "line": 92,
+          "line": 91,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2222,7 +2705,7 @@
         },
         {
           "name": "Icon",
-          "line": 74,
+          "line": 73,
           "column": 15,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2233,7 +2716,7 @@
         },
         {
           "name": "Icon",
-          "line": 87,
+          "line": 86,
           "column": 17,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2244,7 +2727,7 @@
         },
         {
           "name": "Icon",
-          "line": 93,
+          "line": 92,
           "column": 21,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2255,7 +2738,7 @@
         },
         {
           "name": "Icon",
-          "line": 173,
+          "line": 167,
           "column": 21,
           "hasSemanticLabel": false,
           "semanticLabel": null,
@@ -2266,7 +2749,7 @@
         },
         {
           "name": "Icon",
-          "line": 194,
+          "line": 188,
           "column": 13,
           "hasSemanticLabel": false,
           "semanticLabel": null,

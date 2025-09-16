@@ -419,6 +419,7 @@ function App() {
   const [aiProcessingStatus, setAiProcessingStatus] = useState<string>('');
   const [processedCount, setProcessedCount] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
+  const [resolvedIssues, setResolvedIssues] = useState<string[]>([]);
 
   useEffect(() => {
     // 먼저 public 폴더에서 JSON 파일을 로드하고, 실패하면 로컬 스토리지에서 로드
@@ -426,6 +427,27 @@ function App() {
       loadJsonDataFromStorage();
     });
     initializeAIService();
+  }, []);
+
+  // 해결된 이슈 목록 로드
+  useEffect(() => {
+    const loadResolvedIssuesData = async () => {
+      try {
+        const response = await fetch('/resolved-issues.json');
+        if (response.ok) {
+          const resolved = await response.json();
+          setResolvedIssues(resolved);
+        }
+      } catch (error) {
+        console.log('해결된 이슈 목록 로드 실패:', error);
+      }
+    };
+
+    loadResolvedIssuesData();
+    
+    // 주기적으로 해결된 이슈 목록 업데이트
+    const interval = setInterval(loadResolvedIssuesData, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   // 데이터가 로드된 후에만 주기적 새로고침 시작
@@ -1190,7 +1212,10 @@ function App() {
             <div className="bg-white rounded-lg shadow-sm border">
               <div className="p-4 border-b">
                 <h2 className="text-lg font-medium text-gray-900">접근성 이슈</h2>
-                <p className="text-sm text-gray-500">{accessibilityIssues.length}개 발견</p>
+                <p className="text-sm text-gray-500">
+                  {accessibilityIssues.filter(issue => !resolvedIssues.includes(issue.id)).length}개 미해결 
+                  {resolvedIssues.length > 0 && `, ${resolvedIssues.length}개 해결됨`}
+                </p>
                 
                 {/* AI 처리 상태 표시 */}
                 {aiProcessingStatus && (
@@ -1234,9 +1259,11 @@ function App() {
               </div>
               
               <div className="p-4 space-y-3 max-h-96 overflow-y-auto">
-                {accessibilityIssues.length === 0 ? (
+                {accessibilityIssues.filter(issue => !resolvedIssues.includes(issue.id)).length === 0 ? (
                   <div className="text-center py-8">
-                    <p className="text-gray-500 mb-4">발견된 이슈가 없습니다.</p>
+                    <p className="text-gray-500 mb-4">
+                      {accessibilityIssues.length === 0 ? '발견된 이슈가 없습니다.' : '모든 이슈가 해결되었습니다! 🎉'}
+                    </p>
                     {!jsonData && (
                       <div className="space-y-2">
                         <p className="text-xs text-gray-400">JSON 파일을 업로드하여 접근성 이슈를 확인하세요.</p>
@@ -1254,9 +1281,13 @@ function App() {
                   </div>
                 ) : (
                   simpleView ? (
-                    accessibilityIssues.map((issue) => renderSimpleIssueCard(issue))
+                    accessibilityIssues
+                      .filter(issue => !resolvedIssues.includes(issue.id))
+                      .map((issue) => renderSimpleIssueCard(issue))
                   ) : (
-                    accessibilityIssues.map((issue) => (
+                    accessibilityIssues
+                      .filter(issue => !resolvedIssues.includes(issue.id))
+                      .map((issue) => (
                     <div
                       key={issue.id}
                       className={`p-3 rounded-lg border cursor-pointer transition-colors ${
