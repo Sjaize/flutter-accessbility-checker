@@ -5,7 +5,6 @@ import * as fs from 'fs';
 import { spawn } from 'child_process';
 import { FlutterAnalyzer } from './services/flutter-analyzer';
 import { FlutterRunner } from './services/flutter-runner';
-import { WebSocketService } from './services/websocket-service';
 import { ProjectAnalysis } from './types/accessibility';
 
 // 환경 변수 로드 (확장 프로그램 루트에서)
@@ -19,7 +18,6 @@ const OUTPUT_NAME = 'Flutter Accessibility Checker';
 let outputChannel: vscode.OutputChannel;
 let flutterAnalyzer: FlutterAnalyzer;
 let flutterRunner: FlutterRunner;
-let webSocketService: WebSocketService;
 let currentAnalysis: ProjectAnalysis | null = null;
 
 export async function activate(context: vscode.ExtensionContext) {
@@ -96,11 +94,6 @@ async function initializeServices(workspaceRoot: string) {
     // Flutter 실행기 초기화
     log('🔧 Flutter 실행기 초기화 중...');
     flutterRunner = new FlutterRunner(workspaceRoot, outputChannel);
-    
-    // WebSocket 서비스 초기화
-    log('🔧 WebSocket 서비스 초기화 중...');
-    webSocketService = new WebSocketService(outputChannel);
-    await webSocketService.startServer();
     
     log('✅ 모든 서비스 초기화 완료');
   } catch (error) {
@@ -241,12 +234,7 @@ async function analyzeLabelsOnly() {
 
     // 3. 분석 결과 처리
     if (currentAnalysis) {
-      if (webSocketService) {
-        webSocketService.updateData({
-          labelAnalysis: currentAnalysis,
-          timestamp: new Date().toISOString()
-        });
-      }
+      // WebSocket 업데이트 제거됨
       
       const message = `✅ 라벨 분석 완료!\n📊 총 ${currentAnalysis.totalClasses}개 클래스, ${currentAnalysis.totalWidgets}개 위젯 분석`;
       vscode.window.showInformationMessage(message);
@@ -892,11 +880,7 @@ export async function deactivate() {
     flutterRunner.stopFlutterApp();
   }
   
-  if (webSocketService) {
-    await webSocketService.stopServer();
-  }
-  
-  // HTTP 서버는 더 이상 사용하지 않음
+  // WebSocket 서비스 제거됨
   
   log('✅ 확장 프로그램 정리 완료');
 }

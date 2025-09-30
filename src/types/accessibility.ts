@@ -10,7 +10,6 @@ export interface AccessibilityIssue {
   file: string;
   line: number;
   column: number;
-  rect: { left: number; top: number; width: number; height: number };
   suggestedLabel?: string;
   suggestedCode?: string;
   originalCode?: string;  // 원본 코드 추가

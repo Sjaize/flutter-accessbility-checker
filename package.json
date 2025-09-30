@@ -35,11 +35,6 @@
         "command": "flutter-accessibility.analyzeLabels",
         "title": "Analyze Labels Only",
         "category": "Flutter Accessibility"
-      },
-      {
-        "command": "flutter-accessibility.openReactApp",
-        "title": "Open React Dashboard",
-        "category": "Flutter Accessibility"
       }
     ],
     "menus": {
@@ -58,10 +53,6 @@
         },
         {
           "command": "flutter-accessibility.analyzeLabels",
-          "when": "workspaceFolderCount > 0"
-        },
-        {
-          "command": "flutter-accessibility.openReactApp",
           "when": "workspaceFolderCount > 0"
         }
       ]

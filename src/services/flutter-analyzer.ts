@@ -208,7 +208,6 @@ export class FlutterAnalyzer {
             file: cls.file,
             line: widget.line,
             column: widget.column,
-            rect: { left: 0, top: 0, width: 0, height: 0 },
             suggestedLabel: `${widget.name}에 대한 설명`,
             suggestedCode: this.generateSmartAccessibilityCode(widget, originalCode),
             context: context,
@@ -570,7 +569,6 @@ export class FlutterAnalyzer {
       file: cls.file,
       line: widget.line,
       column: widget.column,
-      rect: { left: 0, top: 0, width: 100, height: 50 },
       suggestedLabel: suggestedLabel,
       suggestedCode: this.generateTextSemanticsCode(widget, suggestedLabel),
       context: context,
@@ -744,7 +742,6 @@ export class FlutterAnalyzer {
       file: cls.file,
       line: widget.line,
       column: widget.column,
-      rect: { left: 0, top: 0, width: 100, height: 50 },
       suggestedLabel: suggestedLabel,
       suggestedCode: `Semantics(
   label: "${suggestedLabel}",
@@ -784,7 +781,6 @@ export class FlutterAnalyzer {
       file: cls.file,
       line: widget.line,
       column: widget.column,
-      rect: { left: 0, top: 0, width: 200, height: 150 },
       suggestedLabel: suggestedLabel,
       suggestedCode: `Image.network(
   'image_url',
@@ -824,8 +820,7 @@ export class FlutterAnalyzer {
         file: cls.file,
         line: widget.line,
         column: widget.column,
-        rect: { left: 0, top: 0, width: 100, height: 50 },
-        suggestedLabel: iconAnalysis.suggestedLabel,
+          suggestedLabel: iconAnalysis.suggestedLabel,
         suggestedCode: this.generateIconSemanticsCode(iconCode, iconAnalysis.suggestedLabel),
         context: context,
         impact: '시각장애인이 아이콘의 의미를 이해하기 어려울 수 있습니다.',
@@ -846,8 +841,7 @@ export class FlutterAnalyzer {
         file: cls.file,
         line: widget.line,
         column: widget.column,
-        rect: { left: 0, top: 0, width: 100, height: 50 },
-        suggestedLabel: '아이콘 의미',
+          suggestedLabel: '아이콘 의미',
         suggestedCode: `Icon(
   Icons.icon_name,
   semanticLabel: "아이콘 의미",
@@ -887,7 +881,6 @@ export class FlutterAnalyzer {
       file: cls.file,
       line: widget.line,
       column: widget.column,
-      rect: { left: 0, top: 0, width: 100, height: 50 },
       suggestedLabel: suggestedLabel,
       suggestedCode: `Semantics(
   label: "${suggestedLabel}",
@@ -927,7 +920,6 @@ export class FlutterAnalyzer {
       file: cls.file,
       line: widget.line,
       column: widget.column,
-      rect: { left: 0, top: 0, width: 100, height: 50 },
       suggestedLabel: suggestedLabel,
       suggestedCode: `Semantics(
   label: "${suggestedLabel}",

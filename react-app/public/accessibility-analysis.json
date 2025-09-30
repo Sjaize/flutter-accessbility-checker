@@ -2,16 +2,16 @@
   "projectName": "baemin_new",
   "totalFiles": 28,
   "totalClasses": 25,
-  "totalWidgets": 287,
+  "totalWidgets": 297,
   "accessibilityIssues": [
     {
-      "id": "issue_1757994780028_0.9674260341978405",
+      "id": "issue_1758637356560_0.9146202942187052",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "elementType": "Button",
       "file": "lib/screens/address_edit_screen.dart",
-      "line": 21,
+      "line": 71,
       "column": 18,
       "rect": {
         "left": 0,
@@ -19,56 +19,56 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "주소 저장 버튼",
-      "suggestedCode": "Semantics(\n  label: \"주소 저장 버튼\",\n  child: Button(),\n)",
-      "context": "build - ...",
+      "suggestedLabel": "해당 버튼은 '저장 버튼'을 나타냅니다.",
+      "suggestedCode": "Semantics(\n  label: \"해당 버튼은 '저장 버튼'을 나타냅니다.\",\n  child: Button(),\n)",
+      "context": "initState - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994781050_0.9526556073497872",
+      "id": "issue_1758637358203_0.24980961957016667",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "elementType": "Button",
       "file": "lib/screens/address_edit_screen.dart",
-      "line": 191,
-      "column": 13,
+      "line": 295,
+      "column": 18,
       "rect": {
         "left": 0,
         "top": 0,
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "삭제 다이얼로그를 열기 위한 버튼입니다.",
-      "suggestedCode": "Semantics(\n  label: \"삭제 다이얼로그를 열기 위한 버튼입니다.\",\n  child: Button(),\n)",
-      "context": "_showDeleteDialog - ...",
+      "suggestedLabel": "주소 검색 버튼",
+      "suggestedCode": "Semantics(\n  label: \"주소 검색 버튼\",\n  child: Button(),\n)",
+      "context": "_openDaumPostcode - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994781769_0.9770078059547977",
+      "id": "issue_1758637360960_0.8581149645507167",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "elementType": "Button",
       "file": "lib/screens/address_edit_screen.dart",
-      "line": 195,
-      "column": 13,
+      "line": 537,
+      "column": 14,
       "rect": {
         "left": 0,
         "top": 0,
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "주소 삭제 버튼",
-      "suggestedCode": "Semantics(\n  label: \"주소 삭제 버튼\",\n  child: Button(),\n)",
-      "context": "_showDeleteDialog - ...",
+      "suggestedLabel": "죄송합니다. 제공해주신 정보만으로는 해당 버튼이 어떤 기능을 나타내는지 명확하게 이해할 수 없습니다. 만약 버튼이 어떤 기능을 수행하는지 추가 정보를 제공해주시면, 해당 버튼에 대한 구체적인 접근성 설명을 제공해드릴 수 있을 것입니다. 필요하신 경우 추가 정보를 알려주시면 도와드리겠습니다.",
+      "suggestedCode": "Semantics(\n  label: \"죄송합니다. 제공해주신 정보만으로는 해당 버튼이 어떤 기능을 나타내는지 명확하게 이해할 수 없습니다. 만약 버튼이 어떤 기능을 수행하는지 추가 정보를 제공해주시면, 해당 버튼에 대한 구체적인 접근성 설명을 제공해드릴 수 있을 것입니다. 필요하신 경우 추가 정보를 알려주시면 도와드리겠습니다.\",\n  child: Button(),\n)",
+      "context": "_buildInfoText - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994783026_0.3109523385765294",
+      "id": "issue_1758637362233_0.028585420484462443",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -82,14 +82,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "지도 미리보기 열기 버튼",
-      "suggestedCode": "Semantics(\n  label: \"지도 미리보기 열기 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "지도 보기 버튼",
+      "suggestedCode": "Semantics(\n  label: \"지도 보기 버튼\",\n  child: Button(),\n)",
       "context": "_createMapIframe - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994784123_0.3501703646673311",
+      "id": "issue_1758637363844_0.8134130298995765",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -110,7 +110,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994785459_0.9198234455144181",
+      "id": "issue_1758637365219_0.5103645724259631",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -124,14 +124,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "_buildInfoText 버튼은 주소 수정 화면에서 정보를 업데이트하는 버튼을 나타냅니다.",
-      "suggestedCode": "Semantics(\n  label: \"_buildInfoText 버튼은 주소 수정 화면에서 정보를 업데이트하는 버튼을 나타냅니다.\",\n  child: Button(),\n)",
+      "suggestedLabel": "주소 수정 완료 버튼",
+      "suggestedCode": "Semantics(\n  label: \"주소 수정 완료 버튼\",\n  child: Button(),\n)",
       "context": "_buildInfoText - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994786726_0.3875525017535213",
+      "id": "issue_1758637367105_0.5582967831000358",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -152,7 +152,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994787504_0.8476410287847513",
+      "id": "issue_1758637367820_0.9418497073179488",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -173,7 +173,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994788737_0.28684222076757204",
+      "id": "issue_1758637369352_0.8602571058008177",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -187,14 +187,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "주문 완료 버튼",
-      "suggestedCode": "Semantics(\n  label: \"주문 완료 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "주문 완료하기 버튼",
+      "suggestedCode": "Semantics(\n  label: \"주문 완료하기 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994789490_0.03642971476484047",
+      "id": "issue_1758637370357_0.7854900230614263",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -208,14 +208,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "구매 확정 버튼",
-      "suggestedCode": "Semantics(\n  label: \"구매 확정 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "주문 완료 버튼",
+      "suggestedCode": "Semantics(\n  label: \"주문 완료 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994790165_0.4326849202504417",
+      "id": "issue_1758637370995_0.01407743557966512",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -229,14 +229,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "쇼핑 카트 비우기 버튼",
-      "suggestedCode": "Semantics(\n  label: \"쇼핑 카트 비우기 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "주문 완료 버튼",
+      "suggestedCode": "Semantics(\n  label: \"주문 완료 버튼\",\n  child: Button(),\n)",
       "context": "_buildCartItems - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994790926_0.6665277244587253",
+      "id": "issue_1758637371732_0.49144097755241334",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -257,7 +257,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994791725_0.9568249213478432",
+      "id": "issue_1758637373088_0.5071032805243756",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -271,14 +271,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "구매 완료 버튼",
-      "suggestedCode": "Semantics(\n  label: \"구매 완료 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "구매 확정 버튼",
+      "suggestedCode": "Semantics(\n  label: \"구매 확정 버튼\",\n  child: Button(),\n)",
       "context": "unknown_method - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994792853_0.1936331315703952",
+      "id": "issue_1758637374440_0.055896379645950844",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -299,7 +299,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994793985_0.41055842324876823",
+      "id": "issue_1758637375606_0.5302964487918389",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -320,7 +320,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994794882_0.6674101288970478",
+      "id": "issue_1758637376332_0.5378077030822745",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -334,14 +334,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "주소 입력 화면으로 이동하는 버튼입니다.",
-      "suggestedCode": "Semantics(\n  label: \"주소 입력 화면으로 이동하는 버튼입니다.\",\n  child: Button(),\n)",
+      "suggestedLabel": "주소 입력 버튼",
+      "suggestedCode": "Semantics(\n  label: \"주소 입력 버튼\",\n  child: Button(),\n)",
       "context": "_buildAddressButton - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994795879_0.037317469333547626",
+      "id": "issue_1758637378369_0.42787902238566566",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -362,7 +362,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994797542_0.3837498835271771",
+      "id": "issue_1758637379796_0.7103548431716462",
       "severity": "high",
       "type": "missing_alt_text",
       "description": "이미지에 대체 텍스트가 없어 시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.",
@@ -376,14 +376,14 @@
         "width": 200,
         "height": 150
       },
-      "suggestedLabel": "유효성 검사 아이콘",
-      "suggestedCode": "Image.network(\n  'image_url',\n  semanticLabel: \"유효성 검사 아이콘\",\n)",
+      "suggestedLabel": "_validate",
+      "suggestedCode": "Image.network(\n  'image_url',\n  semanticLabel: \"_validate\",\n)",
       "context": "_validate - ...",
       "impact": "시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.",
       "userJourney": "이미지는 명확한 라벨 또는 대체 텍스트를 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994799174_0.9714143961289596",
+      "id": "issue_1758637380723_0.06776449505154813",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -397,14 +397,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "_validate",
-      "suggestedCode": "Semantics(\n  label: \"_validate\",\n  child: Button(),\n)",
+      "suggestedLabel": "확인 버튼",
+      "suggestedCode": "Semantics(\n  label: \"확인 버튼\",\n  child: Button(),\n)",
       "context": "_validate - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994800090_0.04849810478095984",
+      "id": "issue_1758637381442_0.34212338323030567",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -418,14 +418,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "_containerQuantity 버튼은 수량을 증가시키는 기능을 가진 버튼입니다.",
-      "suggestedCode": "Semantics(\n  label: \"_containerQuantity 버튼은 수량을 증가시키는 기능을 가진 버튼입니다.\",\n  child: Button(),\n)",
+      "suggestedLabel": "_containerQuantity 버튼은 수량을 조절하는 버튼입니다.",
+      "suggestedCode": "Semantics(\n  label: \"_containerQuantity 버튼은 수량을 조절하는 버튼입니다.\",\n  child: Button(),\n)",
       "context": "_containerQuantity - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994801395_0.18844112985440997",
+      "id": "issue_1758637381966_0.8313451493728232",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -439,14 +439,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "수량 증가 버튼",
-      "suggestedCode": "Semantics(\n  label: \"수량 증가 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "_containerQuantity 버튼은 수량을 조절하는 버튼입니다.",
+      "suggestedCode": "Semantics(\n  label: \"_containerQuantity 버튼은 수량을 조절하는 버튼입니다.\",\n  child: Button(),\n)",
       "context": "_containerQuantity - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994803178_0.7588967075878477",
+      "id": "issue_1758637383163_0.3982497335921138",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -460,14 +460,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "_containerQuantity",
-      "suggestedCode": "Semantics(\n  label: \"_containerQuantity\",\n  child: Button(),\n)",
+      "suggestedLabel": "수량 추가 버튼",
+      "suggestedCode": "Semantics(\n  label: \"수량 추가 버튼\",\n  child: Button(),\n)",
       "context": "_containerQuantity - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994803811_0.852234978386684",
+      "id": "issue_1758637383797_0.7958354328788926",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -481,14 +481,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "주문 완료 버튼",
-      "suggestedCode": "Semantics(\n  label: \"주문 완료 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "주문하기 버튼",
+      "suggestedCode": "Semantics(\n  label: \"주문하기 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994805080_0.1908464621233461",
+      "id": "issue_1758637384862_0.5219980682769749",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -502,14 +502,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "주문 완료 버튼",
-      "suggestedCode": "Semantics(\n  label: \"주문 완료 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "죄송합니다. 코드 라인 정보만 가지고는 해당 버튼이 어떤 기능을 나타내는지 파악할 수 없습니다. 해당 버튼이 어떤 기능을 수행하는지 더 자세한 설명이 있으면 제가 도와드릴 수 있을 것 같습니다.",
+      "suggestedCode": "Semantics(\n  label: \"죄송합니다. 코드 라인 정보만 가지고는 해당 버튼이 어떤 기능을 나타내는지 파악할 수 없습니다. 해당 버튼이 어떤 기능을 수행하는지 더 자세한 설명이 있으면 제가 도와드릴 수 있을 것 같습니다.\",\n  child: Button(),\n)",
       "context": "build - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994805727_0.9527630922957488",
+      "id": "issue_1758637385436_0.5571657124532552",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -523,14 +523,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "주문 완료 버튼.",
-      "suggestedCode": "Semantics(\n  label: \"주문 완료 버튼.\",\n  child: Button(),\n)",
+      "suggestedLabel": "주문 완료 버튼",
+      "suggestedCode": "Semantics(\n  label: \"주문 완료 버튼\",\n  child: Button(),\n)",
       "context": "_buildBottomBar - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994807049_0.2395895712084284",
+      "id": "issue_1758637386846_0.05924594596121202",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -544,14 +544,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "_getSubtotal",
-      "suggestedCode": "Semantics(\n  label: \"_getSubtotal\",\n  child: Button(),\n)",
+      "suggestedLabel": "제가 제공하는 정보만으로는 버튼의 기능에 대한 설명이 부족하여 정확한 답변을 제공하기 어렵습니다. 해당 버튼이 수행하는 작업이나 버튼에 표시된 텍스트 등 더 많은 정보를 제공해주시면 더 정확한 접근성 설명을 제공할 수 있을 것입니다. 혹은 해당 버튼이 있는 화면의 스크린샷을 제공해주시면 도움이 될 것입니다.",
+      "suggestedCode": "Semantics(\n  label: \"제가 제공하는 정보만으로는 버튼의 기능에 대한 설명이 부족하여 정확한 답변을 제공하기 어렵습니다. 해당 버튼이 수행하는 작업이나 버튼에 표시된 텍스트 등 더 많은 정보를 제공해주시면 더 정확한 접근성 설명을 제공할 수 있을 것입니다. 혹은 해당 버튼이 있는 화면의 스크린샷을 제공해주시면 도움이 될 것입니다.\",\n  child: Button(),\n)",
       "context": "_getSubtotal - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994808225_0.048492045528143235",
+      "id": "issue_1758637388224_0.1703272657796766",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -565,14 +565,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "총액 계산 버튼",
-      "suggestedCode": "Semantics(\n  label: \"총액 계산 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "_getSubtotal",
+      "suggestedCode": "Semantics(\n  label: \"_getSubtotal\",\n  child: Button(),\n)",
       "context": "_getSubtotal - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994809093_0.7555764840529449",
+      "id": "issue_1758637389119_0.3298351097622565",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -586,14 +586,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "_getSubtotal",
-      "suggestedCode": "Semantics(\n  label: \"_getSubtotal\",\n  child: Button(),\n)",
+      "suggestedLabel": "해당 코드 라인에 있는 버튼은 부분 합계를 계산하는 기능을 나타냅니다.",
+      "suggestedCode": "Semantics(\n  label: \"해당 코드 라인에 있는 버튼은 부분 합계를 계산하는 기능을 나타냅니다.\",\n  child: Button(),\n)",
       "context": "_getSubtotal - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994809809_0.07447360366559086",
+      "id": "issue_1758637389775_0.2384416176359907",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -614,7 +614,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994810953_0.7427340058466123",
+      "id": "issue_1758637390480_0.49816228029741416",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -635,7 +635,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994811668_0.4517382227753075",
+      "id": "issue_1758637391480_0.5213160253947853",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -656,7 +656,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994812760_0.3984862172612431",
+      "id": "issue_1758637392046_0.9017530810857632",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -677,7 +677,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994813518_0.27877012779092425",
+      "id": "issue_1758637392905_0.6590561620440367",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -691,14 +691,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "음식점 위치 보기",
-      "suggestedCode": "Semantics(\n  label: \"음식점 위치 보기\",\n  child: Button(),\n)",
+      "suggestedLabel": "리뷰 작성 버튼",
+      "suggestedCode": "Semantics(\n  label: \"리뷰 작성 버튼\",\n  child: Button(),\n)",
       "context": "initState - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994814189_0.6010533238313245",
+      "id": "issue_1758637393569_0.5376606917901314",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -719,7 +719,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994814841_0.6534907192847061",
+      "id": "issue_1758637394313_0.3661879881649972",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -733,14 +733,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "종료 버튼입니다.",
-      "suggestedCode": "Semantics(\n  label: \"종료 버튼입니다.\",\n  child: Button(),\n)",
+      "suggestedLabel": "식당 예약하기 버튼",
+      "suggestedCode": "Semantics(\n  label: \"식당 예약하기 버튼\",\n  child: Button(),\n)",
       "context": "unknown_method - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994815684_0.9316471591991533",
+      "id": "issue_1758637395032_0.6299650023562968",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -754,14 +754,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "음식점 예약하기",
-      "suggestedCode": "Semantics(\n  label: \"음식점 예약하기\",\n  child: Button(),\n)",
+      "suggestedLabel": "음식 메뉴 주문하기 버튼",
+      "suggestedCode": "Semantics(\n  label: \"음식 메뉴 주문하기 버튼\",\n  child: Button(),\n)",
       "context": "unknown_method - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994817174_0.378084797880162",
+      "id": "issue_1758637395879_0.8412533009668697",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -775,14 +775,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "리뷰 작성 버튼",
-      "suggestedCode": "Semantics(\n  label: \"리뷰 작성 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "주문하기 버튼",
+      "suggestedCode": "Semantics(\n  label: \"주문하기 버튼\",\n  child: Button(),\n)",
       "context": "_buildBottomBar - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994818486_0.8772472659352819",
+      "id": "issue_1758637396794_0.9295845757596388",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -803,7 +803,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994819347_0.1516636193450851",
+      "id": "issue_1758637397542_0.31888466096882584",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -824,7 +824,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994820172_0.5410888552515027",
+      "id": "issue_1758637398378_0.659624109289012",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -838,14 +838,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "검색 버튼",
-      "suggestedCode": "Semantics(\n  label: \"검색 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "검색 결과 정렬 버튼",
+      "suggestedCode": "Semantics(\n  label: \"검색 결과 정렬 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994820984_0.7834909431497512",
+      "id": "issue_1758637399312_0.04760443666780745",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -859,14 +859,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "주소 저장 버튼",
-      "suggestedCode": "Semantics(\n  label: \"주소 저장 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "주소 추가 버튼",
+      "suggestedCode": "Semantics(\n  label: \"주소 추가 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994822828_0.529355975606328",
+      "id": "issue_1758637400589_0.6289943484434395",
       "severity": "high",
       "type": "missing_alt_text",
       "description": "이미지에 대체 텍스트가 없어 시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.",
@@ -880,14 +880,14 @@
         "width": 200,
         "height": 150
       },
-      "suggestedLabel": "죄송합니다. 이미지가 없어서 구체적인 설명을 제공할 수 없습니다. 만약 다른 질문이 있으시면 도와드릴 수 있습니다. 부탁드립니다.",
-      "suggestedCode": "Image.network(\n  'image_url',\n  semanticLabel: \"죄송합니다. 이미지가 없어서 구체적인 설명을 제공할 수 없습니다. 만약 다른 질문이 있으시면 도와드릴 수 있습니다. 부탁드립니다.\",\n)",
+      "suggestedLabel": "제품 이미지",
+      "suggestedCode": "Image.network(\n  'image_url',\n  semanticLabel: \"제품 이미지\",\n)",
       "context": "unknown_method - ...",
       "impact": "시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.",
       "userJourney": "이미지는 명확한 라벨 또는 대체 텍스트를 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994823611_0.2618389185932197",
+      "id": "issue_1758637401408_0.9944414290256132",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -901,14 +901,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "상품 장바구니에 추가",
-      "suggestedCode": "Semantics(\n  label: \"상품 장바구니에 추가\",\n  child: Button(),\n)",
+      "suggestedLabel": "상품 삭제 버튼",
+      "suggestedCode": "Semantics(\n  label: \"상품 삭제 버튼\",\n  child: Button(),\n)",
       "context": "unknown_method - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994824670_0.06321308979186147",
+      "id": "issue_1758637402127_0.7481182664977453",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -922,14 +922,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "상품 삭제 버튼",
-      "suggestedCode": "Semantics(\n  label: \"상품 삭제 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "쇼핑 카트 비우기 버튼",
+      "suggestedCode": "Semantics(\n  label: \"쇼핑 카트 비우기 버튼\",\n  child: Button(),\n)",
       "context": "unknown_method - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994825389_0.553330405874459",
+      "id": "issue_1758637402866_0.657948006629312",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -943,14 +943,14 @@
         "width": 100,
         "height": 50
       },
-      "suggestedLabel": "상품 장바구니에 추가",
-      "suggestedCode": "Semantics(\n  label: \"상품 장바구니에 추가\",\n  child: Button(),\n)",
+      "suggestedLabel": "상품 장바구니에서 삭제",
+      "suggestedCode": "Semantics(\n  label: \"상품 장바구니에서 삭제\",\n  child: Button(),\n)",
       "context": "unknown_method - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994826213_0.6179540174703599",
+      "id": "issue_1758637403874_0.4352181518944833",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -971,7 +971,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994827671_0.6376239884091972",
+      "id": "issue_1758637404632_0.07623443962308629",
       "severity": "high",
       "type": "missing_alt_text",
       "description": "이미지에 대체 텍스트가 없어 시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.",
@@ -985,14 +985,14 @@
         "width": 200,
         "height": 150
       },
-      "suggestedLabel": "죄송합니다. 코드 라인 및 컨텍스트에 대한 이미지나 코드 스니펫을 제공해주시면, 해당 코드의 내용을 기반으로 접근성 설명을 제공할 수 있습니다. 부탁드립니다.",
-      "suggestedCode": "Image.network(\n  'image_url',\n  semanticLabel: \"죄송합니다. 코드 라인 및 컨텍스트에 대한 이미지나 코드 스니펫을 제공해주시면, 해당 코드의 내용을 기반으로 접근성 설명을 제공할 수 있습니다. 부탁드립니다.\",\n)",
+      "suggestedLabel": "메뉴 항목 아이콘",
+      "suggestedCode": "Image.network(\n  'image_url',\n  semanticLabel: \"메뉴 항목 아이콘\",\n)",
       "context": "unknown_method - ...",
       "impact": "시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.",
       "userJourney": "이미지는 명확한 라벨 또는 대체 텍스트를 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1757994828575_0.26894801567089544",
+      "id": "issue_1758637405426_0.11475794089817204",
       "severity": "high",
       "type": "missing_alt_text",
       "description": "이미지에 대체 텍스트가 없어 시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.",
@@ -1006,13 +1006,13 @@
         "width": 200,
         "height": 150
       },
-      "suggestedLabel": "식당 로고 이미지",
-      "suggestedCode": "Image.network(\n  'image_url',\n  semanticLabel: \"식당 로고 이미지\",\n)",
+      "suggestedLabel": "해당 이미지는 레스토랑의 음식 메뉴 이미지를 나타냅니다.",
+      "suggestedCode": "Image.network(\n  'image_url',\n  semanticLabel: \"해당 이미지는 레스토랑의 음식 메뉴 이미지를 나타냅니다.\",\n)",
       "context": "build - ...",
       "impact": "시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.",
       "userJourney": "이미지는 명확한 라벨 또는 대체 텍스트를 가지고 있어야 합니다."
     }
   ],
   "userJourneys": [],
-  "analysisDate": "2025-09-16T03:53:48.616Z"
+  "analysisDate": "2025-09-23T14:23:25.467Z"
 }
