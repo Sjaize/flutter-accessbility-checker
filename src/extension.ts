@@ -6,6 +6,7 @@ import { spawn } from 'child_process';
 import { FlutterAnalyzer } from './services/flutter-analyzer';
 import { FlutterRunner } from './services/flutter-runner';
 import { ProjectAnalysis } from './types/accessibility';
+import { Logger } from './utils/logger';
 
 // 환경 변수 로드 (확장 프로그램 루트에서)
 import * as dotenv from 'dotenv';
@@ -21,38 +22,41 @@ let flutterRunner: FlutterRunner;
 let currentAnalysis: ProjectAnalysis | null = null;
 
 export async function activate(context: vscode.ExtensionContext) {
-  console.log('🚀 Flutter Accessibility Checker 확장 프로그램이 활성화되었습니다.');
+  Logger.success('Flutter Accessibility Checker 확장 프로그램이 활성화되었습니다.');
 
   try {
     // 출력 채널 초기화
     outputChannel = vscode.window.createOutputChannel(OUTPUT_NAME);
     outputChannel.show();
+    
+    // Logger 초기화
+    Logger.initialize(outputChannel);
 
     // 환경 변수 검증
     const apiKeysValid = validateApiKeys();
     if (!apiKeysValid) {
-      log('⚠️ OpenAI API 키가 설정되지 않았습니다. AI 기능이 제한됩니다.');
+      Logger.warning('OpenAI API 키가 설정되지 않았습니다. AI 기능이 제한됩니다.');
       vscode.window.showWarningMessage('OpenAI API 키가 설정되지 않았습니다. AI 기능을 사용하려면 .env 파일을 설정해주세요.');
     } else {
-      log('✅ API 키가 설정되었습니다.');
+      Logger.success('API 키가 설정되었습니다.');
     }
 
     // 워크스페이스 확인
     const workspaceFolders = vscode.workspace.workspaceFolders;
     if (!workspaceFolders || workspaceFolders.length === 0) {
       const message = 'Flutter 프로젝트를 VS Code에서 열어주세요.';
-      log(`❌ ${message}`);
+      Logger.error(message);
       vscode.window.showErrorMessage(message);
       return;
     }
 
     const workspaceRoot = workspaceFolders[0].uri.fsPath;
-    log(`📁 워크스페이스: ${workspaceRoot}`);
+    Logger.info(`워크스페이스: ${workspaceRoot}`);
 
     // Flutter 프로젝트 검증
     if (!isFlutterProject(workspaceRoot)) {
       const message = '현재 폴더가 Flutter 프로젝트가 아닙니다. pubspec.yaml 파일을 확인해주세요.';
-      log(`❌ ${message}`);
+      Logger.error(message);
       vscode.window.showErrorMessage(message);
       return;
     }
@@ -63,13 +67,13 @@ export async function activate(context: vscode.ExtensionContext) {
     // 명령어 등록
     registerCommands(context);
 
-    log('✅ 확장 프로그램 초기화 완료');
+    Logger.success('확장 프로그램 초기화 완료');
     vscode.window.showInformationMessage('Flutter Accessibility Checker가 준비되었습니다!');
 
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     const message = `확장 프로그램 초기화 실패: ${errorMessage}`;
-    log(`❌ ${message}`);
+    Logger.error(message);
     vscode.window.showErrorMessage(message);
   }
 }
@@ -88,16 +92,16 @@ function isFlutterProject(workspaceRoot: string): boolean {
 async function initializeServices(workspaceRoot: string) {
   try {
     // Flutter 분석기 초기화
-    log('🔧 Flutter 분석기 초기화 중...');
+    Logger.info('Flutter 분석기 초기화 중...');
     flutterAnalyzer = new FlutterAnalyzer(workspaceRoot, outputChannel);
     
     // Flutter 실행기 초기화
-    log('🔧 Flutter 실행기 초기화 중...');
+    Logger.info('Flutter 실행기 초기화 중...');
     flutterRunner = new FlutterRunner(workspaceRoot, outputChannel);
     
-    log('✅ 모든 서비스 초기화 완료');
+    Logger.success('모든 서비스 초기화 완료');
   } catch (error) {
-    log(`❌ 서비스 초기화 실패: ${error}`);
+    Logger.error(`서비스 초기화 실패: ${error}`);
     throw new Error(`서비스 초기화 실패: ${error}`);
   }
 }
@@ -157,16 +161,16 @@ function registerCommands(context: vscode.ExtensionContext) {
 
 async function startAccessibilityAnalysis() {
   try {
-    log('🔍 접근성 분석 시작...');
+    Logger.info('접근성 분석 시작...');
     
     // 1. 페르소나 수 입력받기
     const personaCount = await getPersonaCount();
     if (personaCount === undefined) {
-      log('❌ 페르소나 수 입력이 취소되었습니다.');
+      Logger.warning('페르소나 수 입력이 취소되었습니다.');
       return;
     }
     
-    log(`👥 페르소나 수: ${personaCount}명`);
+    Logger.info(`페르소나 수: ${personaCount}명`);
     
     // 2. Flutter 앱 실행 (64022 포트)
     await vscode.window.withProgress({
@@ -190,7 +194,7 @@ async function startAccessibilityAnalysis() {
     if (currentAnalysis) {
       // JSON 파일을 React 앱으로 복사
       await copyJsonToReactApp();
-      log('✅ 분석 결과가 JSON 파일로 저장되었습니다.');
+      Logger.success('분석 결과가 JSON 파일로 저장되었습니다.');
     }
 
     // 5. React 앱 자동 열기
@@ -200,14 +204,14 @@ async function startAccessibilityAnalysis() {
       
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    log(`❌ 접근성 분석 시작 실패: ${errorMessage}`);
+    Logger.error(`접근성 분석 시작 실패: ${errorMessage}`);
     vscode.window.showErrorMessage(`접근성 분석 시작에 실패했습니다: ${errorMessage}`);
   }
 }
 
 async function analyzeLabelsOnly() {
   try {
-    log('🔍 라벨 분석 시작...');
+    Logger.info('라벨 분석 시작...');
     
     // 서비스 상태 확인
     if (!flutterAnalyzer) {
@@ -217,11 +221,11 @@ async function analyzeLabelsOnly() {
     // 1. 페르소나 수 입력받기
     const personaCount = await getPersonaCount();
     if (personaCount === undefined) {
-      log('❌ 페르소나 수 입력이 취소되었습니다.');
+      Logger.warning('페르소나 수 입력이 취소되었습니다.');
       return;
     }
     
-    log(`👥 페르소나 수: ${personaCount}명`);
+    Logger.info(`페르소나 수: ${personaCount}명`);
     
     // 2. 프로젝트 분석 (라벨 JSON 포함)
     await vscode.window.withProgress({
@@ -244,7 +248,7 @@ async function analyzeLabelsOnly() {
       
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    log(`❌ 라벨 분석 실패: ${errorMessage}`);
+    Logger.error(`라벨 분석 실패: ${errorMessage}`);
     vscode.window.showErrorMessage(`라벨 분석에 실패했습니다: ${errorMessage}`);
   }
 }
@@ -268,7 +272,7 @@ async function getPersonaCount(): Promise<number | undefined> {
 
 async function stopAccessibilityAnalysis() {
   try {
-    log('🛑 접근성 분석 중지...');
+    Logger.info('접근성 분석 중지...');
 
     // Flutter 앱 종료
     if (flutterRunner) {
@@ -278,7 +282,7 @@ async function stopAccessibilityAnalysis() {
     vscode.window.showInformationMessage('✅ 접근성 분석이 중지되었습니다.');
       
     } catch (error) {
-    log(`❌ 접근성 분석 중지 실패: ${error}`);
+    Logger.error(`접근성 분석 중지 실패: ${error}`);
     vscode.window.showErrorMessage(`접근성 분석 중지에 실패했습니다: ${error}`);
   }
 }
@@ -298,10 +302,10 @@ async function showAnalysisReport() {
     });
 
     await vscode.window.showTextDocument(document);
-    log('📋 분석 리포트 표시');
+    Logger.info('분석 리포트 표시');
 
     } catch (error) {
-    log(`❌ 리포트 표시 실패: ${error}`);
+    Logger.error(`리포트 표시 실패: ${error}`);
     vscode.window.showErrorMessage(`리포트 표시에 실패했습니다: ${error}`);
   }
 }
@@ -338,15 +342,15 @@ async function openReactApp() {
     // 웹뷰 메시지 핸들러
     panel.webview.onDidReceiveMessage(
       async (message) => {
-        log(`📨 웹뷰 메시지 수신: ${message.command}`);
+        Logger.info(`웹뷰 메시지 수신: ${message.command}`);
         if (message.command === 'flutter-accessibility.applyCodeSuggestion') {
-          log(`📝 코드 제안 적용 요청: ${JSON.stringify(message.data)}`);
+          Logger.info(`코드 제안 적용 요청: ${JSON.stringify(message.data)}`);
           await applyCodeSuggestion(message.data);
         }
       }
     );
     
-    log('✅ React 앱이 VS Code 웹뷰에서 열렸습니다.');
+    Logger.success('React 앱이 VS Code 웹뷰에서 열렸습니다.');
   } catch (error) {
     outputChannel.appendLine(`❌ React 앱 실행 실패: ${error}`);
     vscode.window.showErrorMessage('React 앱 실행에 실패했습니다.');
@@ -406,9 +410,9 @@ async function applyCodeSuggestion(data: any) {
   try {
     const { file, line, originalCode, suggestedCode, issueId, context } = data;
     
-    log(`📝 코드 제안 적용 시작: ${file}:${line}`);
-    log(`📝 원본 코드: ${originalCode || 'not provided'}`);
-    log(`📝 제안 코드: ${suggestedCode}`);
+    Logger.info(`코드 제안 적용 시작: ${file}:${line}`);
+    Logger.info(`원본 코드: ${originalCode || 'not provided'}`);
+    Logger.info(`제안 코드: ${suggestedCode}`);
     
     // 워크스페이스 확인
     const workspaceFolders = vscode.workspace.workspaceFolders;
@@ -437,7 +441,7 @@ async function applyCodeSuggestion(data: any) {
       return;
     }
     
-    log(`🎯 실제 라인 위치: ${line} → ${actualLine}`);
+    Logger.info(`실제 라인 위치: ${line} → ${actualLine}`);
     
     // 라인 번호 확인
     if (actualLine < 1 || actualLine > lines.length) {
@@ -494,10 +498,10 @@ async function applyCodeSuggestion(data: any) {
     // 해결된 이슈로 마킹
     await markIssueAsResolved(issueId);
     
-    log(`✅ 코드 수정 완료: ${file}:${actualLine}`);
+    Logger.success(`코드 수정 완료: ${file}:${actualLine}`);
     
   } catch (error) {
-    log(`❌ 코드 수정 실패: ${error}`);
+    Logger.error(`코드 수정 실패: ${error}`);
     vscode.window.showErrorMessage(`코드 수정에 실패했습니다: ${error}`);
   }
 }
@@ -513,9 +517,9 @@ async function showDiffView(filePath: string, backupPath: string, lineNumber: nu
       { preview: true }
     );
     
-    log(`✅ diff 뷰 생성 완료: ${filePath}`);
+    Logger.success(`diff 뷰 생성 완료: ${filePath}`);
   } catch (error) {
-    log(`❌ diff 뷰 생성 실패: ${error}`);
+    Logger.error(`diff 뷰 생성 실패: ${error}`);
   }
 }
 
@@ -542,10 +546,10 @@ async function markIssueAsResolved(issueId: string): Promise<void> {
       // React 앱으로도 복사
       await copyResolvedIssuesToReactApp(resolvedIssues);
       
-      log(`✅ 이슈 해결됨으로 마킹: ${issueId}`);
+      Logger.success(`이슈 해결됨으로 마킹: ${issueId}`);
     }
   } catch (error) {
-    log(`❌ 이슈 마킹 실패: ${error}`);
+    Logger.error(`이슈 마킹 실패: ${error}`);
   }
 }
 
@@ -556,10 +560,10 @@ async function copyResolvedIssuesToReactApp(resolvedIssues: string[]): Promise<v
     
     if (fs.existsSync(reactAppPublicPath)) {
       fs.writeFileSync(targetPath, JSON.stringify(resolvedIssues, null, 2));
-      log(`✅ 해결된 이슈 목록을 React 앱으로 복사: ${resolvedIssues.length}개`);
+      Logger.success(`해결된 이슈 목록을 React 앱으로 복사: ${resolvedIssues.length}개`);
     }
   } catch (error) {
-    log(`❌ React 앱으로 해결된 이슈 복사 실패: ${error}`);
+    Logger.error(`React 앱으로 해결된 이슈 복사 실패: ${error}`);
   }
 }
 
@@ -570,7 +574,7 @@ async function copyJsonToReactApp() {
     
     // React 앱의 public 폴더가 존재하는지 확인
     if (!fs.existsSync(reactAppPublicPath)) {
-      log('⚠️ React 앱 public 폴더를 찾을 수 없습니다.');
+      Logger.warning('React 앱 public 폴더를 찾을 수 없습니다.');
       return;
     }
     
@@ -586,24 +590,24 @@ async function copyJsonToReactApp() {
         try {
           const content = fs.readFileSync(sourcePath, 'utf8');
           fs.writeFileSync(targetPath, content, 'utf8');
-          log(`✅ ${jsonFile}을 React 앱으로 복사했습니다.`);
+          Logger.success(`${jsonFile}을 React 앱으로 복사했습니다.`);
           copiedCount++;
         } catch (copyError) {
-          log(`❌ ${jsonFile} 복사 실패: ${copyError}`);
+          Logger.error(`${jsonFile} 복사 실패: ${copyError}`);
         }
       } else {
-        log(`⚠️ ${jsonFile} 파일을 찾을 수 없습니다: ${sourcePath}`);
+        Logger.warning(`${jsonFile} 파일을 찾을 수 없습니다: ${sourcePath}`);
       }
     }
     
     if (copiedCount > 0) {
-      log(`📊 총 ${copiedCount}개 JSON 파일이 React 앱으로 복사되었습니다.`);
+      Logger.info(`총 ${copiedCount}개 JSON 파일이 React 앱으로 복사되었습니다.`);
     } else {
-      log('⚠️ 복사할 JSON 파일이 없습니다. 먼저 접근성 분석을 실행해주세요.');
+      Logger.warning('복사할 JSON 파일이 없습니다. 먼저 접근성 분석을 실행해주세요.');
     }
     
   } catch (error) {
-    log(`❌ JSON 파일 복사 실패: ${error}`);
+    Logger.error(`JSON 파일 복사 실패: ${error}`);
   }
 }
 
@@ -648,12 +652,12 @@ function getWebviewContent(reactAppUrl: string): string {
 }
 
 function findActualLine(lines: string[], originalLine: number, originalCode?: string, context?: string): number {
-  console.log(`🔍 라인 찾기 시작: ${originalLine}, 원본코드: ${originalCode}`);
+  Logger.info(`라인 찾기 시작: ${originalLine}, 원본코드: ${originalCode}`);
   
   // 0. 원래 라인이 유효한 범위인지 확인
   if (originalLine > 0 && originalLine <= lines.length) {
     const currentLineContent = lines[originalLine - 1].trim();
-    console.log(`🔍 원래 라인 ${originalLine} 내용: ${currentLineContent}`);
+    Logger.info(`원래 라인 ${originalLine} 내용: ${currentLineContent}`);
     
     // originalCode가 있으면 정확한 매칭 시도
     if (originalCode) {
@@ -661,13 +665,13 @@ function findActualLine(lines: string[], originalLine: number, originalCode?: st
       
       // 정확히 일치하는지 확인
       if (currentLineContent === originalTrimmed) {
-        console.log(`✅ 정확히 일치: ${originalLine}`);
+        Logger.success(`정확히 일치: ${originalLine}`);
         return originalLine;
       }
       
       // 포함 관계 확인
       if (currentLineContent.includes(originalTrimmed) || originalTrimmed.includes(currentLineContent)) {
-        console.log(`✅ 포함 관계 일치: ${originalLine}`);
+        Logger.success(`포함 관계 일치: ${originalLine}`);
         return originalLine;
       }
     } else {
@@ -676,7 +680,7 @@ function findActualLine(lines: string[], originalLine: number, originalCode?: st
       const hasWidget = commonWidgets.some(widget => currentLineContent.includes(widget));
       
       if (hasWidget) {
-        console.log(`✅ 위젯 패턴 발견: ${originalLine}`);
+        Logger.success(`위젯 패턴 발견: ${originalLine}`);
         return originalLine;
       }
     }
@@ -685,9 +689,9 @@ function findActualLine(lines: string[], originalLine: number, originalCode?: st
     if (originalCode) {
       const originalTrimmed = originalCode.trim();
       const similarity = calculateSimilarity(currentLineContent, originalTrimmed);
-      console.log(`🔍 유사도: ${similarity}`);
+      Logger.info(`유사도: ${similarity}`);
       if (similarity > 0.7) {
-        console.log(`✅ 유사도 일치: ${originalLine}`);
+        Logger.success(`유사도 일치: ${originalLine}`);
         return originalLine;
       }
     }
@@ -714,7 +718,7 @@ function findActualLine(lines: string[], originalLine: number, originalCode?: st
     for (const pattern of widgetPatterns) {
       for (let i = startRange; i < endRange; i++) {
         if (pattern.test(lines[i])) {
-          console.log(`✅ 위젯 패턴 발견: ${i + 1}, 패턴: ${pattern}`);
+          Logger.success(`위젯 패턴 발견: ${i + 1}, 패턴: ${pattern}`);
           return i + 1;
         }
       }
@@ -727,13 +731,13 @@ function findActualLine(lines: string[], originalLine: number, originalCode?: st
       .filter(line => line.trim())
       .map(line => line.replace(/^\d+:\s*/, '').trim());
       
-    console.log(`🔍 컨텍스트 라인들:`, contextLines);
+    Logger.info(`컨텍스트 라인들: ${contextLines.join(', ')}`);
       
     for (let i = 0; i < lines.length; i++) {
       const currentLine = lines[i].trim();
       for (const contextLine of contextLines) {
         if (contextLine.length > 5 && currentLine.includes(contextLine)) {
-          console.log(`✅ 컨텍스트 매칭: ${i + 1}, 컨텍스트: ${contextLine}`);
+          Logger.success(`컨텍스트 매칭: ${i + 1}, 컨텍스트: ${contextLine}`);
           return i + 1;
         }
       }
@@ -746,13 +750,13 @@ function findActualLine(lines: string[], originalLine: number, originalCode?: st
     for (let i = 0; i < lines.length; i++) {
       const trimmedLine = lines[i].trim();
       if (trimmedLine.includes(trimmedOriginal) || trimmedOriginal.includes(trimmedLine)) {
-        console.log(`✅ 전체 검색에서 발견: ${i + 1}`);
+        Logger.success(`전체 검색에서 발견: ${i + 1}`);
         return i + 1;
       }
     }
   }
 
-  console.log(`❌ 라인을 찾을 수 없음`);
+  Logger.error('라인을 찾을 수 없음');
   return -1; // 찾을 수 없음
 }
 
@@ -868,12 +872,9 @@ function insertSemanticProperty(originalLine: string, suggestedCode: string, bas
   return baseIndent + result;
 }
 
-function log(message: string) {
-  outputChannel.appendLine(`[${new Date().toLocaleTimeString()}] ${message}`);
-}
 
 export async function deactivate() {
-  log('🛑 확장 프로그램 비활성화...');
+  Logger.info('확장 프로그램 비활성화...');
   
   // 모든 서비스 정리
   if (flutterRunner) {
@@ -882,5 +883,5 @@ export async function deactivate() {
   
   // WebSocket 서비스 제거됨
   
-  log('✅ 확장 프로그램 정리 완료');
+  Logger.success('확장 프로그램 정리 완료');
 }

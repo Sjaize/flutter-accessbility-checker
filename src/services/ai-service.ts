@@ -130,15 +130,26 @@ export class AIService {
   }
 
   // 새로운 메서드: 입력 필드에 대한 구체적인 설명 생성
-  async generateInputDescription(inputContext: string, filePath: string, lineNumber: number): Promise<string> {
+  async generateInputDescription(inputContext: string, filePath: string, lineNumber: number): Promise<{
+    hasHintText: boolean;
+    hintText?: string;
+    actualLabel: string;
+    accessibilityType: 'hint_only' | 'label_only' | 'both' | 'neither';
+    suggestedCode: string;
+  }> {
     const prompt = this.buildInputDescriptionPrompt(inputContext, filePath, lineNumber);
     
     try {
       const response = await this.callAI(prompt);
-      return this.extractDescriptionFromResponse(response.content);
+      return this.parseInputDescriptionResponse(response.content);
     } catch (error) {
       this.outputChannel.appendLine(`❌ 입력 필드 설명 생성 실패: ${error}`);
-      return '입력 필드 목적';
+      return {
+        hasHintText: false,
+        actualLabel: '입력 필드 목적',
+        accessibilityType: 'neither',
+        suggestedCode: 'Semantics(label: "입력 필드 목적", child: TextField())'
+      };
     }
   }
 
@@ -377,17 +388,35 @@ ${imageContext}
 
   private buildInputDescriptionPrompt(inputContext: string, filePath: string, lineNumber: number): string {
     return `
-다음 Flutter 입력 필드에 대한 구체적인 접근성 설명을 생성해주세요:
+다음 Flutter 입력 필드에 대한 구체적인 접근성 분석을 수행해주세요:
 
 파일: ${filePath}
 라인: ${lineNumber}
 코드 컨텍스트:
 ${inputContext}
 
-이 입력 필드가 어떤 목적을 가지는지 구체적으로 설명해주세요. 
-예시: "사용자 이름 입력란", "검색어 입력란", "비밀번호 입력란" 등
+다음 JSON 형태로 응답해주세요:
 
-한국어로 간결하고 명확하게 응답해주세요.
+{
+  "hasHintText": true/false,
+  "hintText": "hintText 속성에 있는 텍스트 (있다면)",
+  "actualLabel": "입력 필드의 실제 목적/라벨",
+  "accessibilityType": "hint_only" | "label_only" | "both" | "neither",
+  "suggestedCode": "개선된 접근성 코드"
+}
+
+분석 기준:
+1. hintText가 있는 경우: 일시적인 안내 텍스트로, hint 속성으로 처리
+2. 실제 라벨이 필요한 경우: 영구적인 식별자로, label 속성으로 처리
+3. 둘 다 있는 경우: hint와 label을 모두 포함
+4. 둘 다 없는 경우: 적절한 라벨 생성
+
+코드 제안 예시:
+- hintText만 있는 경우: Semantics(hint: "hintText 내용", child: TextField(...))
+- 라벨만 필요한 경우: Semantics(label: "실제 라벨", child: TextField(...))
+- 둘 다 있는 경우: Semantics(label: "실제 라벨", hint: "hintText 내용", child: TextField(...))
+
+한국어로 응답해주세요.
 `;
   }
 
@@ -489,5 +518,37 @@ ${listContext}
 
     // 첫 번째 줄 반환 (줄바꿈 제거)
     return content.split('\n')[0].trim();
+  }
+
+  private parseInputDescriptionResponse(content: string): {
+    hasHintText: boolean;
+    hintText?: string;
+    actualLabel: string;
+    accessibilityType: 'hint_only' | 'label_only' | 'both' | 'neither';
+    suggestedCode: string;
+  } {
+    try {
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        const parsed = JSON.parse(jsonMatch[0]);
+        return {
+          hasHintText: parsed.hasHintText || false,
+          hintText: parsed.hintText,
+          actualLabel: parsed.actualLabel || '입력 필드 목적',
+          accessibilityType: parsed.accessibilityType || 'neither',
+          suggestedCode: parsed.suggestedCode || 'Semantics(label: "입력 필드 목적", child: TextField())'
+        };
+      }
+    } catch (error) {
+      this.outputChannel.appendLine(`⚠️ 입력 필드 설명 JSON 파싱 실패: ${error}`);
+    }
+
+    // 기본값 반환
+    return {
+      hasHintText: false,
+      actualLabel: '입력 필드 목적',
+      accessibilityType: 'neither',
+      suggestedCode: 'Semantics(label: "입력 필드 목적", child: TextField())'
+    };
   }
 }

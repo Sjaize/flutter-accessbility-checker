@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import { DartClass, DartWidget, AccessibilityIssue, ProjectAnalysis, UserJourney, JourneyStep } from '../types/accessibility';
 import { AIService, AIModelConfig } from './ai-service';
 import { IconAnalyzer, IconAnalysis, ImageAnalysis } from './icon-analyzer';
+import { Logger } from '../utils/logger';
 
 export class FlutterAnalyzer {
   private workspaceRoot: string;
@@ -40,9 +41,9 @@ export class FlutterAnalyzer {
     this.iconAnalyzer = new IconAnalyzer(workspaceRoot, outputChannel, this.aiService);
     
     if (!this.openaiApiKey1 && !this.openaiApiKey2) {
-      this.log('⚠️ OpenAI API 키가 설정되지 않았습니다. 환경변수를 확인해주세요.');
+      Logger.warning('OpenAI API 키가 설정되지 않았습니다. 환경변수를 확인해주세요.', 'FlutterAnalyzer');
     } else {
-      this.log('✅ OpenAI API 키가 설정되었습니다.');
+      Logger.success('OpenAI API 키가 설정되었습니다.', 'FlutterAnalyzer');
     }
   }
 
@@ -61,7 +62,7 @@ export class FlutterAnalyzer {
       };
       
       this.aiService = new AIService(aiConfig, this.outputChannel);
-      this.log(`🔄 API 키 교체: Key ${this.currentKeyIndex + 1} 사용 중`);
+      Logger.info(`API 키 교체: Key ${this.currentKeyIndex + 1} 사용 중`, 'FlutterAnalyzer');
     }
   }
 
@@ -80,19 +81,19 @@ export class FlutterAnalyzer {
   }
 
   async analyzeProject(personaCount: number = 3): Promise<ProjectAnalysis> {
-    this.log('🔍 Flutter 프로젝트 분석 시작...');
+    Logger.info('Flutter 프로젝트 분석 시작...', 'FlutterAnalyzer');
     
     try {
       // 캐시 확인
       const cacheKey = this.getCacheKey(personaCount);
       if (this.isAnalysisCacheValid(cacheKey)) {
-        this.log('📋 캐시된 분석 결과 사용');
+        Logger.info('캐시된 분석 결과 사용', 'FlutterAnalyzer');
         return this.analysisCache.get(cacheKey)!;
       }
 
       // 1. Dart 파일들 찾기
       const dartFiles = await this.findDartFiles();
-      this.log(`📁 발견된 Dart 파일: ${dartFiles.length}개`);
+      Logger.info(`발견된 Dart 파일: ${dartFiles.length}개`, 'FlutterAnalyzer');
 
       // 2. 클래스와 위젯 분석 (캐싱 적용)
       const classes: DartClass[] = [];
@@ -123,17 +124,17 @@ export class FlutterAnalyzer {
       
       await this.saveAnalysisToJson(analysis);
       
-      this.log('✅ 프로젝트 분석 완료');
+      Logger.success('프로젝트 분석 완료', 'FlutterAnalyzer');
       return analysis;
 
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
-      this.log(`❌ 분석 중 오류 발생: ${errorMessage}`);
+      Logger.error(`분석 중 오류 발생: ${errorMessage}`, 'FlutterAnalyzer');
       
       // API 키 교체 후 재시도
       const errorStr = String(error);
       if (errorStr.includes('rate_limit') || errorStr.includes('quota')) {
-        this.log('🔄 API 키 교체 후 재시도...');
+        Logger.info('API 키 교체 후 재시도...', 'FlutterAnalyzer');
         this.switchApiKey();
       }
       
@@ -155,7 +156,7 @@ export class FlutterAnalyzer {
         return cached;
       }
     } catch (error) {
-      this.log(`⚠️ 파일 상태 확인 실패: ${filePath}`);
+      Logger.warning(`파일 상태 확인 실패: ${filePath}`, 'FlutterAnalyzer');
     }
     
     // 캐시가 없거나 파일이 변경되었으면 새로 분석
@@ -167,11 +168,11 @@ export class FlutterAnalyzer {
   private async analyzeAccessibilityIssuesWithRetry(classes: DartClass[], maxRetries: number = 3): Promise<AccessibilityIssue[]> {
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
-        this.log(`🤖 AI를 활용한 접근성 이슈 분석 (시도 ${attempt}/${maxRetries})`);
+        Logger.info(`AI를 활용한 접근성 이슈 분석 (시도 ${attempt}/${maxRetries})`, 'FlutterAnalyzer');
         return await this.analyzeAccessibilityIssues(classes);
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : String(error);
-        this.log(`❌ AI 분석 실패 (시도 ${attempt}): ${errorMessage}`);
+        Logger.error(`AI 분석 실패 (시도 ${attempt}): ${errorMessage}`, 'FlutterAnalyzer');
         
         if (attempt < maxRetries) {
           // API 키 교체 시도
@@ -181,7 +182,7 @@ export class FlutterAnalyzer {
           await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
         } else {
           // 최대 재시도 횟수 도달 시 기본 분석으로 대체
-          this.log('⚠️ AI 분석 실패, 기본 분석으로 대체');
+          Logger.warning('AI 분석 실패, 기본 분석으로 대체', 'FlutterAnalyzer');
           return await this.basicAccessibilityAnalysis(classes);
         }
       }
@@ -333,7 +334,7 @@ export class FlutterAnalyzer {
           }
         }
       } catch (error) {
-        this.log(`⚠️ 디렉토리 읽기 실패: ${dir}`);
+        Logger.warning(`디렉토리 읽기 실패: ${dir}`, 'FlutterAnalyzer');
       }
     };
 
@@ -368,7 +369,7 @@ export class FlutterAnalyzer {
 
       return classes;
     } catch (error) {
-      this.log(`❌ 파일 분석 실패: ${filePath}`);
+      Logger.error(`파일 분석 실패: ${filePath}`, 'FlutterAnalyzer');
       return [];
     }
   }
@@ -557,7 +558,7 @@ export class FlutterAnalyzer {
         suggestedLabel = aiDescription;
       }
     } catch (error) {
-      this.log(`⚠️ AI 텍스트 설명 생성 실패: ${error}`);
+      Logger.warning(`AI 텍스트 설명 생성 실패: ${error}`, 'FlutterAnalyzer');
     }
     
     return {
@@ -730,7 +731,7 @@ export class FlutterAnalyzer {
         suggestedLabel = aiDescription;
       }
     } catch (error) {
-      this.log(`⚠️ AI 버튼 설명 생성 실패: ${error}`);
+      Logger.warning(`AI 버튼 설명 생성 실패: ${error}`, 'FlutterAnalyzer');
     }
     
     return {
@@ -769,7 +770,7 @@ export class FlutterAnalyzer {
         suggestedLabel = aiDescription;
       }
     } catch (error) {
-      this.log(`⚠️ AI 이미지 설명 생성 실패: ${error}`);
+      Logger.warning(`AI 이미지 설명 생성 실패: ${error}`, 'FlutterAnalyzer');
     }
     
     return {
@@ -829,7 +830,7 @@ export class FlutterAnalyzer {
         alternatives: iconAnalysis.alternatives
       };
     } catch (error) {
-      this.log(`⚠️ 아이콘 분석 실패: ${error}`);
+      Logger.warning(`아이콘 분석 실패: ${error}`, 'FlutterAnalyzer');
       
       // 기본값 반환
       return {
@@ -861,34 +862,69 @@ export class FlutterAnalyzer {
 
   private async createInputAccessibilityIssue(widget: DartWidget, cls: DartClass, context: string): Promise<AccessibilityIssue | null> {
     // AI 서비스를 사용하여 구체적인 설명 생성
-    let suggestedLabel = '입력 필드 목적';
+    let aiAnalysis: {
+      hasHintText: boolean;
+      hintText?: string;
+      actualLabel: string;
+      accessibilityType: 'hint_only' | 'label_only' | 'both' | 'neither';
+      suggestedCode: string;
+    } = {
+      hasHintText: false,
+      actualLabel: '입력 필드 목적',
+      accessibilityType: 'neither',
+      suggestedCode: 'Semantics(label: "입력 필드 목적", child: TextField())'
+    };
     
     try {
       const aiDescription = await this.aiService.generateInputDescription(context, cls.file, widget.line);
-      if (aiDescription && aiDescription !== '입력 필드 목적') {
-        suggestedLabel = aiDescription;
-      }
+      aiAnalysis = aiDescription;
     } catch (error) {
-      this.log(`⚠️ AI 입력 필드 설명 생성 실패: ${error}`);
+      Logger.warning(`AI 입력 필드 설명 생성 실패: ${error}`, 'FlutterAnalyzer');
+    }
+    
+    // 접근성 타입에 따른 설명 생성
+    let description = '';
+    let impact = '';
+    let userJourney = '';
+    
+    switch (aiAnalysis.accessibilityType) {
+      case 'hint_only':
+        description = '입력 필드에 hintText만 있고 실제 라벨이 없어 시각장애인이 입력 필드의 목적을 이해하기 어려울 수 있습니다.';
+        impact = 'hintText는 일시적인 안내 텍스트이므로 영구적인 라벨이 필요합니다.';
+        userJourney = '입력 필드는 명확한 라벨과 함께 적절한 hint를 제공해야 합니다.';
+        break;
+      case 'label_only':
+        description = '입력 필드에 라벨은 있지만 사용자 안내를 위한 hint가 부족할 수 있습니다.';
+        impact = '사용자가 입력 필드의 목적을 더 잘 이해할 수 있도록 hint를 추가하는 것이 좋습니다.';
+        userJourney = '입력 필드는 라벨과 함께 사용자 안내를 위한 hint를 제공해야 합니다.';
+        break;
+      case 'both':
+        description = '입력 필드에 라벨과 hint가 모두 있지만 접근성 속성으로 명시되지 않았습니다.';
+        impact = '접근성 도구가 라벨과 hint를 인식할 수 있도록 Semantics 위젯으로 래핑해야 합니다.';
+        userJourney = '입력 필드는 접근성 속성을 통해 라벨과 hint를 명시해야 합니다.';
+        break;
+      case 'neither':
+      default:
+        description = '입력 필드에 의미있는 라벨이 없어 시각장애인이 입력 필드의 목적을 이해하기 어려울 수 있습니다.';
+        impact = '시각장애인이 입력 필드의 목적을 이해하기 어려울 수 있습니다.';
+        userJourney = '입력 필드는 명확한 라벨을 가지고 있어야 합니다.';
+        break;
     }
     
     return {
       id: `issue_${Date.now()}_${Math.random()}`,
       severity: 'medium',
       type: 'missing_semantic_label',
-      description: '입력 필드에 의미있는 라벨이 없어 시각장애인이 입력 필드의 목적을 이해하기 어려울 수 있습니다.',
+      description: description,
       elementType: 'InputField',
       file: cls.file,
       line: widget.line,
       column: widget.column,
-      suggestedLabel: suggestedLabel,
-      suggestedCode: `Semantics(
-  label: "${suggestedLabel}",
-  child: ${widget.name}(),
-)`,
+      suggestedLabel: aiAnalysis.actualLabel,
+      suggestedCode: aiAnalysis.suggestedCode,
       context: context,
-      impact: '시각장애인이 입력 필드의 목적을 이해하기 어려울 수 있습니다.',
-      userJourney: '입력 필드는 명확한 라벨을 가지고 있어야 합니다.'
+      impact: impact,
+      userJourney: userJourney
     };
   }
 
@@ -908,7 +944,7 @@ export class FlutterAnalyzer {
         suggestedLabel = aiDescription;
       }
     } catch (error) {
-      this.log(`⚠️ AI 리스트 설명 생성 실패: ${error}`);
+      Logger.warning(`AI 리스트 설명 생성 실패: ${error}`, 'FlutterAnalyzer');
     }
     
     return {
@@ -946,12 +982,12 @@ export class FlutterAnalyzer {
 
   private async generateUserJourneys(classes: DartClass[], personaCount: number): Promise<UserJourney[]> {
     if (!this.openaiApiKey1 && !this.openaiApiKey2) {
-      this.log('⚠️ OpenAI API 키가 없어 기본 사용자 저니를 생성합니다.');
+      Logger.warning('OpenAI API 키가 없어 기본 사용자 저니를 생성합니다.', 'FlutterAnalyzer');
       return this.generateDefaultUserJourneys(personaCount);
     }
 
     try {
-      this.log('🤖 OpenAI API로 사용자 저니 생성 중...');
+      Logger.info('OpenAI API로 사용자 저니 생성 중...', 'FlutterAnalyzer');
       
       const journeys: UserJourney[] = [];
       const personas = this.getPersonas(personaCount);
@@ -971,8 +1007,8 @@ export class FlutterAnalyzer {
 
       return journeys;
     } catch (error) {
-      this.log(`❌ OpenAI API 호출 실패: ${error}`);
-      this.log('⚠️ 기본 사용자 저니로 대체합니다.');
+      Logger.error(`OpenAI API 호출 실패: ${error}`, 'FlutterAnalyzer');
+      Logger.warning('기본 사용자 저니로 대체합니다.', 'FlutterAnalyzer');
       return this.generateDefaultUserJourneys(personaCount);
     }
   }
@@ -1073,7 +1109,7 @@ ${persona}가 이 앱을 사용할 때 겪을 수 있는 접근성 문제와 개
         };
       }
     } catch (error) {
-      this.log(`⚠️ JSON 파싱 실패: ${error}`);
+      Logger.warning(`JSON 파싱 실패: ${error}`, 'FlutterAnalyzer');
     }
 
     // 파싱 실패 시 기본 구조 반환
@@ -1160,11 +1196,11 @@ ${persona}가 이 앱을 사용할 때 겪을 수 있는 접근성 문제와 개
         Buffer.from(jsonContent, 'utf8')
       );
       
-      this.log(`📄 라벨 분석 JSON 생성: ${outputPath}`);
-      this.log(`📊 총 ${classes.length}개 클래스, ${labelData.totalWidgets}개 위젯 분석 완료`);
+      Logger.info(`라벨 분석 JSON 생성: ${outputPath}`, 'FlutterAnalyzer');
+      Logger.info(`총 ${classes.length}개 클래스, ${labelData.totalWidgets}개 위젯 분석 완료`, 'FlutterAnalyzer');
       
     } catch (error) {
-      this.log(`❌ 라벨 JSON 생성 실패: ${error}`);
+      Logger.error(`라벨 JSON 생성 실패: ${error}`, 'FlutterAnalyzer');
       throw error;
     }
   }
@@ -1178,14 +1214,11 @@ ${persona}가 이 앱을 사용할 때 겪을 수 있는 접근성 문제와 개
       Buffer.from(jsonContent, 'utf8')
     );
     
-    this.log(`📄 분석 결과 저장: ${outputPath}`);
+    Logger.info(`분석 결과 저장: ${outputPath}`, 'FlutterAnalyzer');
   }
 
   private getLineNumber(code: string, index: number): number {
     return code.substring(0, index).split('\n').length;
   }
 
-  private log(message: string): void {
-    this.outputChannel.appendLine(`[FlutterAnalyzer] ${message}`);
-  }
 }

@@ -3,6 +3,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 import { AIService } from './ai-service';
+import { Logger } from '../utils/logger';
 
 export interface IconAnalysis {
   iconName: string;
@@ -152,7 +153,7 @@ export class IconAnalyzer {
   }
 
   async analyzeIcon(iconCode: string, context: string, filePath: string, lineNumber: number): Promise<IconAnalysis> {
-    this.log(`🔍 아이콘 분석 시작: ${iconCode}`);
+    Logger.info(`아이콘 분석 시작: ${iconCode}`, 'IconAnalyzer');
 
     try {
       // 1. Flutter 기본 아이콘인지 확인
@@ -177,7 +178,7 @@ export class IconAnalyzer {
       return await this.analyzeGenericIcon(iconCode, context, filePath, lineNumber);
 
     } catch (error) {
-      this.log(`❌ 아이콘 분석 실패: ${error}`);
+      Logger.error(`아이콘 분석 실패: ${error}`, 'IconAnalyzer');
       return this.createDefaultIconAnalysis(iconCode, context);
     }
   }
@@ -359,7 +360,7 @@ export class IconAnalyzer {
   }
 
   async analyzeImage(imageCode: string, context: string, filePath: string, lineNumber: number): Promise<ImageAnalysis> {
-    this.log(`🖼️ 이미지 분석 시작: ${imageCode}`);
+    Logger.info(`이미지 분석 시작: ${imageCode}`, 'IconAnalyzer');
 
     try {
       // 이미지 경로 추출
@@ -399,7 +400,7 @@ export class IconAnalyzer {
         };
       }
     } catch (error) {
-      this.log(`❌ 이미지 분석 실패: ${error}`);
+      Logger.error(`이미지 분석 실패: ${error}`, 'IconAnalyzer');
       return {
         imagePath: 'unknown',
         imageType: 'asset',
@@ -547,7 +548,7 @@ export class IconAnalyzer {
           }
         }
       } catch (error) {
-        this.log(`⚠️ 아이콘 파일 검색 실패: ${dir}`);
+        Logger.warning(`아이콘 파일 검색 실패: ${dir}`, 'IconAnalyzer');
       }
     };
 
@@ -567,7 +568,7 @@ export class IconAnalyzer {
   async generateIconReport(): Promise<void> {
     try {
       const iconFiles = await this.findIconFiles();
-      this.log(`📁 발견된 아이콘 파일: ${iconFiles.length}개`);
+      Logger.info(`발견된 아이콘 파일: ${iconFiles.length}개`, 'IconAnalyzer');
 
       const report = {
         projectName: path.basename(this.workspaceRoot),
@@ -593,15 +594,12 @@ export class IconAnalyzer {
         Buffer.from(jsonContent, 'utf8')
       );
       
-      this.log(`📄 아이콘 분석 보고서 생성: ${outputPath}`);
+      Logger.info(`아이콘 분석 보고서 생성: ${outputPath}`, 'IconAnalyzer');
       
     } catch (error) {
-      this.log(`❌ 아이콘 보고서 생성 실패: ${error}`);
+      Logger.error(`아이콘 보고서 생성 실패: ${error}`, 'IconAnalyzer');
       throw error;
     }
   }
 
-  private log(message: string): void {
-    this.outputChannel.appendLine(`[IconAnalyzer] ${message}`);
-  }
 }

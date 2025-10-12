@@ -2,6 +2,7 @@ import * as http from 'http';
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
+import { Logger } from '../utils/logger';
 
 export class HttpServer {
   private server: http.Server | null = null;
@@ -20,16 +21,16 @@ export class HttpServer {
         });
 
         this.server.listen(this.port, () => {
-          this.log(`🚀 HTTP 서버가 포트 ${this.port}에서 시작되었습니다.`);
+          Logger.success(`HTTP 서버가 포트 ${this.port}에서 시작되었습니다.`, 'HttpServer');
           resolve();
         });
 
         this.server.on('error', (error) => {
-          this.log(`❌ HTTP 서버 시작 실패: ${error.message}`);
+          Logger.error(`HTTP 서버 시작 실패: ${error.message}`, 'HttpServer');
           reject(error);
         });
       } catch (error) {
-        this.log(`❌ HTTP 서버 생성 실패: ${error}`);
+        Logger.error(`HTTP 서버 생성 실패: ${error}`, 'HttpServer');
         reject(error);
       }
     });
@@ -67,7 +68,7 @@ export class HttpServer {
           const data = JSON.parse(body);
           const { file, line, originalCode, suggestedCode, issueId } = data;
 
-          this.log(`📝 코드 수정 요청: ${file}:${line}`);
+          Logger.info(`코드 수정 요청: ${file}:${line}`, 'HttpServer');
 
           // 파일 경로 확인
           const workspaceFolders = vscode.workspace.workspaceFolders;
@@ -130,7 +131,7 @@ export class HttpServer {
               changes: result.changes
             }));
 
-            this.log(`✅ 코드 수정 완료: ${file}:${line}`);
+            Logger.success(`코드 수정 완료: ${file}:${line}`, 'HttpServer');
           } else {
             res.writeHead(400, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ 
@@ -139,7 +140,7 @@ export class HttpServer {
             }));
           }
         } catch (parseError) {
-          this.log(`❌ JSON 파싱 오류: ${parseError}`);
+          Logger.error(`JSON 파싱 오류: ${parseError}`, 'HttpServer');
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ 
             success: false, 
@@ -148,7 +149,7 @@ export class HttpServer {
         }
       });
     } catch (error) {
-      this.log(`❌ 코드 수정 처리 오류: ${error}`);
+      Logger.error(`코드 수정 처리 오류: ${error}`, 'HttpServer');
       res.writeHead(500, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ 
         success: false, 
@@ -248,12 +249,12 @@ export class HttpServer {
             fs.unlinkSync(tempOriginalFile);
           }
         } catch (error) {
-          this.log(`⚠️ 임시 파일 정리 실패: ${error}`);
+          Logger.warning(`임시 파일 정리 실패: ${error}`, 'HttpServer');
         }
       }, 5000);
 
     } catch (error) {
-      this.log(`❌ diff 뷰 생성 실패: ${error}`);
+      Logger.error(`diff 뷰 생성 실패: ${error}`, 'HttpServer');
       // diff 뷰 실패 시 기본 파일 열기
       await this.openFileInEditor(filePath, lineNumber);
     }
@@ -268,7 +269,7 @@ export class HttpServer {
       const position = new vscode.Position(lineNumber - 1, 0);
       editor.revealRange(new vscode.Range(position, position));
     } catch (error) {
-      this.log(`❌ 파일 열기 실패: ${error}`);
+      Logger.error(`파일 열기 실패: ${error}`, 'HttpServer');
     }
   }
 
@@ -304,21 +305,17 @@ ${changes.suggestedCode}
       });
 
     } catch (error) {
-      this.log(`❌ 변경사항 요약 표시 실패: ${error}`);
+      Logger.error(`변경사항 요약 표시 실패: ${error}`, 'HttpServer');
     }
   }
 
   stopServer(): void {
     if (this.server) {
       this.server.close(() => {
-        this.log('🛑 HTTP 서버가 중지되었습니다.');
+        Logger.info('HTTP 서버가 중지되었습니다.', 'HttpServer');
       });
       this.server = null;
     }
   }
 
-  private log(message: string): void {
-    this.outputChannel.appendLine(`[HTTP Server] ${message}`);
-    console.log(`[HTTP Server] ${message}`);
-  }
 }
