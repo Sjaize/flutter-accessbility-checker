@@ -7,5 +7,12 @@
 		"out": true // set this to false to include "out" folder in search results
 	},
 	// Turn off tsc task auto detection since we have the necessary tasks as npm scripts
-	"typescript.tsc.autoDetect": "off"
+	"typescript.tsc.autoDetect": "off",
+	// Extension development specific settings
+	"extensions.autoUpdate": false,
+	"workbench.startupEditor": "none",
+	"window.openFoldersInNewWindow": "off",
+	"debug.console.acceptSuggestionOnEnter": "off",
+	"debug.console.fontSize": 14,
+	"debug.console.lineHeight": 22
 }
