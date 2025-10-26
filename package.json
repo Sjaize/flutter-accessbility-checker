@@ -11,48 +11,21 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:flutter-accessibility.startAnalysis"
+    "onCommand:flutter-accessibility.test"
   ],
-  "main": "./out/extension.js",
+  "main": "./out/extension-minimal.js",
   "contributes": {
     "commands": [
       {
-        "command": "flutter-accessibility.startAnalysis",
-        "title": "Start Accessibility Analysis",
-        "category": "Flutter Accessibility"
-      },
-      {
-        "command": "flutter-accessibility.stopAnalysis",
-        "title": "Stop Accessibility Analysis",
-        "category": "Flutter Accessibility"
-      },
-      {
-        "command": "flutter-accessibility.showReport",
-        "title": "Show Analysis Report",
-        "category": "Flutter Accessibility"
-      },
-      {
-        "command": "flutter-accessibility.analyzeLabels",
-        "title": "Analyze Labels Only",
+        "command": "flutter-accessibility.test",
+        "title": "Test Command",
         "category": "Flutter Accessibility"
       }
     ],
     "menus": {
       "commandPalette": [
         {
-          "command": "flutter-accessibility.startAnalysis",
-          "when": "workspaceFolderCount > 0"
-        },
-        {
-          "command": "flutter-accessibility.stopAnalysis",
-          "when": "workspaceFolderCount > 0"
-        },
-        {
-          "command": "flutter-accessibility.showReport",
-          "when": "workspaceFolderCount > 0"
-        },
-        {
-          "command": "flutter-accessibility.analyzeLabels",
+          "command": "flutter-accessibility.test",
           "when": "workspaceFolderCount > 0"
         }
       ]

@@ -23,7 +23,7 @@ let flutterRunner: FlutterRunner;
 let currentAnalysis: ProjectAnalysis | null = null;
 
 export async function activate(context: vscode.ExtensionContext) {
-  Logger.success('Flutter Accessibility Checker 확장 프로그램이 활성화되었습니다.');
+  console.log('Flutter Accessibility Checker extension activated');
 
   try {
     // 출력 채널 초기화
@@ -36,28 +36,28 @@ export async function activate(context: vscode.ExtensionContext) {
     // 환경 변수 검증
     const apiKeysValid = validateApiKeys();
     if (!apiKeysValid) {
-      Logger.warning('OpenAI API 키가 설정되지 않았습니다. AI 기능이 제한됩니다.');
-      vscode.window.showWarningMessage('OpenAI API 키가 설정되지 않았습니다. AI 기능을 사용하려면 .env 파일을 설정해주세요.');
+      console.warn('OpenAI API key not configured');
+      vscode.window.showWarningMessage('OpenAI API key not configured');
     } else {
-      Logger.success('API 키가 설정되었습니다.');
+      console.log('API key configured');
     }
 
     // 워크스페이스 확인
     const workspaceFolders = vscode.workspace.workspaceFolders;
     if (!workspaceFolders || workspaceFolders.length === 0) {
-      const message = 'Flutter 프로젝트를 VS Code에서 열어주세요.';
-      Logger.error(message);
+      const message = 'Please open a Flutter project in VS Code';
+      console.error(message);
       vscode.window.showErrorMessage(message);
       return;
     }
 
     const workspaceRoot = workspaceFolders[0].uri.fsPath;
-    Logger.info(`워크스페이스: ${workspaceRoot}`);
+    console.log(`Workspace: ${workspaceRoot}`);
 
     // Flutter 프로젝트 검증
     if (!isFlutterProject(workspaceRoot)) {
-      const message = '현재 폴더가 Flutter 프로젝트가 아닙니다. pubspec.yaml 파일을 확인해주세요.';
-      Logger.error(message);
+      const message = 'Current folder is not a Flutter project';
+      console.error(message);
       vscode.window.showErrorMessage(message);
       return;
     }
@@ -68,13 +68,13 @@ export async function activate(context: vscode.ExtensionContext) {
     // 명령어 등록
     registerCommands(context);
 
-    Logger.success('확장 프로그램 초기화 완료');
-    vscode.window.showInformationMessage('Flutter Accessibility Checker가 준비되었습니다!');
+    console.log('Extension initialization completed');
+    vscode.window.showInformationMessage('Flutter Accessibility Checker is ready!');
 
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    const message = `확장 프로그램 초기화 실패: ${errorMessage}`;
-    Logger.error(message);
+    const message = `Extension initialization failed: ${errorMessage}`;
+    console.error(message);
     vscode.window.showErrorMessage(message);
   }
 }
