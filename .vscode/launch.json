@@ -10,64 +10,12 @@
 			"type": "extensionHost",
 			"request": "launch",
 			"args": [
-				"--extensionDevelopmentPath=${workspaceFolder}",
-				"--disable-extensions",
-				"--disable-gpu",
-				"--no-sandbox",
-				"--disable-web-security"
+				"--extensionDevelopmentPath=${workspaceFolder}"
 			],
 			"outFiles": [
 				"${workspaceFolder}/out/**/*.js"
 			],
-			"preLaunchTask": "${defaultBuildTask}",
-			"env": {
-				"VSCODE_DEV": "1",
-				"ELECTRON_DISABLE_SECURITY_WARNINGS": "1"
-			}
-		},
-		{
-			"name": "Run Extension (Debug)",
-			"type": "extensionHost",
-			"request": "launch",
-			"args": [
-				"--extensionDevelopmentPath=${workspaceFolder}",
-				"--disable-extensions",
-				"--disable-gpu",
-				"--no-sandbox",
-				"--disable-web-security",
-				"--enable-proposed-api"
-			],
-			"outFiles": [
-				"${workspaceFolder}/out/**/*.js"
-			],
-			"preLaunchTask": "${defaultBuildTask}",
-			"env": {
-				"VSCODE_DEV": "1",
-				"ELECTRON_DISABLE_SECURITY_WARNINGS": "1"
-			},
-			"console": "integratedTerminal"
-		},
-		{
-			"name": "Run Extension (Legacy)",
-			"type": "extensionHost",
-			"request": "launch",
-			"args": [
-				"--extensionDevelopmentPath=${workspaceFolder}",
-				"--disable-extensions",
-				"--disable-gpu",
-				"--no-sandbox",
-				"--disable-web-security",
-				"--disable-features=VizDisplayCompositor"
-			],
-			"outFiles": [
-				"${workspaceFolder}/out/**/*.js"
-			],
-			"preLaunchTask": "${defaultBuildTask}",
-			"env": {
-				"VSCODE_DEV": "1",
-				"ELECTRON_DISABLE_SECURITY_WARNINGS": "1",
-				"VSCODE_NLS_CONFIG": "{}"
-			}
+			"preLaunchTask": "${defaultBuildTask}"
 		}
 	]
 }
