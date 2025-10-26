@@ -5,10 +5,7 @@
   "description": "VS Code extension for Flutter accessibility analysis and code suggestions",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.80.0"
-  },
-  "nls": {
-    "en": "./package.nls.json"
+    "vscode": "^1.74.0"
   },
   "categories": [
     "Other"
@@ -21,23 +18,23 @@
     "commands": [
       {
         "command": "flutter-accessibility.startAnalysis",
-        "title": "%command.startAnalysis.title%",
-        "category": "%category.flutterAccessibility%"
+        "title": "Start Accessibility Analysis",
+        "category": "Flutter Accessibility"
       },
       {
         "command": "flutter-accessibility.stopAnalysis",
-        "title": "%command.stopAnalysis.title%",
-        "category": "%category.flutterAccessibility%"
+        "title": "Stop Accessibility Analysis",
+        "category": "Flutter Accessibility"
       },
       {
         "command": "flutter-accessibility.showReport",
-        "title": "%command.showReport.title%",
-        "category": "%category.flutterAccessibility%"
+        "title": "Show Analysis Report",
+        "category": "Flutter Accessibility"
       },
       {
         "command": "flutter-accessibility.analyzeLabels",
-        "title": "%command.analyzeLabels.title%",
-        "category": "%category.flutterAccessibility%"
+        "title": "Analyze Labels Only",
+        "category": "Flutter Accessibility"
       }
     ],
     "menus": {
@@ -62,8 +59,7 @@
     }
   },
   "dependencies": {
-    "dotenv": "^16.3.1",
-    "vscode-nls": "^5.2.0"
+    "dotenv": "^16.3.1"
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

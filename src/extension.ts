@@ -8,9 +8,6 @@ import { FlutterRunner } from './services/flutter-runner';
 import { ProjectAnalysis } from './types/accessibility';
 import { Logger } from './utils/logger';
 
-// NLS (National Language Support) 초기화
-import * as nls from 'vscode-nls';
-const localize = nls.config({ messageFormat: nls.MessageFormat.file })();
 
 // 환경 변수 로드 (확장 프로그램 루트에서)
 import * as dotenv from 'dotenv';
