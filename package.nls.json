@@ -1,0 +1,9 @@
+{
+  "extension.displayName": "Flutter Accessibility Checker",
+  "extension.description": "VS Code extension for Flutter accessibility analysis and code suggestions",
+  "command.startAnalysis.title": "Start Accessibility Analysis",
+  "command.stopAnalysis.title": "Stop Accessibility Analysis",
+  "command.showReport.title": "Show Analysis Report",
+  "command.analyzeLabels.title": "Analyze Labels Only",
+  "category.flutterAccessibility": "Flutter Accessibility"
+}

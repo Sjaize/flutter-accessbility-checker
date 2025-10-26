@@ -1,74 +1,56 @@
 {
-  "projectName": "baemin_new",
+  "projectName": "baemin_new_flutter",
   "totalFiles": 28,
   "totalClasses": 25,
-  "totalWidgets": 297,
+  "totalWidgets": 287,
   "accessibilityIssues": [
     {
-      "id": "issue_1758637356560_0.9146202942187052",
+      "id": "issue_1761450559348_0.3186127526728697",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "elementType": "Button",
       "file": "lib/screens/address_edit_screen.dart",
-      "line": 71,
+      "line": 21,
       "column": 18,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "해당 버튼은 '저장 버튼'을 나타냅니다.",
-      "suggestedCode": "Semantics(\n  label: \"해당 버튼은 '저장 버튼'을 나타냅니다.\",\n  child: Button(),\n)",
-      "context": "initState - ...",
+      "suggestedLabel": "저장 버튼",
+      "suggestedCode": "Semantics(\n  label: \"저장 버튼\",\n  child: Button(),\n)",
+      "context": "build - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637358203_0.24980961957016667",
+      "id": "issue_1761450560880_0.4132194760635728",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "elementType": "Button",
       "file": "lib/screens/address_edit_screen.dart",
-      "line": 295,
-      "column": 18,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "주소 검색 버튼",
-      "suggestedCode": "Semantics(\n  label: \"주소 검색 버튼\",\n  child: Button(),\n)",
-      "context": "_openDaumPostcode - ...",
+      "line": 191,
+      "column": 13,
+      "suggestedLabel": "주소 삭제 다이얼로그를 열기 위한 버튼입니다.",
+      "suggestedCode": "Semantics(\n  label: \"주소 삭제 다이얼로그를 열기 위한 버튼입니다.\",\n  child: Button(),\n)",
+      "context": "_showDeleteDialog - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637360960_0.8581149645507167",
+      "id": "issue_1761450562995_0.3524586224440285",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "elementType": "Button",
       "file": "lib/screens/address_edit_screen.dart",
-      "line": 537,
-      "column": 14,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "죄송합니다. 제공해주신 정보만으로는 해당 버튼이 어떤 기능을 나타내는지 명확하게 이해할 수 없습니다. 만약 버튼이 어떤 기능을 수행하는지 추가 정보를 제공해주시면, 해당 버튼에 대한 구체적인 접근성 설명을 제공해드릴 수 있을 것입니다. 필요하신 경우 추가 정보를 알려주시면 도와드리겠습니다.",
-      "suggestedCode": "Semantics(\n  label: \"죄송합니다. 제공해주신 정보만으로는 해당 버튼이 어떤 기능을 나타내는지 명확하게 이해할 수 없습니다. 만약 버튼이 어떤 기능을 수행하는지 추가 정보를 제공해주시면, 해당 버튼에 대한 구체적인 접근성 설명을 제공해드릴 수 있을 것입니다. 필요하신 경우 추가 정보를 알려주시면 도와드리겠습니다.\",\n  child: Button(),\n)",
-      "context": "_buildInfoText - ...",
+      "line": 195,
+      "column": 13,
+      "suggestedLabel": "삭제 다이얼로그 표시 버튼",
+      "suggestedCode": "Semantics(\n  label: \"삭제 다이얼로그 표시 버튼\",\n  child: Button(),\n)",
+      "context": "_showDeleteDialog - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637362233_0.028585420484462443",
+      "id": "issue_1761450563956_0.1702760571594537",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -76,20 +58,14 @@
       "file": "lib/screens/address_modify_screen.dart",
       "line": 93,
       "column": 18,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "지도 보기 버튼",
-      "suggestedCode": "Semantics(\n  label: \"지도 보기 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "지도 생성 버튼",
+      "suggestedCode": "Semantics(\n  label: \"지도 생성 버튼\",\n  child: Button(),\n)",
       "context": "_createMapIframe - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637363844_0.8134130298995765",
+      "id": "issue_1761450566001_0.22261650221555507",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -97,12 +73,6 @@
       "file": "lib/screens/address_modify_screen.dart",
       "line": 409,
       "column": 18,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "주소 저장 버튼",
       "suggestedCode": "Semantics(\n  label: \"주소 저장 버튼\",\n  child: Button(),\n)",
       "context": "_buildAddressSection - ...",
@@ -110,7 +80,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637365219_0.5103645724259631",
+      "id": "issue_1761450567020_0.013752070419452256",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -118,12 +88,6 @@
       "file": "lib/screens/address_modify_screen.dart",
       "line": 655,
       "column": 14,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "주소 수정 완료 버튼",
       "suggestedCode": "Semantics(\n  label: \"주소 수정 완료 버튼\",\n  child: Button(),\n)",
       "context": "_buildInfoText - ...",
@@ -131,7 +95,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637367105_0.5582967831000358",
+      "id": "issue_1761450567687_0.18320585303932369",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -139,12 +103,6 @@
       "file": "lib/screens/address_setting_screen.dart",
       "line": 23,
       "column": 18,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "주소 저장 버튼",
       "suggestedCode": "Semantics(\n  label: \"주소 저장 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
@@ -152,7 +110,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637367820_0.9418497073179488",
+      "id": "issue_1761450568484_0.4247027942229904",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -160,12 +118,6 @@
       "file": "lib/screens/address_setting_screen.dart",
       "line": 36,
       "column": 11,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "주소 저장 버튼",
       "suggestedCode": "Semantics(\n  label: \"주소 저장 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
@@ -173,7 +125,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637369352_0.8602571058008177",
+      "id": "issue_1761450569390_0.49295177889497577",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -181,20 +133,14 @@
       "file": "lib/screens/cart_screen.dart",
       "line": 103,
       "column": 16,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "주문 완료하기 버튼",
-      "suggestedCode": "Semantics(\n  label: \"주문 완료하기 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "주문 완료 버튼",
+      "suggestedCode": "Semantics(\n  label: \"주문 완료 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637370357_0.7854900230614263",
+      "id": "issue_1761450570349_0.7978978002361863",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -202,12 +148,6 @@
       "file": "lib/screens/cart_screen.dart",
       "line": 116,
       "column": 9,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "주문 완료 버튼",
       "suggestedCode": "Semantics(\n  label: \"주문 완료 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
@@ -215,7 +155,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637370995_0.01407743557966512",
+      "id": "issue_1761450571164_0.5507908162870243",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -223,12 +163,6 @@
       "file": "lib/screens/cart_screen.dart",
       "line": 236,
       "column": 13,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "주문 완료 버튼",
       "suggestedCode": "Semantics(\n  label: \"주문 완료 버튼\",\n  child: Button(),\n)",
       "context": "_buildCartItems - ...",
@@ -236,7 +170,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637371732_0.49144097755241334",
+      "id": "issue_1761450572448_0.555303670196557",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -244,12 +178,6 @@
       "file": "lib/screens/cart_screen.dart",
       "line": 306,
       "column": 20,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "상품 삭제 버튼",
       "suggestedCode": "Semantics(\n  label: \"상품 삭제 버튼\",\n  child: Button(),\n)",
       "context": "CartItemCard - ...",
@@ -257,7 +185,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637373088_0.5071032805243756",
+      "id": "issue_1761450573044_0.990033625788951",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -265,20 +193,14 @@
       "file": "lib/screens/cart_screen.dart",
       "line": 634,
       "column": 11,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "구매 확정 버튼",
-      "suggestedCode": "Semantics(\n  label: \"구매 확정 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "주문 완료 버튼",
+      "suggestedCode": "Semantics(\n  label: \"주문 완료 버튼\",\n  child: Button(),\n)",
       "context": "unknown_method - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637374440_0.055896379645950844",
+      "id": "issue_1761450574659_0.25633003691535494",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -286,12 +208,6 @@
       "file": "lib/screens/favorites_screen.dart",
       "line": 46,
       "column": 11,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "즐겨찾기 추가 버튼",
       "suggestedCode": "Semantics(\n  label: \"즐겨찾기 추가 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
@@ -299,7 +215,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637375606_0.5302964487918389",
+      "id": "issue_1761450576453_0.20399791413618762",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -307,20 +223,14 @@
       "file": "lib/screens/home_screen.dart",
       "line": 101,
       "column": 9,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "뒤로 가기 버튼",
-      "suggestedCode": "Semantics(\n  label: \"뒤로 가기 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "제공된 정보만으로는 버튼이 어떤 기능을 나타내는지 명확하게 판단할 수 없습니다. 코드 컨텍스트를 더 자세히 살펴봐야 합니다. 코드를 확인하여 해당 버튼이 나타내는 기능에 대한 정보를 제공해주시면, 더 나은 접근성 설명을 제공해드릴 수 있습니다.",
+      "suggestedCode": "Semantics(\n  label: \"제공된 정보만으로는 버튼이 어떤 기능을 나타내는지 명확하게 판단할 수 없습니다. 코드 컨텍스트를 더 자세히 살펴봐야 합니다. 코드를 확인하여 해당 버튼이 나타내는 기능에 대한 정보를 제공해주시면, 더 나은 접근성 설명을 제공해드릴 수 있습니다.\",\n  child: Button(),\n)",
       "context": "_buildAppBar - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637376332_0.5378077030822745",
+      "id": "issue_1761450576950_0.0809007143002376",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -328,20 +238,14 @@
       "file": "lib/screens/home_screen.dart",
       "line": 110,
       "column": 9,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "주소 입력 버튼",
-      "suggestedCode": "Semantics(\n  label: \"주소 입력 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "주소 검색 버튼입니다.",
+      "suggestedCode": "Semantics(\n  label: \"주소 검색 버튼입니다.\",\n  child: Button(),\n)",
       "context": "_buildAddressButton - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637378369_0.42787902238566566",
+      "id": "issue_1761450577580_0.7478303462212541",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -349,20 +253,14 @@
       "file": "lib/screens/home_screen.dart",
       "line": 117,
       "column": 13,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "주소 입력 버튼",
-      "suggestedCode": "Semantics(\n  label: \"주소 입력 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "주소 추가 버튼",
+      "suggestedCode": "Semantics(\n  label: \"주소 추가 버튼\",\n  child: Button(),\n)",
       "context": "_buildAddressButton - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637379796_0.7103548431716462",
+      "id": "issue_1761450578284_0.6432224583955428",
       "severity": "high",
       "type": "missing_alt_text",
       "description": "이미지에 대체 텍스트가 없어 시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.",
@@ -370,20 +268,14 @@
       "file": "lib/screens/menu_option_screen.dart",
       "line": 106,
       "column": 20,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 200,
-        "height": 150
-      },
-      "suggestedLabel": "_validate",
-      "suggestedCode": "Image.network(\n  'image_url',\n  semanticLabel: \"_validate\",\n)",
+      "suggestedLabel": "해당 이미지는 '유효성 검사 아이콘'을 나타냅니다.",
+      "suggestedCode": "Image.network(\n  'image_url',\n  semanticLabel: \"해당 이미지는 '유효성 검사 아이콘'을 나타냅니다.\",\n)",
       "context": "_validate - ...",
       "impact": "시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.",
       "userJourney": "이미지는 명확한 라벨 또는 대체 텍스트를 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637380723_0.06776449505154813",
+      "id": "issue_1761450579219_0.21165921443881586",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -391,20 +283,14 @@
       "file": "lib/screens/menu_option_screen.dart",
       "line": 89,
       "column": 18,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "확인 버튼",
-      "suggestedCode": "Semantics(\n  label: \"확인 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "_validate",
+      "suggestedCode": "Semantics(\n  label: \"_validate\",\n  child: Button(),\n)",
       "context": "_validate - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637381442_0.34212338323030567",
+      "id": "issue_1761450580414_0.7669712510376778",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -412,20 +298,14 @@
       "file": "lib/screens/menu_option_screen.dart",
       "line": 237,
       "column": 9,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "_containerQuantity 버튼은 수량을 조절하는 버튼입니다.",
-      "suggestedCode": "Semantics(\n  label: \"_containerQuantity 버튼은 수량을 조절하는 버튼입니다.\",\n  child: Button(),\n)",
+      "suggestedLabel": "_containerQuantity는 수량을 증가시키는 버튼입니다.",
+      "suggestedCode": "Semantics(\n  label: \"_containerQuantity는 수량을 증가시키는 버튼입니다.\",\n  child: Button(),\n)",
       "context": "_containerQuantity - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637381966_0.8313451493728232",
+      "id": "issue_1761450581031_0.27562133814854883",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -433,20 +313,14 @@
       "file": "lib/screens/menu_option_screen.dart",
       "line": 250,
       "column": 9,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "_containerQuantity 버튼은 수량을 조절하는 버튼입니다.",
-      "suggestedCode": "Semantics(\n  label: \"_containerQuantity 버튼은 수량을 조절하는 버튼입니다.\",\n  child: Button(),\n)",
+      "suggestedLabel": "_containerQuantity 버튼은 수량을 증가시키는 버튼입니다.",
+      "suggestedCode": "Semantics(\n  label: \"_containerQuantity 버튼은 수량을 증가시키는 버튼입니다.\",\n  child: Button(),\n)",
       "context": "_containerQuantity - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637383163_0.3982497335921138",
+      "id": "issue_1761450582247_0.12896795749008194",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -454,20 +328,14 @@
       "file": "lib/screens/menu_option_screen.dart",
       "line": 273,
       "column": 9,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "수량 추가 버튼",
-      "suggestedCode": "Semantics(\n  label: \"수량 추가 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "_containerQuantity 버튼은 수량을 증가시키는 버튼입니다.",
+      "suggestedCode": "Semantics(\n  label: \"_containerQuantity 버튼은 수량을 증가시키는 버튼입니다.\",\n  child: Button(),\n)",
       "context": "_containerQuantity - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637383797_0.7958354328788926",
+      "id": "issue_1761450583156_0.4280779408830009",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -475,20 +343,14 @@
       "file": "lib/screens/order_screen.dart",
       "line": 61,
       "column": 16,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "주문하기 버튼",
-      "suggestedCode": "Semantics(\n  label: \"주문하기 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "주문 완료 버튼",
+      "suggestedCode": "Semantics(\n  label: \"주문 완료 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637384862_0.5219980682769749",
+      "id": "issue_1761450583897_0.7714036153194859",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -496,20 +358,14 @@
       "file": "lib/screens/order_screen.dart",
       "line": 74,
       "column": 9,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "죄송합니다. 코드 라인 정보만 가지고는 해당 버튼이 어떤 기능을 나타내는지 파악할 수 없습니다. 해당 버튼이 어떤 기능을 수행하는지 더 자세한 설명이 있으면 제가 도와드릴 수 있을 것 같습니다.",
-      "suggestedCode": "Semantics(\n  label: \"죄송합니다. 코드 라인 정보만 가지고는 해당 버튼이 어떤 기능을 나타내는지 파악할 수 없습니다. 해당 버튼이 어떤 기능을 수행하는지 더 자세한 설명이 있으면 제가 도와드릴 수 있을 것 같습니다.\",\n  child: Button(),\n)",
+      "suggestedLabel": "주문 완료 버튼",
+      "suggestedCode": "Semantics(\n  label: \"주문 완료 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637385436_0.5571657124532552",
+      "id": "issue_1761450584514_0.32744776981411894",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -517,12 +373,6 @@
       "file": "lib/screens/order_screen.dart",
       "line": 654,
       "column": 11,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "주문 완료 버튼",
       "suggestedCode": "Semantics(\n  label: \"주문 완료 버튼\",\n  child: Button(),\n)",
       "context": "_buildBottomBar - ...",
@@ -530,7 +380,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637386846_0.05924594596121202",
+      "id": "issue_1761450585425_0.45371042311170395",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -538,20 +388,14 @@
       "file": "lib/screens/order_screen.dart",
       "line": 689,
       "column": 11,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "제가 제공하는 정보만으로는 버튼의 기능에 대한 설명이 부족하여 정확한 답변을 제공하기 어렵습니다. 해당 버튼이 수행하는 작업이나 버튼에 표시된 텍스트 등 더 많은 정보를 제공해주시면 더 정확한 접근성 설명을 제공할 수 있을 것입니다. 혹은 해당 버튼이 있는 화면의 스크린샷을 제공해주시면 도움이 될 것입니다.",
-      "suggestedCode": "Semantics(\n  label: \"제가 제공하는 정보만으로는 버튼의 기능에 대한 설명이 부족하여 정확한 답변을 제공하기 어렵습니다. 해당 버튼이 수행하는 작업이나 버튼에 표시된 텍스트 등 더 많은 정보를 제공해주시면 더 정확한 접근성 설명을 제공할 수 있을 것입니다. 혹은 해당 버튼이 있는 화면의 스크린샷을 제공해주시면 도움이 될 것입니다.\",\n  child: Button(),\n)",
+      "suggestedLabel": "주문 완료 버튼",
+      "suggestedCode": "Semantics(\n  label: \"주문 완료 버튼\",\n  child: Button(),\n)",
       "context": "_getSubtotal - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637388224_0.1703272657796766",
+      "id": "issue_1761450585994_0.9174334766161698",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -559,20 +403,14 @@
       "file": "lib/screens/order_screen.dart",
       "line": 719,
       "column": 11,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "_getSubtotal",
-      "suggestedCode": "Semantics(\n  label: \"_getSubtotal\",\n  child: Button(),\n)",
+      "suggestedLabel": "주문 확인 버튼.",
+      "suggestedCode": "Semantics(\n  label: \"주문 확인 버튼.\",\n  child: Button(),\n)",
       "context": "_getSubtotal - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637389119_0.3298351097622565",
+      "id": "issue_1761450586847_0.6756727928334205",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -580,20 +418,14 @@
       "file": "lib/screens/order_screen.dart",
       "line": 723,
       "column": 11,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "해당 코드 라인에 있는 버튼은 부분 합계를 계산하는 기능을 나타냅니다.",
-      "suggestedCode": "Semantics(\n  label: \"해당 코드 라인에 있는 버튼은 부분 합계를 계산하는 기능을 나타냅니다.\",\n  child: Button(),\n)",
+      "suggestedLabel": "주문 화면의 _getSubtotal 버튼은 주문 총액을 계산하는 버튼입니다.",
+      "suggestedCode": "Semantics(\n  label: \"주문 화면의 _getSubtotal 버튼은 주문 총액을 계산하는 버튼입니다.\",\n  child: Button(),\n)",
       "context": "_getSubtotal - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637389775_0.2384416176359907",
+      "id": "issue_1761450587646_0.7441631089763543",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -601,12 +433,6 @@
       "file": "lib/screens/order_screen.dart",
       "line": 818,
       "column": 13,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "주문 완료 버튼",
       "suggestedCode": "Semantics(\n  label: \"주문 완료 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
@@ -614,7 +440,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637390480_0.49816228029741416",
+      "id": "issue_1761450588566_0.10561616459475287",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -622,12 +448,6 @@
       "file": "lib/screens/order_screen.dart",
       "line": 818,
       "column": 13,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "주문 완료 버튼",
       "suggestedCode": "Semantics(\n  label: \"주문 완료 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
@@ -635,7 +455,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637391480_0.5213160253947853",
+      "id": "issue_1761450589103_0.46836445593767007",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -643,12 +463,6 @@
       "file": "lib/screens/orders_screen.dart",
       "line": 46,
       "column": 11,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "주문 확인 버튼",
       "suggestedCode": "Semantics(\n  label: \"주문 확인 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
@@ -656,7 +470,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637392046_0.9017530810857632",
+      "id": "issue_1761450590001_0.4247007371560938",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -664,20 +478,14 @@
       "file": "lib/screens/restaurant_detail_screen.dart",
       "line": 63,
       "column": 16,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "리뷰 작성 버튼",
-      "suggestedCode": "Semantics(\n  label: \"리뷰 작성 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "음식 주문하기 버튼",
+      "suggestedCode": "Semantics(\n  label: \"음식 주문하기 버튼\",\n  child: Button(),\n)",
       "context": "initState - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637392905_0.6590561620440367",
+      "id": "issue_1761450590794_0.8101011310887978",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -685,20 +493,14 @@
       "file": "lib/screens/restaurant_detail_screen.dart",
       "line": 76,
       "column": 9,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "리뷰 작성 버튼",
-      "suggestedCode": "Semantics(\n  label: \"리뷰 작성 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "음식점 상세 정보 보기",
+      "suggestedCode": "Semantics(\n  label: \"음식점 상세 정보 보기\",\n  child: Button(),\n)",
       "context": "initState - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637393569_0.5376606917901314",
+      "id": "issue_1761450592496_0.47031353215765925",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -706,12 +508,6 @@
       "file": "lib/screens/restaurant_detail_screen.dart",
       "line": 82,
       "column": 13,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "리뷰 작성 버튼",
       "suggestedCode": "Semantics(\n  label: \"리뷰 작성 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
@@ -719,7 +515,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637394313_0.3661879881649972",
+      "id": "issue_1761450593679_0.3600289724677048",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -727,20 +523,14 @@
       "file": "lib/screens/restaurant_detail_screen.dart",
       "line": 121,
       "column": 9,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "식당 예약하기 버튼",
-      "suggestedCode": "Semantics(\n  label: \"식당 예약하기 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "죄송합니다. 코드 컨텍스트가 충분하지 않아서 해당 버튼이 나타내는 기능을 알 수 없습니다. 코드를 더 자세히 제공해주시면 해당 버튼에 대한 구체적인 설명을 제공해드릴 수 있을 것입니다. 감사합니다.",
+      "suggestedCode": "Semantics(\n  label: \"죄송합니다. 코드 컨텍스트가 충분하지 않아서 해당 버튼이 나타내는 기능을 알 수 없습니다. 코드를 더 자세히 제공해주시면 해당 버튼에 대한 구체적인 설명을 제공해드릴 수 있을 것입니다. 감사합니다.\",\n  child: Button(),\n)",
       "context": "unknown_method - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637395032_0.6299650023562968",
+      "id": "issue_1761450594536_0.4572763821864707",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -748,20 +538,14 @@
       "file": "lib/screens/restaurant_detail_screen.dart",
       "line": 125,
       "column": 9,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "음식 메뉴 주문하기 버튼",
-      "suggestedCode": "Semantics(\n  label: \"음식 메뉴 주문하기 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "음식 메뉴 주문 버튼",
+      "suggestedCode": "Semantics(\n  label: \"음식 메뉴 주문 버튼\",\n  child: Button(),\n)",
       "context": "unknown_method - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637395879_0.8412533009668697",
+      "id": "issue_1761450595206_0.0754919324129979",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -769,20 +553,14 @@
       "file": "lib/screens/restaurant_detail_screen.dart",
       "line": 518,
       "column": 11,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "주문하기 버튼",
-      "suggestedCode": "Semantics(\n  label: \"주문하기 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "리뷰 작성 버튼",
+      "suggestedCode": "Semantics(\n  label: \"리뷰 작성 버튼\",\n  child: Button(),\n)",
       "context": "_buildBottomBar - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637396794_0.9295845757596388",
+      "id": "issue_1761450596040_0.2618751699502846",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -790,12 +568,6 @@
       "file": "lib/screens/search_results_screen.dart",
       "line": 72,
       "column": 16,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "검색 버튼",
       "suggestedCode": "Semantics(\n  label: \"검색 버튼\",\n  child: Button(),\n)",
       "context": "initState - ...",
@@ -803,7 +575,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637397542_0.31888466096882584",
+      "id": "issue_1761450596751_0.03428153350197283",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -811,12 +583,6 @@
       "file": "lib/screens/search_results_screen.dart",
       "line": 85,
       "column": 9,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "검색 버튼",
       "suggestedCode": "Semantics(\n  label: \"검색 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
@@ -824,7 +590,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637398378_0.659624109289012",
+      "id": "issue_1761450598039_0.45881250441099564",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -832,12 +598,6 @@
       "file": "lib/screens/search_results_screen.dart",
       "line": 91,
       "column": 13,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "검색 결과 정렬 버튼",
       "suggestedCode": "Semantics(\n  label: \"검색 결과 정렬 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
@@ -845,7 +605,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637399312_0.04760443666780745",
+      "id": "issue_1761450598664_0.336166044574983",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -853,20 +613,14 @@
       "file": "lib/widgets/address_banner.dart",
       "line": 44,
       "column": 11,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "주소 추가 버튼",
-      "suggestedCode": "Semantics(\n  label: \"주소 추가 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "주소 검색 버튼",
+      "suggestedCode": "Semantics(\n  label: \"주소 검색 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637400589_0.6289943484434395",
+      "id": "issue_1761450599693_0.5527425627130842",
       "severity": "high",
       "type": "missing_alt_text",
       "description": "이미지에 대체 텍스트가 없어 시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.",
@@ -874,20 +628,14 @@
       "file": "lib/widgets/cart_item_card.dart",
       "line": 99,
       "column": 26,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 200,
-        "height": 150
-      },
-      "suggestedLabel": "제품 이미지",
-      "suggestedCode": "Image.network(\n  'image_url',\n  semanticLabel: \"제품 이미지\",\n)",
+      "suggestedLabel": "이미지가 무엇을 나타내는지 명확하지 않아서 파악할 수 없습니다.",
+      "suggestedCode": "Image.network(\n  'image_url',\n  semanticLabel: \"이미지가 무엇을 나타내는지 명확하지 않아서 파악할 수 없습니다.\",\n)",
       "context": "unknown_method - ...",
       "impact": "시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.",
       "userJourney": "이미지는 명확한 라벨 또는 대체 텍스트를 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637401408_0.9944414290256132",
+      "id": "issue_1761450600520_0.6459464425327046",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -895,12 +643,6 @@
       "file": "lib/widgets/cart_item_card.dart",
       "line": 121,
       "column": 15,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "상품 삭제 버튼",
       "suggestedCode": "Semantics(\n  label: \"상품 삭제 버튼\",\n  child: Button(),\n)",
       "context": "unknown_method - ...",
@@ -908,7 +650,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637402127_0.7481182664977453",
+      "id": "issue_1761450601610_0.6884796137966362",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -916,20 +658,14 @@
       "file": "lib/widgets/cart_item_card.dart",
       "line": 144,
       "column": 19,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "쇼핑 카트 비우기 버튼",
-      "suggestedCode": "Semantics(\n  label: \"쇼핑 카트 비우기 버튼\",\n  child: Button(),\n)",
+      "suggestedLabel": "상품 장바구니에 추가",
+      "suggestedCode": "Semantics(\n  label: \"상품 장바구니에 추가\",\n  child: Button(),\n)",
       "context": "unknown_method - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637402866_0.657948006629312",
+      "id": "issue_1761450602918_0.16417184430552156",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -937,20 +673,14 @@
       "file": "lib/widgets/cart_item_card.dart",
       "line": 171,
       "column": 19,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
-      "suggestedLabel": "상품 장바구니에서 삭제",
-      "suggestedCode": "Semantics(\n  label: \"상품 장바구니에서 삭제\",\n  child: Button(),\n)",
+      "suggestedLabel": "쇼핑 카트 비우기 버튼",
+      "suggestedCode": "Semantics(\n  label: \"쇼핑 카트 비우기 버튼\",\n  child: Button(),\n)",
       "context": "unknown_method - ...",
       "impact": "시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637403874_0.4352181518944833",
+      "id": "issue_1761450603730_0.1613438963149818",
       "severity": "medium",
       "type": "missing_semantic_label",
       "description": "버튼에 의미있는 라벨이 없어 시각장애인이 버튼의 기능을 이해하기 어려울 수 있습니다.",
@@ -958,12 +688,6 @@
       "file": "lib/widgets/category_grid.dart",
       "line": 26,
       "column": 15,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 100,
-        "height": 50
-      },
       "suggestedLabel": "카테고리 선택 버튼",
       "suggestedCode": "Semantics(\n  label: \"카테고리 선택 버튼\",\n  child: Button(),\n)",
       "context": "build - ...",
@@ -971,7 +695,7 @@
       "userJourney": "버튼은 명확한 라벨을 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637404632_0.07623443962308629",
+      "id": "issue_1761450605125_0.9024394621605685",
       "severity": "high",
       "type": "missing_alt_text",
       "description": "이미지에 대체 텍스트가 없어 시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.",
@@ -979,20 +703,14 @@
       "file": "lib/widgets/menu_item_card.dart",
       "line": 109,
       "column": 26,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 200,
-        "height": 150
-      },
-      "suggestedLabel": "메뉴 항목 아이콘",
-      "suggestedCode": "Image.network(\n  'image_url',\n  semanticLabel: \"메뉴 항목 아이콘\",\n)",
+      "suggestedLabel": "이미지는 메뉴 항목 카드를 나타내며, 아직 미정의된 메서드를 호출하는 코드 컨텍스트를 보여줍니다.",
+      "suggestedCode": "Image.network(\n  'image_url',\n  semanticLabel: \"이미지는 메뉴 항목 카드를 나타내며, 아직 미정의된 메서드를 호출하는 코드 컨텍스트를 보여줍니다.\",\n)",
       "context": "unknown_method - ...",
       "impact": "시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.",
       "userJourney": "이미지는 명확한 라벨 또는 대체 텍스트를 가지고 있어야 합니다."
     },
     {
-      "id": "issue_1758637405426_0.11475794089817204",
+      "id": "issue_1761450606024_0.13497411309502927",
       "severity": "high",
       "type": "missing_alt_text",
       "description": "이미지에 대체 텍스트가 없어 시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.",
@@ -1000,19 +718,13 @@
       "file": "lib/widgets/restaurant_card.dart",
       "line": 57,
       "column": 30,
-      "rect": {
-        "left": 0,
-        "top": 0,
-        "width": 200,
-        "height": 150
-      },
-      "suggestedLabel": "해당 이미지는 레스토랑의 음식 메뉴 이미지를 나타냅니다.",
-      "suggestedCode": "Image.network(\n  'image_url',\n  semanticLabel: \"해당 이미지는 레스토랑의 음식 메뉴 이미지를 나타냅니다.\",\n)",
+      "suggestedLabel": "음식점 로고 이미지",
+      "suggestedCode": "Image.network(\n  'image_url',\n  semanticLabel: \"음식점 로고 이미지\",\n)",
       "context": "build - ...",
       "impact": "시각장애인이 이미지의 내용을 이해하기 어려울 수 있습니다.",
       "userJourney": "이미지는 명확한 라벨 또는 대체 텍스트를 가지고 있어야 합니다."
     }
   ],
   "userJourneys": [],
-  "analysisDate": "2025-09-23T14:23:25.467Z"
+  "analysisDate": "2025-10-26T03:50:06.108Z"
 }

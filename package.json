@@ -7,6 +7,9 @@
   "engines": {
     "vscode": "^1.80.0"
   },
+  "nls": {
+    "en": "./package.nls.json"
+  },
   "categories": [
     "Other"
   ],
@@ -18,23 +21,23 @@
     "commands": [
       {
         "command": "flutter-accessibility.startAnalysis",
-        "title": "Start Accessibility Analysis",
-        "category": "Flutter Accessibility"
+        "title": "%command.startAnalysis.title%",
+        "category": "%category.flutterAccessibility%"
       },
       {
         "command": "flutter-accessibility.stopAnalysis",
-        "title": "Stop Accessibility Analysis",
-        "category": "Flutter Accessibility"
+        "title": "%command.stopAnalysis.title%",
+        "category": "%category.flutterAccessibility%"
       },
       {
         "command": "flutter-accessibility.showReport",
-        "title": "Show Analysis Report",
-        "category": "Flutter Accessibility"
+        "title": "%command.showReport.title%",
+        "category": "%category.flutterAccessibility%"
       },
       {
         "command": "flutter-accessibility.analyzeLabels",
-        "title": "Analyze Labels Only",
-        "category": "Flutter Accessibility"
+        "title": "%command.analyzeLabels.title%",
+        "category": "%category.flutterAccessibility%"
       }
     ],
     "menus": {
@@ -59,7 +62,8 @@
     }
   },
   "dependencies": {
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "vscode-nls": "^5.2.0"
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
